@@ -6,9 +6,97 @@ import Image from 'next/image';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
+import Leftmenu from '../Commoncomponents/Leftmenu';
+import Profile from  '../Commoncomponents/Profile';
+import Users from  '../Commoncomponents/Users';
+import Roles from  '../Commoncomponents/Roles';
+import Permissions from  '../Commoncomponents/Permissions';
+import Banner from  '../Commoncomponents/Banner';
+import EditBanner from  '../Commoncomponents/EditBanner';
+import AddBanner from  '../Commoncomponents/AddBanner';
+import FeaturedProduct from  '../Commoncomponents/FeaturedProduct';
+import AddFeaturedProduct from  '../Commoncomponents/AddFeaturedProduct';
+import EditFeaturedProduct from  '../Commoncomponents/EditFeaturedProduct';
+import Empowerd from  '../Commoncomponents/Empowerd';
+import EditEmpowrd from  '../Commoncomponents/EditEmpowrd';
+import AddEmpowrd from  '../Commoncomponents/AddEmpowrd';
+import Community from  '../Commoncomponents/Community';
+import AddCommunity from  '../Commoncomponents/AddCommunity';
+import EditCommunity from  '../Commoncomponents/EditCommunity';
+import DistrictList from  '../Commoncomponents/DistrictList';
+import EditDistrict from  '../Commoncomponents/EditDistrict';
+import AddDistrict from  '../Commoncomponents/AddDistrict';
+import StoreList from  '../Commoncomponents/StoreList';
+import EditStore from  '../Commoncomponents/EditStore';
+import AddStore from  '../Commoncomponents/AddStore.';
+import AboutList from  '../Commoncomponents/AboutList';
+import AddAbout from  '../Commoncomponents/AddAbout';
+import EditAbout from  '../Commoncomponents/EditAbout';
+import NewsList from  '../Commoncomponents/NewsList';
+import AddExhibition from  '../Commoncomponents/AddExhibition';
+import EditNews from  '../Commoncomponents/EditNews';
+import BlogList from  '../Commoncomponents/BlogList';
+import AddBlog from  '../Commoncomponents/AddBlog';
+import EditBlog from  '../Commoncomponents/EditBlog';
+import CorporateList from  '../Commoncomponents/CorporateList';
+import Stories from  '../Commoncomponents/Stories';
+import Contact from  '../Commoncomponents/Contact';
+import ProductList from  '../Commoncomponents/ProductList';
+import AddProduct from  '../Commoncomponents/AddProduct';
+import EditProduct from  '../Commoncomponents/EditProduct';
+import CategoryList from  '../Commoncomponents/CategoryList';
+import AddCategory  from  '../Commoncomponents/AddCategory';
+import EditCategory from '../Commoncomponents/EditCategory';
+import SubCategoryList from '../Commoncomponents/SubCategoryList';
+import AddSubCategory  from '../Commoncomponents/AddSubCategory';
+import EditSubCategory from '../Commoncomponents/EditSubCategory';
+import RemedyList from '../Commoncomponents/RemedyList';
+import AddRemedy from '../Commoncomponents/AddRemedy';
+import EditRemedy from '../Commoncomponents/EditRemedy';
+import IngridientsList from '../Commoncomponents/IngridientsList';
+import WeightUnitList from '../Commoncomponents/WeightUnitList';
+import AddWeightUnit from '../Commoncomponents/AddWeightUnit';
+import EditWeightUnit from '../Commoncomponents/EditWeightUnit';
+import TaxList from '../Commoncomponents/TaxList';
+import AddTax from '../Commoncomponents/AddTax';
+import EditTax from '../Commoncomponents/EditTax';
+import HsncodeList from '../Commoncomponents/HsncodeList';
+import AddHsncode from '../Commoncomponents/AddHsncode';
+import EditHsncode from '../Commoncomponents/EditHsncode';
+import OrderList from '../Commoncomponents/OrderList';
+import AddOrder from '../Commoncomponents/AddOrder';
+import ViewOrder from '../Commoncomponents/ViewOrder';
+import EditOrder from '../Commoncomponents/EditOrder';
+import OrderStatusList from '../Commoncomponents/OrderStatusList';
+import AddOrderStatus from '../Commoncomponents/AddOrderStatus';
+import EditOrderStatus from '../Commoncomponents/EditOrderStatus';
+import ShippingStatusList from '../Commoncomponents/ShippingStatusList';
+import AddShippingStatus from '../Commoncomponents/AddShippingStatus';
+import EditShippingStatus from '../Commoncomponents/EditShippingStatus';
+import ServiceProviderList from '../Commoncomponents/ServiceProviderList';
+import AddServiceProvider from '../Commoncomponents/AddServiceProvider';
+import EditServiceProvider from '../Commoncomponents/EditServiceProvider';
+import CustomerManagerList from '../Commoncomponents/CustomerManagerList';
+import AddCustomer from '../Commoncomponents/AddCustomer';
+import EditCustomer from '../Commoncomponents/EditCustomer';
+import PaymentList from '../Commoncomponents/PaymentList';
+import InventoryList from '../Commoncomponents/InventoryList';
+import Coupons from '../Commoncomponents/Coupons';
+import AddCoupon from '../Commoncomponents/AddCoupon';
+import EditCoupon from '../Commoncomponents/EditCoupon';
+import Volunteer from '../Commoncomponents/Volunteer';
+import ForestLover from '../Commoncomponents/ForestLover';
+import FAQ from '../Commoncomponents/FAQ';
+import AddFAQ from '../Commoncomponents/AddFAQ';
+import EditFAQ from '../Commoncomponents/EditFAQ';
+import GrievanceCategory  from '../Commoncomponents/GrievanceCategory';
+import AddGrievance from '../Commoncomponents/AddGrievance';
+import EditGrievance from '../Commoncomponents/EditGrievance';
+import GrievanceUserData from '../Commoncomponents/GrievanceUserData';
+
+
 const { Header, Sider, Content } = Layout;
 const { Option } = Select;
-
 function debounce(func, wait) {
   let timeout;
   return function (...args) {
@@ -32,7 +120,7 @@ export default function AdminDashboard() {
     { id: 8, image: '/placeholder8.jpg', name: 'Premium Products', status: 'Active' },
     { id: 9, image: '/placeholder9.jpg', name: 'Other Products', status: 'Active' },
   ]);
-
+  
   const [subCategories, setSubCategories] = useState([
     { id: 1, image: '/placeholder.jpg', name: 'Gourmet', category: 'Gourmet Products', status: 'Active' },
     { id: 2, image: '/placeholder.jpg', name: 'Herbal Soaps', category: 'Personal Care', status: 'Active' },
@@ -44,7 +132,38 @@ export default function AdminDashboard() {
     { id: 8, image: '/placeholder.jpg', name: 'Energy, Strengthens', category: 'Ayush Products', status: 'Active' },
     { id: 9, image: '/placeholder.jpg', name: 'Aloevera Products', category: 'Premium Products', status: 'Active' },
   ]);
+  const [couponList, setCouponList] = useState([
+  { id: 1, code: "CODE50", amount: 50, percent: "", status: "On", createdAt: "15-02-2022", description: "" },
+    { id: 2, code: "NEWUSER", amount: 100, percent: "", status: "On", createdAt: "15-02-2022", description: "" },
+    { id: 3, code: "xyz12345", amount: 50, percent: "", status: "Off", createdAt: "11-04-2022", description: "" },
+]);
 
+const handleDeleteCoupon = (couponId) => {
+  setCouponList(couponList.filter(coupon => coupon.id !== couponId));
+  message.success('Coupon deleted successfully');
+};
+const [volunteerRequests, setVolunteerRequests] = useState([
+    { id: 1, firstName: "Ajay", lastName: "Dewangan", email: "ajaydewangan215@gmail.com", mobile: "7999672902", createdAt: "25.04.2022" },
+    { id: 2, firstName: "Aayush", lastName: "Nandeshwar", email: "aayushnandeshwar9@gmail.com", mobile: "747110458", createdAt: "05.06.2023" },
+  ]);
+  const [faqData, setFaqData] = useState([
+    { id: 1, question: "How do I place an order?", answer: "Step 1: Pick the product of your choice. Step 2: Click on SHOP NOW. Step 3: Click on ADD TO CART the products you wish to purchase. Step 4: Click on PLACE ORDER Step 5: Fill out your personal details required for the delivery of your order. Step 6: Choose a payment option most convenient to you. Step 7: Confirm & place your order." },
+    { id: 2, question: "Can I ship the products to an address that is different from my billing address?", answer: "Yes, you can do this by filling in your address in the 'Billing address'. Check the box that says 'Is this order a gift?' and enter the details of the address you wish to ship it to in the box below it." },
+    { id: 3, question: "How do I know that my order is confirmed?", answer: "For all orders, the confirmation status will be automatically updated in the 'My Profile' section." },
+    { id: 4, question: "Do I have to have an account to place an order?", answer: "We strongly recommend making an account on our website to make your shopping experience swift and simple. This will also help you enjoy special benefits as well as share ratings and review our products as per your experience." },
+    { id: 5, question: "Can I order a product that is 'Out of Stock'?", answer: "Unfortunately, products listed as 'Out of Stock' are not available for immediate sale. We consistently restock our products, so rest assured that it will be back in stock soon." },
+    { id: 6, question: "How safe is it to use my Debit/Credit card and make an online payment on Chattisgarh Herbals?", answer: "All transactions at Chattisgarh Herbals Online are protected by SSL (Secure Sockets Layer) and Secure Data Encryption using a 1024-bit process. Any information you enter when transacting with Chattisgarh Herbals Online is sent in a Secure Socket Layer (SSL) session and is encrypted to protect you against unintentional disclosure to third parties. This is an assurance that we follow the best security practices adopted by major online vendors, where all payments are processed in real-time for your security and immediate peace of mind. You can tell if you are in secure mode at 'Checkout', by looking for the padlock icon at the bottom corner or at the end of the address bar of your browser window." },
+    { id: 7, question: "Why was my online payment rejected?", answer: "There are various reasons why this may have happened ranging from validity of card/net banking details, insufficient funds in the account to technical difficulties. If you were recently issued a new card, some of the information may have changed. In that case, please confirm your credit card details and try again. Also, check that your name and address match the name and address on your current credit card." },
+    { id: 8, question: "I cannot complete my registration, what do I do?", answer: "Contact us, detailing the problem you have encountered. You can either email us on support@chattisgarhherbals.com and our Customer Care will be happy to assist you." },
+  ]);
+  const [grievanceData, setGrievanceData] = useState([
+    { id: 1, name: "Support and Feedback", status: "Active" },
+    { id: 2, name: "Grievances", status: "Active" },
+  ]);
+  const [grievanceUserData, setGrievanceUserData] = useState([
+    
+  ]);
+ 
   const [remedies, setRemedies] = useState([
     { id: 1, name: 'Diabetes', status: 'Active' },
     { id: 2, name: 'Acidity', status: 'Active' },
@@ -155,8 +274,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [orderSearch, setOrderSearch] = useState('');
   const [userSearch, setUserSearch] = useState('');
-  const [selectedMenu, setSelectedMenu] = useState('Order Manager' ,);
- 
+  const [selectedMenu, setSelectedMenu] = useState('dashboard' , );
 
   
   const [profileData, setProfileData] = useState({
@@ -171,6 +289,7 @@ export default function AdminDashboard() {
   const [form] = Form.useForm();
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [collapsed, setCollapsed] = useState(false);
+ 
   const [empowrdList, setEmpowrdList] = useState([
     {
       id: 1,
@@ -201,6 +320,7 @@ export default function AdminDashboard() {
     { image: 'https://res.cloudinary.com/chhattisgarhherbals-org/image/upload/v1626216174/chhattisgarhherbals-org/category/p9hixh5s3cynecdumchv.jpg',  description: 'Empowering tribal people', status: 'Active' },
     { image: 'https://via.placeholder.com/50',  description: 'Sustainable living group', status: 'Inactive' },
   ]);
+  
   const [selectedEmpowrd, setSelectedEmpowrd] = useState(null);
   const [selectedCommunity, setSelectedCommunity] = useState(null);
   const [districtList, setDistrictList] = useState([
@@ -271,8 +391,10 @@ const [isEditCategoryModalVisible, setIsEditCategoryModalVisible] = useState(fal
 const [selectedCategory, setSelectedCategory] = useState(null);
 const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 const [selectedRemedy, setSelectedRemedy] = useState(null);
-
-
+const handleDeleteCategory = (categoryId) => {
+    setCategoryList(categoryList.filter(category => category.id !== categoryId));
+    message.success('Category deleted successfully');
+  };
 const [categoryForm] = Form.useForm();
 const [weightUnitForm] = Form.useForm();
 const [productList, setProductList] = useState([
@@ -285,8 +407,12 @@ const [productList, setProductList] = useState([
   { id: 7, image: '/images/product7.jpg', name: 'Bastard Cashew (Salted)', category: 'Gourmet Products', subCategory: 'Gourmet', weights: [{ wt: '30 gm', price: 50, count: 0 }, { wt: '80 gm', price: 149, count: 0 }] },
 ]);
 
+const handleDeleteProduct = (productId) => {
+    setSelectedMenu(`deleteProduct/${productId}`); 
+  }
 
 const [addBenefits, setAddBenefits] = useState([]);
+
 const router = useRouter();
 
   // Mock banner list data
@@ -298,6 +424,7 @@ const router = useRouter();
       description: 'Each product is handcrafted with care and love by the empowered woman of these forest areas, endowing each product with the purity that is truly priceless',
     },
   ]);
+  
 
   // Mock featured product list data
   const [featuredProductList, setFeaturedProductList] = useState([
@@ -347,6 +474,7 @@ const router = useRouter();
     const updatedWeights = weights.filter((_, i) => i !== index);
     setWeights(updatedWeights);
   };
+
   
   
   // Mock product list for dropdown in Add/Edit Featured Product
@@ -404,6 +532,7 @@ const router = useRouter();
     { id: 5, name: 'volunteer', permissions: ['Customer Manager', 'Connect'] },
     { id: 6, name: 'Data Entry', permissions: ['FAQ', 'Grievance Category'] },
   ]);
+ 
   
 
   useEffect(() => {
@@ -1479,30 +1608,6 @@ const categoryListColumns = [
     message.success('Contact deleted successfully');
   };
 
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    form.setFieldsValue({
-      metaTitle: product.metaTitle || '',
-      metaDescription: product.metaDescription || '',
-      productSchema: product.productSchema || '',
-      breadcrumbSchema: product.breadcrumbSchema || '',
-      organizationSchema: product.organizationSchema || '',
-      category: product.category || '',
-      subCategory: product.subCategory || '',
-      remedy: product.remedy || '',
-      title: product.name || '',
-      subTitle: product.subTitle || '',
-      description: product.description || '',
-      hindiDescription: product.hindiDescription || '',
-      skuNumber: product.skuNumber || '',
-      gst: product.gst || 0,
-      weights: product.weights || [],
-      benefits: product.benefits || [],
-      faq: product.faq || [],
-      image: product.image || '',
-    });
-    setSelectedMenu('editProduct');
-  };
   
   const handleAddWeight = (values) => {
     const newWeight = { wt: values.weight, count: values.count || 0, price: values.price || 0 };
@@ -1531,6 +1636,16 @@ const categoryListColumns = [
       },
     });
   };
+   const handleEditProduct = (productId) => {
+  const product = productList.find(p => p.id === productId);
+  if (product) {
+    setSelectedProduct(product);
+    setWeights(product.weights || []);
+    setBenefits(product.benefits || []);
+    setFaqs(product.faqs || []);
+    setSelectedMenu(`editProduct/${productId}`); // Edit पेज पर स्विच करें
+  }
+};
 
   const handleAddProduct = (values) => {
     console.log('Added Product:', values);
@@ -1715,6483 +1830,910 @@ const categoryListColumns = [
         </div>
       );
     }
-    if (selectedMenu === 'profile') {
+  if (selectedMenu === 'profile') {
+    return (
+      <Profile
+        profileData={profileData}
+        setProfileData={setProfileData}
+      />
+    );
+  }
+  if (selectedMenu === 'users') {
       return (
-        <div className="p-4 md:p-8 bg-gray-100 min-h-screen">
-          <div className="max-w-4xl mx-auto bg-white p-6 rounded shadow">
-            <div className="border-b pb-4 mb-6">
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                <EditOutlined /> Profile
-              </h2>
-            </div>
-    
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div>
-                <label className="block mb-1 font-medium">Username</label>
-                <Input value="admin@cgherbal.com" disabled />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Name</label>
-                <Input
-                  value={profileData.name}
-                  onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block mb-1 font-medium">Role</label>
-                <Input value="super-admin" disabled />
-              </div>
-            </div>
-    
-            <div className="text-right">
-              <Button
-                type="primary"
-                className="bg-teal-500 text-white"
-                onClick={() => message.success('Profile updated successfully')}
-              >
-                Update Profile
-              </Button>
-            </div>
-          </div>
-    
-          <div className="max-w-4xl mx-auto bg-white p-6 mt-6 rounded shadow">
-            <div className="border-b pb-4 mb-6">
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                <EditOutlined /> Change Password
-              </h2>
-            </div>
-    
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div>
-                <label className="block mb-1 font-medium">New Password</label>
-                <Input.Password
-                  value={profileData.newPassword}
-                  onChange={(e) => setProfileData({ ...profileData, newPassword: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Confirm Password</label>
-                <Input.Password
-                  value={profileData.confirmPassword}
-                  onChange={(e) =>
-                    setProfileData({ ...profileData, confirmPassword: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-    
-            <div className="text-right">
-              <Button
-                type="primary"
-                className="bg-teal-500 text-white"
-                onClick={() => message.success('Password changed successfully')}
-              >
-                Change Password
-              </Button>
-            </div>
-          </div>
-    
-          <footer className="mt-10 text-center text-gray-600 text-sm">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin. All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'users') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Admin</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Admin List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={showAddModal}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <div className="mb-4">
-              <Select
-                defaultValue="ID desc"
-                style={{ width: 120, marginLeft: 10 }}
-                onChange={(value) => {
-                  const [key, direction] = value.split(' ');
-                  requestSort(key, direction);
-                }}
-              >
-                <Option value="ID desc">ID desc</Option>
-                <Option value="ID asc">ID asc</Option>
-                <Option value="Name desc">Name desc</Option>
-                <Option value="Name asc">Name asc</Option>
-                <Option value="Role desc">Role desc</Option>
-              </Select>
-            </div>
-            <Table
-              columns={adminListColumns}
-              dataSource={mockAdminList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <Users
+          mockAdminList={mockAdminList}
+          adminListColumns={adminListColumns}
+          showAddModal={showAddModal}
+          requestSort={requestSort}
+        />
       );
     }
     if (selectedMenu === 'roles') {
       return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Role</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Role List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={showAddRoleModal}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <div className="mb-4">
-              <Select
-                defaultValue="ID desc"
-                style={{ width: 120, marginLeft: 10 }}
-                onChange={(value) => {
-                  const [key, direction] = value.split(' ');
-                  requestSort(key, direction);
-                }}
-              >
-                <Option value="ID desc">ID desc</Option>
-                <Option value="ID asc">ID asc</Option>
-                <Option value="Name desc">Name desc</Option>
-                <Option value="Name asc">Name asc</Option>
-                <Option value="Permissions desc">Permissions desc</Option>
-              </Select>
-            </div>
-            <Table
-              columns={roleListColumns}
-              dataSource={sortedRoleList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <Roles
+          sortedRoleList={sortedRoleList}
+          roleListColumns={roleListColumns}
+          showAddRoleModal={showAddRoleModal}
+          requestSort={requestSort}
+        />
       );
     }
     if (selectedMenu === 'permissions' && selectedRole) {
       return (
-        <div className="p-6">
-          <Button type="primary" onClick={() => setSelectedMenu('roles')} className="mb-4">
-            Back
-          </Button>
-          <h2 className="text-2xl font-semibold mb-4">Permission Access : {selectedRole.name.toUpperCase()}</h2>
-          {Object.entries(permissionCategories).map(([category, permissions]) => (
-            <div key={category} className="bg-white p-4 shadow-md rounded-lg mb-4">
-              <h3 className="text-lg font-semibold mb-2">{category}</h3>
-              {permissions.map((permission) => (
-                <div key={permission} className="flex items-center mb-2">
-                  <Checkbox
-                    checked={selectedRole.permissions.includes(permission)}
-                    onChange={(e) => {
-                      const updatedPermissions = e.target.checked
-                        ? [...selectedRole.permissions, permission]
-                        : selectedRole.permissions.filter(p => p !== permission);
-                      handleUpdateRole({ ...selectedRole, permissions: updatedPermissions });
-                    }}
-                  >
-                    {permission}
-                  </Checkbox>
-                </div>
-              ))}
-            </div>
-          ))}
-          <Button type="primary" onClick={() => message.success('Permissions updated successfully')}>
-            Update
-          </Button>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <Permissions
+          selectedRole={selectedRole}
+          permissionCategories={permissionCategories}
+          setSelectedMenu={setSelectedMenu}
+          handleUpdateRole={handleUpdateRole}
+        />
       );
     }
     if (selectedMenu === 'Banner') {
       return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Banner</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Banner List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addBanner')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={bannerListColumns}
-              dataSource={bannerList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <Banner
+          bannerList={bannerList}
+          bannerListColumns={bannerListColumns}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
     if (selectedMenu === 'addBanner') {
       return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Banner</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Banner')}>
-              Banner List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddBanner}
-            >
-              <Form.Item
-                label="Image"
-                name="image"
-                rules={[{ required: true, message: 'Please upload an image' }]}
-              >
-                <div>
-                  <Upload
-                    beforeUpload={() => false}
-                    onChange={(info) => {
-                      if (info.fileList.length > 0) {
-                        form.setFieldsValue({ image: info.fileList[0].originFileObj });
-                      }
-                    }}
-                    maxCount={1}
-                  >
-                    <Button icon={<UploadOutlined />}>Choose File</Button>
-                  </Upload>
-                  <p className="text-gray-500 text-sm mt-2">Image size must be less than 1.5 MB</p>
-                </div>
-              </Form.Item>
-              <Form.Item
-                label="Title"
-                name="title"
-                rules={[{ required: true, message: 'Please enter the title' }]}
-              >
-                <Input placeholder="Enter Title" />
-              </Form.Item>
-              <Form.Item
-                label="Description"
-                name="description"
-                rules={[{ required: true, message: 'Please enter the description' }]}
-              >
-                <Input.TextArea rows={4} />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <AddBanner
+          form={form}
+          handleAddBanner={handleAddBanner}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
-    if (selectedMenu === 'editBanner' && selectedBanner) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Banner</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Banner')}>
-              Banner List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateBanner}
-              initialValues={selectedBanner}
-            >
-              <Form.Item
-                label="Image"
-                name="image"
-                rules={[{ required: true, message: 'Please upload an image' }]}
-              >
-                <div>
-                  <Upload
-                    beforeUpload={() => false}
-                    onChange={(info) => {
-                      if (info.fileList.length > 0) {
-                        form.setFieldsValue({ image: info.fileList[0].originFileObj });
-                      }
-                    }}
-                    maxCount={1}
-                  >
-                    <Button icon={<UploadOutlined />}>Choose File</Button>
-                  </Upload>
-                  {selectedBanner.image && (
-                    <div className="mt-2">
-                      <a href={selectedBanner.image} target="_blank" rel="noopener noreferrer">
-                        {selectedBanner.image}
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </Form.Item>
-              <Form.Item
-                label="Title"
-                name="title"
-                rules={[{ required: true, message: 'Please enter the title' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Description"
-                name="description"
-                rules={[{ required: true, message: 'Please enter the description' }]}
-              >
-                <Input.TextArea rows={4} />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    
     if (selectedMenu === 'Featured Product') {
       return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Featured Product</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Featured Product List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addFeaturedProduct')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={featuredProductListColumns}
-              dataSource={productList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <FeaturedProduct
+          productList={productList}
+          featuredProductListColumns={featuredProductListColumns}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
     if (selectedMenu === 'addFeaturedProduct') {
       return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Featured Product</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Featured Product')}>
-              Back to List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddFeaturedProduct}
-            >
-              <Form.Item
-                label="Select Product"
-                name="productId"
-                rules={[{ required: true, message: 'Please select a product' }]}
-              >
-                <Select placeholder="--Select Product--">
-                  {productOptions.map((product) => (
-                    <Option key={product.id} value={product.id}>{product.name}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <AddFeaturedProduct
+          form={form}
+          productOptions={productOptions}
+          handleAddFeaturedProduct={handleAddFeaturedProduct}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
     if (selectedMenu === 'editFeaturedProduct' && selectedFeaturedProduct) {
       return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Featured Product</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Featured Product')}>
-              Featured Product List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateFeaturedProduct}
-            >
-              <Form.Item
-                label="Select Product"
-                name="productId"
-                rules={[{ required: true, message: 'Please select a product' }]}
-              >
-                <Select>
-                  {productOptions.map((product) => (
-                    <Option key={product.id} value={product.id}>{product.name}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <EditFeaturedProduct
+          form={form}
+          selectedFeaturedProduct={selectedFeaturedProduct}
+          productOptions={productOptions}
+          handleUpdateFeaturedProduct={handleUpdateFeaturedProduct}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
-
+    if (selectedMenu === 'editBanner' && selectedBanner) {
+      return (
+        <EditBanner
+          form={form}
+          selectedBanner={selectedBanner}
+          handleUpdateBanner={handleUpdateBanner}
+          setSelectedMenu={setSelectedMenu}
+        />
+      );
+    }
     if (selectedMenu === 'Empowerd') {
       return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Empowerd</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Empowerd List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addEmpowrd')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={empowrdListColumns}
-              dataSource={empowrdList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <Empowerd
+          empowrdList={empowrdList}
+          empowrdListColumns={empowrdListColumns}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
     if (selectedMenu === 'addEmpowrd') {
       return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Empowerd</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Empowerd')}>
-              Empowerd List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddEmpowrd}
-            >
-              <h3 className="text-lg font-semibold mb-4">SEO Details</h3>
-              <Form.Item
-                label="SEO Title"
-                name="seoTitle"
-                rules={[{ required: true, message: 'Please enter the SEO title' }]}
-              >
-                <Input placeholder="Enter SEO Title (max 60 characters)" maxLength={60} />
-              </Form.Item>
-              <Form.Item
-                label="SEO Description"
-                name="seoDescription"
-                rules={[{ required: true, message: 'Please enter the SEO description' }]}
-              >
-                <Input.TextArea rows={2} placeholder="Enter SEO Description (max 160 characters)" maxLength={160} />
-              </Form.Item>
-              <Form.Item
-                label="SEO Keywords"
-                name="seoKeywords"
-                rules={[{ required: true, message: 'Please enter SEO keywords' }]}
-              >
-                <Input placeholder="Enter SEO Keywords (comma separated)" />
-              </Form.Item>
-              <Form.Item
-                label="SEO Schema"
-                name="seoSchema"
-              >
-                <Input.TextArea rows={4} placeholder="Enter SEO Schema (JSON-LD format)" />
-              </Form.Item>
-    
-              <h3 className="text-lg font-semibold mb-4 mt-6">Details</h3>
-              <Form
-                  form={form}
-                  layout="vertical"
-                  onFinish={handleAddEmpowrd} 
-                >
-                  <Form.Item
-                    label="Image"
-                    name="image"
-                    rules={[{ required: true, message: 'Please upload an image' }]}
-                  >
-                    <Upload
-                      beforeUpload={() => false}
-                      onChange={(info) => {
-                        if (info.fileList.length > 0) {
-                          form.setFieldsValue({ image: info.fileList[0].originFileObj });
-                        }
-                      }}
-                      maxCount={1}
-                    >
-                      <Button icon={<UploadOutlined />}>Choose File</Button>
-                    </Upload>
-                    <p className="text-gray-500 text-sm mt-2">Image size must be less than 1.5 MB</p>
-                  </Form.Item>
-                  <Form.Item
-                    label="Title"
-                    name="title"
-                    rules={[{ required: true, message: 'Please enter the title' }]}
-                  >
-                    <Input placeholder="Enter Title" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Sub Title"
-                    name="subTitle"
-                    rules={[{ required: true, message: 'Please enter the subtitle' }]}
-                  >
-                    <Input placeholder="Enter Sub Title" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Keyword"
-                    name="keyword"
-                    rules={[{ required: true, message: 'Please enter the keyword' }]}
-                  >
-                    <Input placeholder="Enter Keyword" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Url Customize"
-                    name="urlCustomize"
-                    rules={[{ required: true, message: 'Please enter the URL customize' }]}
-                  >
-                    <Input placeholder="Enter URL Customize" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Content"
-                    name="content"
-                    rules={[{ required: true, message: 'Please enter the content' }]}
-                  >
-                    <Input.TextArea rows={4} placeholder="Enter Content" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Description"
-                    name="description"
-                    rules={[{ required: true, message: 'Please enter the description' }]}
-                  >
-                    <Input.TextArea rows={4} placeholder="Enter Description" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Date"
-                    name="date"
-                    rules={[{ required: true, message: 'Please enter the date' }]}
-                  >
-                    <Input type="date" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Status"
-                    name="status"
-                    rules={[{ required: true, message: 'Please select the status' }]}
-                    initialValue="Active"
-                  >
-                    <Select placeholder="Select Status">
-                      <Option value="Active">Active</Option>
-                      <Option value="Inactive">Inactive</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                      Submit
-                    </Button>
-                  </Form.Item>
-                </Form>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <AddEmpowrd
+          form={form}
+          handleAddEmpowrd={handleAddEmpowrd}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
     if (selectedMenu === 'editEmpowrd' && selectedEmpowrd) {
       return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Empowerd</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Empowerd')}>
-              Empowerd List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateEmpowrd}
-              initialValues={selectedEmpowrd}
-            >
-              <h3 className="text-lg font-semibold mb-4">SEO Details</h3>
-              <Form.Item
-                label="SEO Title"
-                name="seoTitle"
-                rules={[{ required: true, message: 'Please enter the SEO title' }]}
-              >
-                <Input maxLength={60} />
-              </Form.Item>
-              <Form.Item
-                label="SEO Description"
-                name="seoDescription"
-                rules={[{ required: true, message: 'Please enter the SEO description' }]}
-              >
-                <Input.TextArea rows={2} maxLength={160} />
-              </Form.Item>
-              <Form.Item
-                label="SEO Keywords"
-                name="seoKeywords"
-                rules={[{ required: true, message: 'Please enter SEO keywords' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="SEO Schema"
-                name="seoSchema"
-              >
-                <Input.TextArea rows={4} />
-              </Form.Item>
-    
-              <h3 className="text-lg font-semibold mb-4 mt-6">Blog Details</h3>
-              <Form.Item
-                label="Blog Title"
-                name="blogTitle"
-                rules={[{ required: true, message: 'Please enter the blog title' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Blog Content"
-                name="blogContent"
-                rules={[{ required: true, message: 'Please enter the blog content' }]}
-              >
-                <Input.TextArea rows={4} />
-              </Form.Item>
-              <Form.Item
-                label="Blog Description"
-                name="blogDescription"
-                rules={[{ required: true, message: 'Please enter the blog description' }]}
-              >
-                <Input.TextArea rows={4} />
-              </Form.Item>
-              <Form.Item
-                label="Blog Date"
-                name="blogDate"
-                rules={[{ required: true, message: 'Please enter the blog date' }]}
-              >
-                <Input type="date" />
-              </Form.Item>
-              <Form.Item
-                label="Blog Image"
-                name="blogImage"
-                rules={[{ required: true, message: 'Please upload a blog image' }]}
-              >
-                <Upload
-                  beforeUpload={() => false}
-                  onChange={(info) => {
-                    if (info.fileList.length > 0) {
-                      form.setFieldsValue({ blogImage: info.fileList[0].originFileObj });
-                    }
-                  }}
-                  maxCount={1}
-                >
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-                {selectedEmpowrd.blogImage && (
-                  <div className="mt-2">
-                    <a href={selectedEmpowrd.blogImage} target="_blank" rel="noopener noreferrer">
-                      {selectedEmpowrd.blogImage}
-                    </a>
-                  </div>
-                )}
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <EditEmpowrd
+          form={form}
+          selectedEmpowrd={selectedEmpowrd}
+          handleUpdateEmpowrd={handleUpdateEmpowrd}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
-
     if (selectedMenu === 'Community') {
       return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Community</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Community List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addCommunity')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={[
-                { title: 'Image',
-                  dataIndex: 'image',
-                  key: 'image',
-                  render: (image) => (
-                    <img
-                      src={image}
-                      alt="community"
-                      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                    />
-                  ), },
-                { title: 'Title', dataIndex: 'name', key: 'name' },
-                {
-                  title: 'Action',
-                  key: 'action',
-                  render: (_, record) => (
-                    <div className="flex gap-2">
-                      <Button
-                        icon={<EditOutlined />}
-                        onClick={() => {
-                          setSelectedCommunity(record);
-                          setSelectedMenu('editCommunity');
-                        }}
-                        className="text-yellow-500 border-yellow-500"
-                      />
-                      <Popconfirm
-                        title="Are you sure to delete this community?"
-                        onConfirm={() => handleDeleteCommunity(record.id)}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <Button
-                          icon={<DeleteOutlined />}
-                          className="text-red-500 border-red-500"
-                        />
-                      </Popconfirm>
-                    </div>
-                  ),
-                },
-              ]}
-              dataSource={communityList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editCommunity' && selectedCommunity) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Community</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Community')}>
-              Community List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateCommunity}
-              initialValues={{
-                name: selectedCommunity.name,
-                // Note: We don't set the image field here because Upload component handles it differently
-              }}
-            >
-              <Form.Item
-                label="Image *"
-                name="image"
-                rules={[{ required: true, message: 'Please upload an image' }]}
-              >
-                <div>
-                  <Upload
-                    beforeUpload={() => false}
-                    onChange={(info) => {
-                      if (info.fileList.length > 0) {
-                        const file = info.fileList[0].originFileObj;
-                        const maxSize = 1.5 * 1024 * 1024; // 1.5 MB in bytes
-                        if (file.size > maxSize) {
-                          message.error('Image size must be less than 1.5 MB');
-                          return;
-                        }
-                        form.setFieldsValue({ image: file });
-                      }
-                    }}
-                    fileList={
-                      selectedCommunity.image && !form.getFieldValue('image')
-                        ? [
-                            {
-                              uid: '-1',
-                              name: 'Current Image',
-                              status: 'done',
-                              url: selectedCommunity.image,
-                            },
-                          ]
-                        : undefined
-                    }
-                    maxCount={1}
-                  >
-                    <Button icon={<UploadOutlined />}>Choose File</Button>
-                  </Upload>
-                  <p className="text-gray-500 text-sm mt-2">Image size must be less than 1.5 MB</p>
-                  {selectedCommunity.image && !form.getFieldValue('image') && (
-                    <div className="mt-2">
-                      <a href={selectedCommunity.image} target="_blank" rel="noopener noreferrer">
-                        Current Image
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </Form.Item>
-              <Form.Item
-                label="Select Product *"
-                name="name"
-                rules={[{ required: true, message: 'Please select a product' }]}
-              >
-                <Select placeholder="--Select Product--">
-                  {productOptions.map((product) => (
-                    <Option key={product.id} value={product.name}>{product.name}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <Community
+          communityList={communityList}
+          setSelectedCommunity={setSelectedCommunity}
+          setSelectedMenu={setSelectedMenu}
+          handleDeleteCommunity={handleDeleteCommunity}
+        />
       );
     }
     if (selectedMenu === 'addCommunity') {
       return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Community</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Community')}>
-              Community List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddCommunity}
-            >
-              <Form.Item
-                label="Image *"
-                name="image"
-                rules={[{ required: true, message: 'Please upload an image' }]}
-              >
-                <div>
-                  <Upload
-                    beforeUpload={() => false}
-                    onChange={(info) => {
-                      if (info.fileList.length > 0) {
-                        const file = info.fileList[0].originFileObj;
-                        const maxSize = 1.5 * 1024 * 1024; // 1.5 MB in bytes
-                        if (file.size > maxSize) {
-                          message.error('Image size must be less than 1.5 MB');
-                          return;
-                        }
-                        form.setFieldsValue({ image: file });
-                      }
-                    }}
-                    maxCount={1}
-                  >
-                    <Button icon={<UploadOutlined />}>Choose File</Button>
-                  </Upload>
-                  <p className="text-gray-500 text-sm mt-2">Image size must be less than 1.5 MB</p>
-                </div>
-              </Form.Item>
-              <Form.Item
-                label="Select Product *"
-                name="name"
-                rules={[{ required: true, message: 'Please select a product' }]}
-              >
-                <Select placeholder="--Select Product--">
-                  {productOptions.map((product) => (
-                    <Option key={product.id} value={product.name}>{product.name}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <AddCommunity
+          form={form}
+          productOptions={productOptions}
+          handleAddCommunity={handleAddCommunity}
+          setSelectedMenu={setSelectedMenu}
+        />
       );
     }
-    
+    if (selectedMenu === 'editCommunity' && selectedCommunity) {
+      return (
+        <EditCommunity
+          form={form}
+          selectedCommunity={selectedCommunity}
+          productOptions={productOptions}
+          handleUpdateCommunity={handleUpdateCommunity}
+          setSelectedMenu={setSelectedMenu}
+        />
+      );
+    }
+
     if (selectedMenu === 'District') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">District</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">District List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addDistrict')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={districtListColumns}
-              dataSource={districtList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-  
-    if (selectedMenu === 'addDistrict') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New District</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('District')}>
-              District List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddDistrict}
-            >
-              <Form.Item
-                label="District"
-                name="name"
-                rules={[{ required: true, message: 'Please enter the district name' }]}
-              >
-                <Input placeholder="Enter District Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editDistrict' && selectedDistrict) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit District</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('District')}>
-              District List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateDistrict}
-              initialValues={selectedDistrict}
-            >
-              <Form.Item
-                label="District"
-                name="name"
-                rules={[{ required: true, message: 'Please enter the district name' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    
-    if (selectedMenu === 'Store') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Store</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Store List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addStore')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={storeListColumns}
-              dataSource={storeList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    return (
+      <DistrictList
+        districtList={districtList}
+        districtListColumns={districtListColumns}
+        setSelectedMenu={setSelectedMenu}
+        handleDeleteDistrict={handleDeleteDistrict}
+      />
+    );
+  }
+  if (selectedMenu === 'addDistrict') {
+    return (
+      <AddDistrict
+        form={form}
+        handleAddDistrict={handleAddDistrict}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editDistrict' && selectedDistrict) {
+    return (
+      <EditDistrict
+        form={form}
+        selectedDistrict={selectedDistrict}
+        handleUpdateDistrict={handleUpdateDistrict}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
 
-    if (selectedMenu === 'addStore') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Store</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Store')}>
-              Store List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddStore}
-            >
-              <Form.Item
-                label="Store Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter the store name' }]}
-              >
-                <Input placeholder="Enter Store Name" />
-              </Form.Item>
-              <Form.Item
-                label="Address"
-                name="address"
-              >
-                <Input placeholder="Enter Address" />
-              </Form.Item>
-              <Form.Item
-                label="Map URL"
-                name="mapUrl"
-              >
-                <Input placeholder="Enter Map URL" />
-              </Form.Item>
-              <Form.Item
-                label="Store Locator"
-                name="storeLocator"
-              >
-                <Input placeholder="Enter Store Locator" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editStore' && selectedStore) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Store</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Store')}>
-              Store List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateStore}
-              initialValues={selectedStore}
-            >
-              <Form.Item
-                label="Store Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter the store name' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Address"
-                name="address"
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Map URL"
-                name="mapUrl"
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Store Locator"
-                name="storeLocator"
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update Category
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'About') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">About</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">About List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addAbout')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={aboutListColumns}
-              dataSource={aboutList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addAbout') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add About</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('About')}>
-              Back List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddAbout}
-            >
-              <Form.Item
-                label="Image"
-                name="image"
-                rules={[{ required: true, message: 'Please upload an image' }]}
-              >
-                <Upload beforeUpload={() => false} maxCount={1}>
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item
-                label="Title"
-                name="title"
-                rules={[{ required: true, message: 'Please enter the title' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Description"
-                name="description"
-                rules={[{ required: true, message: 'Please enter the description' }]}
-              >
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'editAbout' && selectedAbout) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit About</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('About')}>
-              Back List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateAbout}
-              initialValues={selectedAbout}
-            >
-              <Form.Item
-                label="Image"
-                name="image"
-                rules={[{ required: true, message: 'Please upload an image' }]}
-              >
-                <Upload beforeUpload={() => false} maxCount={1} fileList={selectedAbout.image ? [{ uid: '-1', name: selectedAbout.image, status: 'done' }] : []}>
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item
-                label="Title"
-                name="title"
-                rules={[{ required: true, message: 'Please enter the title' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Description"
-                name="description"
-                rules={[{ required: true, message: 'Please enter the description' }]}
-              >
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+     if (selectedMenu === 'Store') {
+    return (
+      <StoreList
+        storeList={storeList}
+        storeListColumns={storeListColumns}
+        setSelectedMenu={setSelectedMenu}
+        handleDeleteStore={handleDeleteStore}
+      />
+    );
+  }
+  if (selectedMenu === 'addStore') {
+    return (
+      <AddStore
+        form={form}
+        handleAddStore={handleAddStore}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editStore' && selectedStore) {
+    return (
+      <EditStore
+        form={form}
+        selectedStore={selectedStore}
+        handleUpdateStore={handleUpdateStore}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'About') {
+    return (
+      <AboutList
+        aboutList={aboutList}
+        aboutListColumns={aboutListColumns}
+        setSelectedMenu={setSelectedMenu}
+        handleDeleteAbout={handleDeleteAbout}
+      />
+    );
+  }
+  if (selectedMenu === 'addAbout') {
+    return (
+      <AddAbout
+        form={form}
+        handleAddAbout={handleAddAbout}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editAbout' && selectedAbout) {
+    return (
+      <EditAbout
+        form={form}
+        selectedAbout={selectedAbout}
+        handleUpdateAbout={handleUpdateAbout}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'News') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">News</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">News List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addExhibition')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={newsListColumns}
-              dataSource={newsList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editNews' && selectedNews) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit News</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('News')}>
-              Back List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateNews}
-              initialValues={{ ...selectedNews, date: dayjs(selectedNews.date, 'YYYY-MM-DD') }}
-            >
-              <h3 className="text-lg font-semibold mb-4">SEO Details</h3>
-              <Form.Item label="SEO Title" name="seoTitle">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Description" name="seoDescription">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Keywords" name="seoKeywords">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Schema" name="seoSchema">
-                <Input.TextArea />
-              </Form.Item>
-              <h3 className="text-lg font-semibold mb-4">News Details</h3>
-              <Form.Item label="Title" name="title" rules={[{ required: true, message: 'कृपया शीर्षक दर्ज करें' }]}>
-                <Input />
-              </Form.Item>
-              <Form.Item label="Content" name="content" rules={[{ required: true, message: 'कृपया सामग्री दर्ज करें' }]}>
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item label="Description" name="description" rules={[{ required: true, message: 'कृपया विवरण दर्ज करें' }]}>
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item
-                label="Date"
-                name="date"
-                rules={[
-                  { required: true, message: 'कृपया तारीख दर्ज करें' },
-                  {
-                    validator: (_, value) =>
-                      value && dayjs(value).isValid() ? Promise.resolve() : Promise.reject('कृपया एक मान्य तारीख चुनें'),
-                  },
-                ]}
-              >
-                <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
-              </Form.Item>
-              <Form.Item label="Image" name="image" rules={[{ required: true, message: 'कृपया छवि अपलोड करें' }]}>
-                <Upload beforeUpload={() => false} maxCount={1}>
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'addExhibition') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Exhibition</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('News')}>
-              Back List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddExhibition}
-            >
-              <h3 className="text-lg font-semibold mb-4">SEO Details</h3>
-              <Form.Item label="SEO Title" name="seoTitle">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Description" name="seoDescription">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Keywords" name="seoKeywords">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Schema" name="seoSchema">
-                <Input.TextArea />
-              </Form.Item>
-              <h3 className="text-lg font-semibold mb-4">News Details</h3>
-              <Form.Item label="Title" name="title" rules={[{ required: true, message: 'कृपया शीर्षक दर्ज करें' }]}>
-                <Input />
-              </Form.Item>
-              <Form.Item label="Content" name="content" rules={[{ required: true, message: 'कृपया सामग्री दर्ज करें' }]}>
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item label="Description" name="description" rules={[{ required: true, message: 'कृपया विवरण दर्ज करें' }]}>
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item
-                label="Date"
-                name="date"
-                rules={[
-                  { required: true, message: 'कृपया तारीख दर्ज करें' },
-                  {
-                    validator: (_, value) =>
-                      value && dayjs(value).isValid() ? Promise.resolve() : Promise.reject('कृपया एक मान्य तारीख चुनें'),
-                  },
-                ]}
-              >
-                <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
-              </Form.Item>
-              <Form.Item label="Image" name="image" rules={[{ required: true, message: 'कृपया छवि अपलोड करें' }]}>
-                <Upload beforeUpload={() => false} maxCount={1}>
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    return (
+      <NewsList
+        newsList={newsList}
+        newsListColumns={newsListColumns}
+        setSelectedMenu={setSelectedMenu}
+        handleDeleteNews={handleDeleteNews}
+      />
+    );
+  }
+  if (selectedMenu === 'addExhibition') {
+    return (
+      <AddExhibition
+        form={form}
+        handleAddExhibition={handleAddExhibition}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editNews' && selectedNews) {
+    return (
+      <EditNews
+        form={form}
+        selectedNews={selectedNews}
+        handleUpdateNews={handleUpdateNews}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'Blogs') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Blog</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Blog List</h3>
-              <div className="flex gap-2">
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addBlog')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={blogListColumns}
-              dataSource={blogList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    return (
+      <BlogList
+        blogList={blogList}
+        blogListColumns={blogListColumns}
+        setSelectedMenu={setSelectedMenu}
+        handleDeleteBlog={handleDeleteBlog}
+      />
+    );
+  }
+  if (selectedMenu === 'addBlog') {
+    return (
+      <AddBlog
+        form={form}
+        handleAddBlog={handleAddBlog}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editBlog' && selectedBlog) {
+    return (
+      <EditBlog
+        form={form}
+        selectedBlog={selectedBlog}
+        handleUpdateBlog={handleUpdateBlog}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'CorporateList') {
+    return (
+      <CorporateList
+        corporateList={corporateList}
+        corporateListColumns={corporateListColumns}
+        setSelectedMenu={setSelectedMenu}
+        handleDeleteCorporate={handleDeleteCorporate}
+      />
+    );
+  }
 
-    if (selectedMenu === 'editBlog' && selectedBlog) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Blog</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Blogs')}>
-              Back List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleUpdateBlog}
-              initialValues={{ ...selectedBlog, date: dayjs(selectedBlog.date, 'YYYY-MM-DD'), status: selectedBlog.status === 'Active' }}
-            >
-              <h3 className="text-lg font-semibold mb-2">SEO Details</h3>
-              <Form.Item label="SEO Title" name="seoTitle">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Description" name="seoDescription">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Keywords" name="seoKeywords">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Schema" name="seoSchema">
-                <Input.TextArea />
-              </Form.Item>
-              <h3 className="text-lg font-semibold mb-2 mt-4">Blog Details</h3>
-              <Form.Item label="Image" name="image" rules={[{ required: true, message: 'Please upload an image' }]}>
-                <Upload beforeUpload={() => false} maxCount={1}>
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item label="Title" name="title" rules={[{ required: true, message: 'Please enter the title' }]}>
-                <Input />
-              </Form.Item>
-              <Form.Item label="Url Customize" name="urlCustomize">
-                <Input />
-              </Form.Item>
-              <Form.Item label="Keyword" name="keyword">
-                <Input />
-              </Form.Item>
-              <Form.Item label="Content" name="content" rules={[{ required: true, message: 'Please enter the content' }]}>
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item
-                label="Date"
-                name="date"
-                rules={[
-                  { required: true, message: 'Please select a date' },
-                  {
-                    validator: (_, value) =>
-                      value && dayjs(value).isValid() ? Promise.resolve() : Promise.reject('Please select a valid date'),
-                  },
-                ]}
-              >
-                <DatePicker format="MM/DD/YYYY" style={{ width: '100%' }} />
-              </Form.Item>
-              <Form.Item label="Status" name="status" valuePropName="checked">
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addBlog') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Blog</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Blogs')}>
-              Back List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddBlog}
-            >
-              <h3 className="text-lg font-semibold mb-2">SEO Details</h3>
-              <Form.Item label="SEO Title" name="seoTitle">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Description" name="seoDescription">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Keywords" name="seoKeywords">
-                <Input />
-              </Form.Item>
-              <Form.Item label="SEO Schema" name="seoSchema">
-                <Input.TextArea />
-              </Form.Item>
-              <h3 className="text-lg font-semibold mb-2 mt-4">Blog Details</h3>
-              <Form.Item label="Image" name="image" rules={[{ required: true, message: 'Please upload an image' }]}>
-                <Upload beforeUpload={() => false} maxCount={1}>
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item label="Title" name="title" rules={[{ required: true, message: 'Please enter the title' }]}>
-                <Input />
-              </Form.Item>
-              <Form.Item label="Url Customize" name="urlCustomize">
-                <Input />
-              </Form.Item>
-              <Form.Item label="Keyword" name="keyword">
-                <Input />
-              </Form.Item>
-              <Form.Item label="Content" name="content" rules={[{ required: true, message: 'Please enter the content' }]}>
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item
-                label="Date"
-                name="date"
-                rules={[
-                  { required: true, message: 'Please select a date' },
-                  {
-                    validator: (_, value) =>
-                      value && dayjs(value).isValid() ? Promise.resolve() : Promise.reject('Please select a valid date'),
-                  },
-                ]}
-              >
-                <DatePicker format="MM/DD/YYYY" style={{ width: '100%' }} />
-              </Form.Item>
-              <Form.Item label="Status" name="status" valuePropName="checked" initialValue={true}>
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'Corporate') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Corporate</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Corporate List</h3>
-            </div>
-            <Table
-              columns={corporateListColumns}
-              dataSource={corporateList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
     if (selectedMenu === 'Stories') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Upcoming Exhibition</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Upcoming Exhibition List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => {
-                    message.info({
-                      content: (
-                        <>
-                          <p className="text-lg font-semibold">This section is under development.</p>
-                          <p>Please contact the administrator to add new exhibitions. We are working to enable this feature soon!</p>
-                        </>
-                      ),
-                      duration: 5, // 5 seconds tak notification dikhegi
-                    });
-                  }}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={exhibitionListColumns}
-              dataSource={exhibitionList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-     
+  return (
+    <Stories
+      setSelectedMenu={setSelectedMenu}
+    />
+  );
+}  
     if (selectedMenu === 'Contact') {
       return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Contact</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Contact List</h3>
-            </div>
-            <Table
-              columns={contactListColumns}
-              dataSource={contactList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
+        <Contact
+      setSelectedMenu={setSelectedMenu}
+    />
+       
       );
     }
 
     if (selectedMenu === 'Product') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Product List </h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span>Show</span>
-                  <Select
-                    defaultValue="10"
-                    style={{ width: 120 }}
-                    onChange={(value) => console.log(`Show ${value} entries`)}
-                  >
-                    <Option value="10">10</Option>
-                    <Option value="25">25</Option>
-                    <Option value="50">50</Option>
-                    <Option value="100">100</Option>
-                  </Select>
-                  <span>entries</span>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Input placeholder="Search..." className="w-64" />
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addProduct')}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={[
-                { title: '#ID', dataIndex: 'id', key: 'id' },
-                { title: 'Image', dataIndex: 'image', key: 'image', render: (text) => <img src={text} alt="product" width={50} /> },
-                { title: 'Name', dataIndex: 'name', key: 'name' },
-                { title: 'Category', dataIndex: 'category', key: 'category' },
-                { title: 'Sub Category', dataIndex: 'subCategory', key: 'subCategory' },
-                { title: 'Wt/Price', dataIndex: 'weights', key: 'weights', render: (weights) => (
-                  <ul>
-                    {weights.map((w, index) => <li key={index}>{w.wt} | price: {w.price} | count: {w.count}</li>)}
-                  </ul>
-                )},
-                { title: 'Action', key: 'action', render: (_, record) => (
-                  <div className="flex gap-2">
-                    <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
-                    <Button icon={<DeleteOutlined />} danger onClick={() => handleDelete(record)} />
-                  </div>
-                )},
-              ]}
-              dataSource={productList}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editProduct' && selectedProduct) {
-      const handleAddWeight = (values) => {
-        const newWeight = {
-          wt: values.weight,
-          count: values.count || 0,
-          price: values.price || 0,
-          hsncode: values.hsncode || '',
-          gstAmount: values.gstAmount || 0,
-          taxableAmount: values.taxableAmount || 0,
-          discount: values.discount || 0,
-          discountType: values.discountType || 'rupee',
-        };
-        setWeights([...weights, newWeight]);
-        form.resetFields(['weight', 'count', 'price', 'hsncode', 'gstAmount', 'taxableAmount', 'discount', 'discountType']);
-      };
+    return (
+      <ProductList
+        productList={productList}
+        setSelectedMenu={setSelectedMenu}
+        handleEditProduct={handleEditProduct}
+        handleDeleteProduct={handleDeleteProduct}
+      />
+    );
+  }
+  if (selectedMenu === 'addProduct') {
+    return (
+      <AddProduct
+        form={form}
+        weights={weights}
+        setWeights={setWeights}
+        benefits={benefits}
+        setBenefits={setBenefits}
+        faqs={faqs}
+        setFaqs={setFaqs}
+        handleAddProduct={handleAddProduct}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu.startsWith('editProduct/')) {
+  const productId = selectedMenu.split('/')[1];
+  const product = productList.find(p => p.id === parseInt(productId));
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+  return (
+    <EditProduct
+      selectedProduct={product}
+      weights={weights}
+      setWeights={setWeights}
+      benefits={benefits}
+      setBenefits={setBenefits}
+      faqs={faqs}
+      setFaqs={setFaqs}
+      handleUpdateProduct={(updatedProduct) => {
+        setProductList(productList.map(p => (p.id === product.id ? { ...p, ...updatedProduct } : p)));
+        message.success('Product updated successfully');
+        setSelectedMenu('Product');
+      }}
+      setSelectedMenu={setSelectedMenu}
+    />
+  );
+}
+ 
 
-      const handleDeleteWeight = (index) => {
-        setWeights(weights.filter((_, i) => i !== index));
-      };
-    
-      const handleAddBenefit = () => {
-        setBenefits([...benefits, '']);
-      };
-    
-      const handleDeleteBenefit = (index) => {
-        setBenefits(benefits.filter((_, i) => i !== index));
-      };
-     
-      const handleAddFaq = () => {
-        setFaqs([...faqs, { question: '', answer: '' }]);
-      };
-    
-      const handleDeleteFaq = (index) => {
-        setFaqs(faqs.filter((_, i) => i !== index));
-      };
-    
-      return (
-        <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between mb-4">
-              <h2 className="text-xl font-semibold">Edit Product</h2>
-              <Button 
-                onClick={() => setSelectedMenu('Product')} 
-                style={{ backgroundColor: '#1890ff', color: '#fff' }}
-              >
-                Product List
-              </Button>
-            </div>
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleUpdateProduct}
-            initialValues={{
-              ...selectedProduct,
-              weights: weights,
-              benefits: benefits,
-              faq: faqs,
-            }}
-          >
-            <h3 className="text-lg font-semibold mb-4">SEO Details</h3>
-            <Form.Item label="Meta Title" name="metaTitle">
-              <Input />
-            </Form.Item>
-            <Form.Item label="Meta Description" name="metaDescription">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Product Schema" name="productSchema">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Breadcrumb Schema" name="breadcrumbSchema">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Organization Schema" name="organizationSchema">
-              <Input.TextArea />
-            </Form.Item>
-            <h3 className="text-lg font-semibold mb-4">Product Details</h3>
-            <Form.Item label="Select Category" name="category">
-              <Select>
-                <Option value="Premium Products">Premium Products</Option>
-                <Option value="Gourmet Products">Gourmet Products</Option>
-                <Option value="Ayush Products">Ayush Products</Option>
-                <Option value="Other Products">Other Products</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Select Sub Category" name="subCategory">
-              <Select>
-                <Option value="Other">Other</Option>
-                <Option value="Gourmet">Gourmet</Option>
-                <Option value="Churna">Churna</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Select Remedy" name="remedy">
-              <Select>
-                <Option value="Diabetes">Diabetes</Option>
-                <Option value="Digestives">Digestives</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Select Ingridients" name="ingredients">
-              <Select placeholder="Select Ingridients">
-                <Option value="ingredient1">Ingredient 1</Option>
-                <Option value="ingredient2">Ingredient 2</Option>
-                <Option value="ingredient3">Ingredient 3</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item label="Select Detail Icons" name="detailIcons">
-              <Select placeholder="Select Detail Icons">
-                <Option value="icon1">Icon 1</Option>
-                <Option value="icon2">Icon 2</Option>
-                <Option value="icon3">Icon 3</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Title" name="title">
-              <Input />
-            </Form.Item>
-            <Form.Item label="Sub Title" name="subTitle">
-              <Input />
-            </Form.Item>
-            <Form.Item label="Description" name="description">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Hindi Description" name="hindiDescription">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="SKU Number" name="skuNumber">
-              <Input />
-            </Form.Item>
-            <Form.Item label="GST (%)" name="gst">
-              <Input type="number" />
-            </Form.Item>
-            <Table
-                  columns={[
-                    {
-                      title: 'Weight',
-                      dataIndex: 'wt',
-                      render: (text, record, index) => (
-                        <Select
-                          value={text || '--Select Weight--'}
-                          onChange={(value) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].wt = value;
-                            setWeights(updatedWeights);
-                          }}
-                          style={{ width: '100%' }}
-                        >
-                          <Option value="600 gm">600 gm</Option>
-                          <Option value="800 gm">800 gm</Option>
-                          <Option value="1200 gm">1200 gm</Option>
-                          <Option value="200 gm">200 gm</Option>
-                          <Option value="300 gm">300 gm</Option>
-                          <Option value="100 gm">100 gm</Option>
-                          <Option value="15 ml">15 ml</Option>
-                          <Option value="250 gm">250 gm</Option>
-                          <Option value="120 gm">120 gm</Option>
-                          <Option value="50 gm">50 gm</Option>
-                          <Option value="110 gm">110 gm</Option>
-                          <Option value="30 gm">30 gm</Option>
-                          <Option value="500 gm">500 gm</Option>
-                          <Option value="1 Liter">1 Liter</Option>
-                          <Option value="400 gm">400 gm</Option>
-                          <Option value="500 ml">500 ml</Option>
-                          <Option value="125 gm">125 gm</Option>
-                          <Option value="50 ml">50 ml</Option>
-                          <Option value="100 ml">100 ml</Option>
-                        </Select>
-                      ),
-                    },
-                    {
-                      title: 'Stock Count',
-                      dataIndex: 'count',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].count = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Price',
-                      dataIndex: 'price',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].price = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Hsncode',
-                      dataIndex: 'hsncode',
-                      render: (text, record, index) => (
-                        <Select
-                          value={text || '--Select--'}
-                          onChange={(value) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].hsncode = value;
-                            setWeights(updatedWeights);
-                          }}
-                          style={{ width: '100%' }}
-                        >
-                          <Option value="30049011">30049011</Option>
-                          <Option value="08134090">08134090</Option>
-                          <Option value="09042211">09042211</Option>
-                          <Option value="19053211">19053211</Option>
-                          <Option value="19053100">19053100</Option>
-                          <Option value="21039090">21039090</Option>
-                          <Option value="17040000">17040000</Option>
-                          <Option value="38089400">38089400</Option>
-                          <Option value="34011110">34011110</Option>
-                          <Option value="09220900">09220900</Option>
-                          <Option value="32040000">32040000</Option>
-                          <Option value="32074100">32074100</Option>
-                          <Option value="7171910">7171910</Option>
-                          <Option value="34011941">34011941</Option>
-                          <Option value="17040990">17040990</Option>
-                        </Select>
-                      ),
-                    },
-                    {
-                      title: 'GST Amount',
-                      dataIndex: 'gstAmount',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].gstAmount = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Taxable Amount',
-                      dataIndex: 'taxableAmount',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].taxableAmount = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Discount',
-                      dataIndex: 'discount',
-                      render: (text, record, index) => (
-                        <Select
-                          value={record.discountType || '--Select--'}
-                          onChange={(value) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].discountType = value;
-                            setWeights(updatedWeights);
-                          }}
-                          style={{ width: '100%' }}
-                        >
-                          <Option value="rupee">rupee</Option>
-                          <Option value="percent">percent</Option>
-                        </Select>
-                      ),
-                    },
-                    {
-                      title: 'Discount Value',
-                      dataIndex: 'discount',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].discount = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Action',
-                      render: (_, __, index) => (
-                        <span
-                          style={{ color: 'red', cursor: 'pointer', fontSize: '16px' }}
-                          onClick={() => handleDeleteWeight(index)}
-                        >
-                          ✕
-                        </span>
-                      ),
-                    },
-                  ]}
-                  dataSource={weights}
-                  pagination={false}
-                />
-                <div style={{ marginTop: '10px' }}>
-                  <Button
-                    type="primary"
-                    style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}
-                    onClick={() => {
-                      setWeights([...weights, { wt: '', count: 0, price: 0, hsncode: '', gstAmount: 0, taxableAmount: 0, discount: 0, discountType: 'rupee' }]);
-                    }}
-                  >
-                    + Add New Weight
-                  </Button>
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  <Table
-                    columns={[
-                      {
-                        title: 'Weight',
-                        dataIndex: 'wt',
-                        render: (text, record, index) => (
-                          <Select
-                            value={text || '--Select Weight--'}
-                            onChange={(value) => {
-                              const updatedWeights2 = [...weights2];
-                              updatedWeights2[index].wt = value;
-                              setWeights2(updatedWeights2);
-                            }}
-                            style={{ width: '100%' }}
-                          >
-                            <Option value="600 gm">600 gm</Option>
-                            <Option value="800 gm">800 gm</Option>
-                            <Option value="1200 gm">1200 gm</Option>
-                            <Option value="200 gm">200 gm</Option>
-                            <Option value="300 gm">300 gm</Option>
-                            <Option value="100 gm">100 gm</Option>
-                            <Option value="15 ml">15 ml</Option>
-                            <Option value="250 gm">250 gm</Option>
-                            <Option value="120 gm">120 gm</Option>
-                            <Option value="50 gm">50 gm</Option>
-                            <Option value="110 gm">110 gm</Option>
-                            <Option value="30 gm">30 gm</Option>
-                            <Option value="500 gm">500 gm</Option>
-                            <Option value="1 Liter">1 Liter</Option>
-                            <Option value="400 gm">400 gm</Option>
-                            <Option value="500 ml">500 ml</Option>
-                            <Option value="125 gm">125 gm</Option>
-                            <Option value="50 ml">50 ml</Option>
-                            <Option value="100 ml">100 ml</Option>
-                          </Select>
-                        ),
-                      },
-                      {
-                        title: 'Add/Remove',
-                        dataIndex: 'discountType',
-                        render: (text, record, index) => (
-                          <Select
-                            value={text || '--Select Operation--'}
-                            onChange={(value) => {
-                              const updatedWeights2 = [...weights2];
-                              updatedWeights2[index].discountType = value;
-                              setWeights2(updatedWeights2);
-                            }}
-                            style={{ width: '100%' }}
-                          >
-                            <Option value="rupee">rupee</Option>
-                            <Option value="percent">percent</Option>
-                          </Select>
-                        ),
-                      },
-                      {
-                        title: 'Quantity',
-                        dataIndex: 'count',
-                        render: (text, record, index) => (
-                          <Input
-                            value={text}
-                            onChange={(e) => {
-                              const updatedWeights2 = [...weights2];
-                              updatedWeights2[index].count = e.target.value;
-                              setWeights2(updatedWeights2);
-                            }}
-                            type="number"
-                            style={{ width: '100%' }}
-                          />
-                        ),
-                      },
-                      {
-                        title: 'Action',
-                        render: (_, __, index) => (
-                          <span
-                            style={{ color: 'red', cursor: 'pointer', fontSize: '16px' }}
-                            onClick={() => handleDeleteWeight2(index)}
-                          >
-                            ✕
-                          </span>
-                        ),
-                      },
-                    ]}
-                    dataSource={weights2}
-                    pagination={false}
-                  />
-                  <div style={{ marginTop: '10px' }}>
-                    <Button
-                      type="primary"
-                      style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}
-                      onClick={() => {
-                        setWeights2([...weights2, { wt: '', count: 0, discountType: '' }]);
-                      }}
-                    >
-                      + Add
-                    </Button>
-                  </div>
-                </div>
-            <h3 className="text-lg font-semibold mb-4 mt-4">Benefits</h3>
-            {benefits.map((benefit, index) => (
-              <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                <Input.TextArea
-                  placeholder="Benefit"
-                  value={benefit}
-                  onChange={(e) => {
-                    const newBenefits = [...benefits];
-                    newBenefits[index] = e.target.value;
-                    setBenefits(newBenefits);
-                    form.setFieldsValue({ benefits: newBenefits });
-                  }}
-                  rows={3}
-                />
-                <Button danger onClick={() => handleDeleteBenefit(index)}>X</Button>
-              </div>
-            ))}
-            <Button type="primary" onClick={handleAddBenefit} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}>+ Add</Button>
-            <h3 className="text-lg font-semibold mb-4 mt-4">FAQ</h3>
-            {faqs.map((faq, index) => (
-              <div key={index} style={{ marginBottom: '20px' }}>
-                <Form.Item label="Question">
-                  <Input
-                    placeholder="Question"
-                    value={faq.question}
-                    onChange={(e) => {
-                      const newFaqs = [...faqs];
-                      newFaqs[index].question = e.target.value;
-                      setFaqs(newFaqs);
-                      form.setFieldsValue({ faq: newFaqs });
-                    }}
-                  />
-                </Form.Item>
-                <Form.Item label="Answer">
-                  <Input.TextArea
-                    placeholder="Answer"
-                    value={faq.answer}
-                    onChange={(e) => {
-                      const newFaqs = [...faqs];
-                      newFaqs[index].answer = e.target.value;
-                      setFaqs(newFaqs);
-                      form.setFieldsValue({ faq: newFaqs });
-                    }}
-                    rows={3}
-                  />
-                </Form.Item>
-                <Button danger onClick={() => handleDeleteFaq(index)}>X</Button>
-              </div>
-            ))}
-            <Button type="primary" onClick={handleAddFaq} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}>+ Add</Button>
-            <h3 className="text-lg font-semibold mb-4 mt-4">Image</h3>
-            <Form.Item label="Image" name="image">
-              <Upload beforeUpload={() => false} maxCount={1}>
-                <Button icon={<UploadOutlined />}>Choose File</Button>
-              </Upload>
-              <p>Image size must be less than 1.5 MB</p>
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" style={{ backgroundColor: '#1890ff', color: '#fff' }}>
-                Update
-              </Button>
-            </Form.Item>
-          </Form>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addProduct') {
-
-      const handleAddWeight = (values) => {
-        const newWeight = {
-          wt: values.weight,
-          count: values.count || 0,
-          price: values.price || 0,
-          hsncode: values.hsncode || '',
-          gstAmount: values.gstAmount || 0,
-          taxableAmount: values.taxableAmount || 0,
-          discount: values.discount || 0,
-          discountType: values.discountType || 'rupee',
-        };
-        setWeights([...weights, newWeight]);
-        form.resetFields(['weight', 'count', 'price', 'hsncode', 'gstAmount', 'taxableAmount', 'discount', 'discountType']);
-      };
-
-      const handleDeleteWeight = (index) => {
-        setWeights(weights.filter((_, i) => i !== index));
-      };
-    
-      const handleAddBenefit = () => {
-        setBenefits([...benefits, '']);
-      };
-    
-      const handleDeleteBenefit = (index) => {
-        setBenefits(benefits.filter((_, i) => i !== index));
-      };
-     
-      const handleAddFaq = () => {
-        setFaqs([...faqs, { question: '', answer: '' }]);
-      };
-    
-      const handleDeleteFaq = (index) => {
-        setFaqs(faqs.filter((_, i) => i !== index));
-      };
-      return (
-        <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between mb-4">
-              <h2 className="text-xl font-semibold">Add New Product</h2>
-              <Button 
-                onClick={() => setSelectedMenu('Product')} 
-                style={{ backgroundColor: '#1890ff', color: '#fff' }}
-              >
-                Product List
-              </Button>
-            </div>
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleUpdateProduct}
-            initialValues={{
-              ...selectedProduct,
-              weights: weights,
-              benefits: benefits,
-              faq: faqs,
-            }}
-          >
-            <h3 className="text-lg font-semibold mb-4">SEO Details</h3>
-            <Form.Item label="Meta Title" name="metaTitle">
-              <Input />
-            </Form.Item>
-            <Form.Item label="Meta Description" name="metaDescription">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Product Schema" name="productSchema">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Breadcrum Schema" name="breadcrum Schema">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Organization Schema" name="organizationSchema">
-              <Input.TextArea />
-            </Form.Item>
-            <h3 className="text-lg font-semibold mb-4">Product Details</h3>
-            <Form.Item label="Select Category" name="category">
-              <Select>
-                <Option value="Premium Products">Premium Products</Option>
-                <Option value="Gourmet Products">Gourmet Products</Option>
-                <Option value="Ayush Products">Ayush Products</Option>
-                <Option value="Other Products">Other Products</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Select Sub Category" name="subCategory">
-              <Select>
-                <Option value="Other">Other</Option>
-                <Option value="Gourmet">Gourmet</Option>
-                <Option value="Churna">Churna</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Select Remedy" name="remedy">
-              <Select>
-                <Option value="Diabetes">Diabetes</Option>
-                <Option value="Digestives">Digestives</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Select Ingridients" name="ingredients">
-              <Select placeholder="Select Ingridients">
-                <Option value="ingredient1">Ingredient 1</Option>
-                <Option value="ingredient2">Ingredient 2</Option>
-                <Option value="ingredient3">Ingredient 3</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item label="Select Detail Icons" name="detailIcons">
-              <Select placeholder="Select Detail Icons">
-                <Option value="icon1">Icon 1</Option>
-                <Option value="icon2">Icon 2</Option>
-                <Option value="icon3">Icon 3</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Title" name="title">
-              <Input />
-            </Form.Item>
-            <Form.Item label="Sub Title" name="subTitle">
-              <Input />
-            </Form.Item>
-            <Form.Item label="Description" name="description">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="Hindi Description" name="hindiDescription">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item label="SKU Number" name="skuNumber">
-              <Input />
-            </Form.Item>
-            <Form.Item label="GST (%)" name="gst">
-              <Input type="number" />
-            </Form.Item>
-            <Table
-                  columns={[
-                    {
-                      title: 'Weight',
-                      dataIndex: 'wt',
-                      render: (text, record, index) => (
-                        <Select
-                          value={text || '--Select Weight--'}
-                          onChange={(value) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].wt = value;
-                            setWeights(updatedWeights);
-                          }}
-                          style={{ width: '100%' }}
-                        >
-                          <Option value="600 gm">600 gm</Option>
-                          <Option value="800 gm">800 gm</Option>
-                          <Option value="1200 gm">1200 gm</Option>
-                          <Option value="200 gm">200 gm</Option>
-                          <Option value="300 gm">300 gm</Option>
-                          <Option value="100 gm">100 gm</Option>
-                          <Option value="15 ml">15 ml</Option>
-                          <Option value="250 gm">250 gm</Option>
-                          <Option value="120 gm">120 gm</Option>
-                          <Option value="50 gm">50 gm</Option>
-                          <Option value="110 gm">110 gm</Option>
-                          <Option value="30 gm">30 gm</Option>
-                          <Option value="500 gm">500 gm</Option>
-                          <Option value="1 Liter">1 Liter</Option>
-                          <Option value="400 gm">400 gm</Option>
-                          <Option value="500 ml">500 ml</Option>
-                          <Option value="125 gm">125 gm</Option>
-                          <Option value="50 ml">50 ml</Option>
-                          <Option value="100 ml">100 ml</Option>
-                        </Select>
-                      ),
-                    },
-                    {
-                      title: 'Stock Count',
-                      dataIndex: 'count',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].count = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Price',
-                      dataIndex: 'price',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].price = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Hsncode',
-                      dataIndex: 'hsncode',
-                      render: (text, record, index) => (
-                        <Select
-                          value={text || '--Select--'}
-                          onChange={(value) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].hsncode = value;
-                            setWeights(updatedWeights);
-                          }}
-                          style={{ width: '100%' }}
-                        >
-                          <Option value="30049011">30049011</Option>
-                          <Option value="08134090">08134090</Option>
-                          <Option value="09042211">09042211</Option>
-                          <Option value="19053211">19053211</Option>
-                          <Option value="19053100">19053100</Option>
-                          <Option value="21039090">21039090</Option>
-                          <Option value="17040000">17040000</Option>
-                          <Option value="38089400">38089400</Option>
-                          <Option value="34011110">34011110</Option>
-                          <Option value="09220900">09220900</Option>
-                          <Option value="32040000">32040000</Option>
-                          <Option value="32074100">32074100</Option>
-                          <Option value="7171910">7171910</Option>
-                          <Option value="34011941">34011941</Option>
-                          <Option value="17040990">17040990</Option>
-                        </Select>
-                      ),
-                    },
-                    {
-                      title: 'GST Amount',
-                      dataIndex: 'gstAmount',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].gstAmount = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Taxable Amount',
-                      dataIndex: 'taxableAmount',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].taxableAmount = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Discount',
-                      dataIndex: 'discount',
-                      render: (text, record, index) => (
-                        <Select
-                          value={record.discountType || '--Select--'}
-                          onChange={(value) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].discountType = value;
-                            setWeights(updatedWeights);
-                          }}
-                          style={{ width: '100%' }}
-                        >
-                          <Option value="rupee">rupee</Option>
-                          <Option value="percent">percent</Option>
-                        </Select>
-                      ),
-                    },
-                    {
-                      title: 'Discount Value',
-                      dataIndex: 'discount',
-                      render: (text, record, index) => (
-                        <Input
-                          value={text}
-                          onChange={(e) => {
-                            const updatedWeights = [...weights];
-                            updatedWeights[index].discount = e.target.value;
-                            setWeights(updatedWeights);
-                          }}
-                          type="number"
-                          style={{ width: '100%' }}
-                        />
-                      ),
-                    },
-                    {
-                      title: 'Action',
-                      render: (_, __, index) => (
-                        <span
-                          style={{ color: 'red', cursor: 'pointer', fontSize: '16px' }}
-                          onClick={() => handleDeleteWeight(index)}
-                        >
-                          ✕
-                        </span>
-                      ),
-                    },
-                  ]}
-                  dataSource={weights}
-                  pagination={false}
-                />
-                <div style={{ marginTop: '10px' }}>
-                  <Button
-                    type="primary"
-                    style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}
-                    onClick={() => {
-                      setWeights([...weights, { wt: '', count: 0, price: 0, hsncode: '', gstAmount: 0, taxableAmount: 0, discount: 0, discountType: 'rupee' }]);
-                    }}
-                  >
-                    + Add New Weight
-                  </Button>
-                </div>
-                
-            <h3 className="text-lg font-semibold mb-4 mt-4">Benefits</h3>
-            {benefits.map((benefit, index) => (
-              <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                <Input.TextArea
-                  placeholder="Benefit"
-                  value={benefit}
-                  onChange={(e) => {
-                    const newBenefits = [...benefits];
-                    newBenefits[index] = e.target.value;
-                    setBenefits(newBenefits);
-                    form.setFieldsValue({ benefits: newBenefits });
-                  }}
-                  rows={3}
-                />
-                <Button danger onClick={() => handleDeleteBenefit(index)}>X</Button>
-              </div>
-            ))}
-            <Button type="primary" onClick={handleAddBenefit} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}>+ Add</Button>
-            <h3 className="text-lg font-semibold mb-4 mt-4">FAQ</h3>
-            {faqs.map((faq, index) => (
-              <div key={index} style={{ marginBottom: '20px' }}>
-                <Form.Item label="Question">
-                  <Input
-                    placeholder="Question"
-                    value={faq.question}
-                    onChange={(e) => {
-                      const newFaqs = [...faqs];
-                      newFaqs[index].question = e.target.value;
-                      setFaqs(newFaqs);
-                      form.setFieldsValue({ faq: newFaqs });
-                    }}
-                  />
-                </Form.Item>
-                <Form.Item label="Answer">
-                  <Input.TextArea
-                    placeholder="Answer"
-                    value={faq.answer}
-                    onChange={(e) => {
-                      const newFaqs = [...faqs];
-                      newFaqs[index].answer = e.target.value;
-                      setFaqs(newFaqs);
-                      form.setFieldsValue({ faq: newFaqs });
-                    }}
-                    rows={3}
-                  />
-                </Form.Item>
-                <Button danger onClick={() => handleDeleteFaq(index)}>X</Button>
-              </div>
-            ))}
-            <Button type="primary" onClick={handleAddFaq} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}>+ Add</Button>
-            <h3 className="text-lg font-semibold mb-4 mt-4">Image</h3>
-            <Form.Item label="Image" name="image">
-              <Upload beforeUpload={() => false} maxCount={1}>
-                <Button icon={<UploadOutlined />}>Choose File</Button>
-              </Upload>
-              <p>Image size must be less than 1.5 MB</p>
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" style={{ backgroundColor: '#1890ff', color: '#fff' }}>
-                Update
-              </Button>
-            </Form.Item>
-          </Form>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'Category') {
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Category</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Category List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setSelectedMenu('addCategory')} // Changed to setSelectedMenu
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={categoryListColumns}
-              dataSource={categories}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editCategory' && selectedCategory) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Category</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Category')}>
-              Category List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={categoryForm}
-              layout="vertical"
-              initialValues={{ ...selectedCategory, image: undefined }} // Avoid setting file input value
-              onFinish={(values) => {
-                const updatedCategories = categories.map(category =>
-                  category.id === selectedCategory.id
-                    ? {
-                        ...category,
-                        image: values.image?.file ? URL.createObjectURL(values.image.file) : category.image,
-                        name: values.name,
-                        status: values.status,
-                      }
-                    : category
-                );
-                setCategories(updatedCategories);
-                setSelectedMenu('Category');
-                message.success('Category updated successfully');
-              }}
-            >
-              <Form.Item label="Image" name="image" valuePropName="fileList" getValueFromEvent={(e) => e.fileList}>
-                <Upload
-                  beforeUpload={() => false} // Prevent auto upload
-                  listType="picture"
-                  maxCount={1}
-                  accept="image/*"
-                >
-                  <Button icon={<UploadOutlined />}>Upload Image</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item label="Category Name" name="name" rules={[{ required: true, message: 'Please enter category name' }]}>
-                <Input placeholder="Enter Category Name" />
-              </Form.Item>
-              <Form.Item label="Status" name="status">
-                <Select>
-                  <Option value="Active">Active</Option>
-                  <Option value="Inactive">Inactive</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update Category
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addCategory') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Category</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Category')}>
-              Category List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={categoryForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newCategory = {
-                  id: categories.length + 1,
-                  image: values.image?.file ? URL.createObjectURL(values.image.file) : '/placeholder.jpg',
-                  name: values.name,
-                  status: values.status || 'Active',
-                };
-                setCategories(prevCategories => [...prevCategories, newCategory]);
-                setSelectedMenu('Category');
-                categoryForm.resetFields();
-                message.success('Category added successfully');
-              }}
-            >
-              <Form.Item label="Image" name="image" valuePropName="fileList" getValueFromEvent={(e) => e.fileList}>
-                <Upload
-                  beforeUpload={() => false}
-                  listType="picture"
-                  maxCount={1}
-                  accept="image/*"
-                >
-                  <Button icon={<UploadOutlined />}>Upload Image</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item label="Category Name" name="name" rules={[{ required: true, message: 'Please enter category name' }]}>
-                <Input placeholder="Enter Category Name" />
-              </Form.Item>
-              <Form.Item label="Status" name="status" initialValue="Active">
-                <Select>
-                  <Option value="Active">Active</Option>
-                  <Option value="Inactive">Inactive</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Add Category
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
+     if (selectedMenu === 'Category') {
+    return (
+      <CategoryList
+        categories={categories}
+        categoryListColumns={categoryListColumns}
+        setSelectedMenu={setSelectedMenu}
+        handleDeleteCategory={handleDeleteCategory}
+      />
+    );
+  }
+  if (selectedMenu === 'addCategory') {
+    return (
+      <AddCategory
+        categoryForm={categoryForm}
+        categories={categories}
+        setCategories={setCategories}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editCategory' && selectedCategory) {
+    return (
+      <EditCategory
+        categoryForm={categoryForm}
+        selectedCategory={selectedCategory}
+        categories={categories}
+        setCategories={setCategories}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'Sub Category') {
-      const subCategoryListColumns = [
-        { 
-          title: 'Image', 
-          dataIndex: 'image', 
-          key: 'image', 
-          render: (image) => <Image src={image} alt="Sub Category" width={50} height={50} /> 
-        },
-        { title: 'Sub Category', dataIndex: 'name', key: 'name' },
-        { title: 'Category', dataIndex: 'category', key: 'category' },
-        { 
-          title: 'Status', 
-          dataIndex: 'status', 
-          key: 'status', 
-          render: (status) => (
-            <span className={`px-2 py-1 rounded ${status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-              {status}
-            </span>
-          ) 
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedSubCategory(record);
-                  setSelectedMenu('editSubCategory');
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this category?"
-                onConfirm={() => {
-                  setSubCategories(prevSubCategories => prevSubCategories.filter(subCategory => subCategory.id !== record.id));
-                  message.success('Sub Category deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Sub Category</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Sub Category List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setSelectedMenu('addSubCategory')}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={subCategoryListColumns}
-              dataSource={subCategories}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'editSubCategory' && selectedSubCategory) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Sub Category</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Sub Category')}>
-              Sub Category List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={categoryForm}
-              layout="vertical"
-              initialValues={{ 
-                category: selectedSubCategory.category, 
-                name: selectedSubCategory.name, 
-                status: selectedSubCategory.status === 'Active', 
-                image: undefined 
-              }}
-              onFinish={(values) => {
-                const updatedSubCategories = subCategories.map(subCategory =>
-                  subCategory.id === selectedSubCategory.id
-                    ? {
-                        ...subCategory,
-                        category: values.category,
-                        name: values.name,
-                        status: values.status ? 'Active' : 'Inactive',
-                        image: values.image?.file ? URL.createObjectURL(values.image.file) : subCategory.image,
-                      }
-                    : subCategory
-                );
-                setSubCategories(updatedSubCategories);
-                setSelectedMenu('Sub Category');
-                message.success('Sub Category updated successfully');
-              }}
-            >
-              <Form.Item label="Select Category" name="category" rules={[{ required: true, message: 'Please select a category' }]}>
-                <Select placeholder="Select Category">
-                  {categories.map(category => (
-                    <Option key={category.id} value={category.name}>{category.name}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item label="Sub Category Name" name="name" rules={[{ required: true, message: 'Please enter sub category name' }]}>
-                <Input placeholder="Enter Sub Category Name" />
-              </Form.Item>
-              <Form.Item label="Image" name="image" valuePropName="fileList" getValueFromEvent={(e) => e.fileList}>
-                <Upload
-                  beforeUpload={() => false}
-                  listType="picture"
-                  maxCount={1}
-                  accept="image/*"
-                >
-                  <Button icon={<UploadOutlined />}>Choose File</Button>
-                </Upload>
-                <p>Image size must be less than 1.5 MB</p>
-              </Form.Item>
-              <Form.Item label="Status" name="status" valuePropName="checked">
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update Category
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addSubCategory') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Sub Category</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Sub Category')}>
-              Sub Category List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={categoryForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newSubCategory = {
-                  id: subCategories.length + 1,
-                  category: values.category,
-                  name: values.name,
-                  status: values.status ? 'Active' : 'Inactive',
-                  image: values.image?.file ? URL.createObjectURL(values.image.file) : '/placeholder.jpg',
-                };
-                setSubCategories(prevSubCategories => [...prevSubCategories, newSubCategory]);
-                setSelectedMenu('Sub Category');
-                categoryForm.resetFields();
-                message.success('Sub Category added successfully');
-              }}
-            >
-              <Form.Item label="Select Category" name="category" rules={[{ required: true, message: 'Please select a category' }]}>
-                <Select placeholder="Select Category">
-                  {categories.map(category => (
-                    <Option key={category.id} value={category.name}>{category.name}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item label="Sub Category Name" name="name" rules={[{ required: true, message: 'Please enter sub category name' }]}>
-                <Input placeholder="Enter Sub Category Name" />
-              </Form.Item>
-              <Form.Item label="Image" name="image" valuePropName="fileList" getValueFromEvent={(e) => e.fileList}>
-                <Upload
-                  beforeUpload={() => false}
-                  listType="picture"
-                  maxCount={1}
-                  accept="image/*"
-                >
-                  <Button icon={<UploadOutlined />}>Upload Image</Button>
-                </Upload>
-                <p>Image size must be less than 1.5 MB</p>
-              </Form.Item>
-              <Form.Item label="Status" name="status" valuePropName="checked" initialValue={true}>
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'Remedy') {
-      const remedyListColumns = [
-        { title: '#ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        { 
-          title: 'Status', 
-          dataIndex: 'status', 
-          key: 'status', 
-          render: (status) => (
-            <span className={`px-2 py-1 rounded ${status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-              {status}
-            </span>
-          ) 
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedRemedy(record);
-                  setSelectedMenu('editRemedy');
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this remedy?"
-                onConfirm={() => {
-                  setRemedies(prevRemedies => prevRemedies.filter(remedy => remedy.id !== record.id));
-                  message.success('Remedy deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Remedy</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Remedy List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setSelectedMenu('addRemedy')}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={remedyListColumns}
-              dataSource={remedies}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'editRemedy' && selectedRemedy) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Remedy</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Remedy')}>
-              Remedy List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={categoryForm}
-              layout="vertical"
-              initialValues={{ 
-                name: selectedRemedy.name, 
-                status: selectedRemedy.status === 'Active', 
-              }}
-              onFinish={(values) => {
-                const updatedRemedies = remedies.map(remedy =>
-                  remedy.id === selectedRemedy.id
-                    ? {
-                        ...remedy,
-                        name: values.name,
-                        status: values.status ? 'Active' : 'Inactive',
-                      }
-                    : remedy
-                );
-                setRemedies(updatedRemedies);
-                setSelectedMenu('Remedy');
-                message.success('Remedy updated successfully');
-              }}
-            >
-              <Form.Item label="Remedy Name" name="name" rules={[{ required: true, message: 'Please enter remedy name' }]}>
-                <Input placeholder="Enter Remedy Name" />
-              </Form.Item>
-              <Form.Item label="Status" name="status" valuePropName="checked">
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update Remedy
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addRemedy') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Remedy</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Remedy')}>
-              Remedy List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={categoryForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newRemedy = {
-                  id: remedies.length + 1,
-                  name: values.name,
-                  status: values.status ? 'Active' : 'Inactive',
-                };
-                setRemedies(prevRemedies => [...prevRemedies, newRemedy]);
-                setSelectedMenu('Remedy');
-                categoryForm.resetFields();
-                message.success('Remedy added successfully');
-              }}
-            >
-              <Form.Item label="Remedy Name" name="name" rules={[{ required: true, message: 'Please enter remedy name' }]}>
-                <Input placeholder="Enter Remedy Name" />
-              </Form.Item>
-              <Form.Item label="Status" name="status" valuePropName="checked" initialValue={true}>
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    return (
+      <SubCategoryList
+        subCategories={subCategories}
+        setSubCategories={setSubCategories}
+        setSelectedSubCategory={setSelectedSubCategory}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'addSubCategory') {
+    return (
+      <AddSubCategory
+        categoryForm={categoryForm}
+        subCategories={subCategories}
+        setSubCategories={setSubCategories}
+        categories={categories}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editSubCategory' && selectedSubCategory) {
+    return (
+      <EditSubCategory
+        categoryForm={categoryForm}
+        selectedSubCategory={selectedSubCategory}
+        subCategories={subCategories}
+        setSubCategories={setSubCategories}
+        categories={categories}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'Remedy') {
+    return (
+      <RemedyList
+        remedies={remedies}
+        setRemedies={setRemedies}
+        setSelectedRemedy={setSelectedRemedy}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'addRemedy') {
+    return (
+      <AddRemedy
+        categoryForm={categoryForm}
+        remedies={remedies}
+        setRemedies={setRemedies}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editRemedy' && selectedRemedy) {
+    return (
+      <EditRemedy
+        categoryForm={categoryForm}
+        selectedRemedy={selectedRemedy}
+        remedies={remedies}
+        setRemedies={setRemedies}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     
     if (selectedMenu === 'Ingridients') {
-      const IngridientsListColumns = [
-        { title: '#ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  message.info('This section is under development. Please contact the administrator to edit ingredients.');
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this ingredient?"
-                onConfirm={() => {
-                  setIngredients(prevIngredients => prevIngredients.filter(ingredient => ingredient.id !== record.id));
-                  message.success('Ingredient deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Ingridients</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Ingridients List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => {
-                    message.info('This section is under development. Please contact the administrator to add new ingredients. We are working to enable this feature soon!');
-                  }}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={IngridientsListColumns}
-              dataSource={ingredients}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    return (
+      <IngridientsList
+        ingredients={ingredients}
+        setIngredients={setIngredients}
+      />
+    );
+  }
 
-    if (selectedMenu === 'Weight Unit') {
-      const weightUnitColumns = [
-        { title: '#ID', dataIndex: 'id', key: 'id' },
-        { title: 'Title', dataIndex: 'title', key: 'title' },
-        { title: 'Shipping Amount', dataIndex: 'shippingAmount', key: 'shippingAmount' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedWeightUnit(record);
-                  setSelectedMenu('editWeightUnit');
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this weight unit?"
-                onConfirm={() => {
-                  setWeightUnits(prevWeightUnits => prevWeightUnits.filter(weightUnit => weightUnit.id !== record.id));
-                  message.success('Weight unit deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Weight Unit</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Weight Unit List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setSelectedMenu('addWeightUnit')}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={weightUnitColumns}
-              dataSource={weightUnits}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'editWeightUnit' && selectedWeightUnit) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Weight</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Weight Unit')}>
-              Weight List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={weightUnitForm}
-              layout="vertical"
-              initialValues={{ 
-                title: selectedWeightUnit.title,
-                shippingAmount: selectedWeightUnit.shippingAmount,
-              }}
-              onFinish={(values) => {
-                const updatedWeightUnits = weightUnits.map(weightUnit =>
-                  weightUnit.id === selectedWeightUnit.id
-                    ? {
-                        ...weightUnit,
-                        title: values.title,
-                        shippingAmount: values.shippingAmount,
-                      }
-                    : weightUnit
-                );
-                setWeightUnits(updatedWeightUnits);
-                setSelectedMenu('Weight Unit');
-                message.success('Weight unit updated successfully');
-              }}
-            >
-              <Form.Item
-                label="Weight"
-                name="title"
-                rules={[{ required: true, message: 'Please enter weight' }]}
-              >
-                <Input placeholder="Enter Weight" />
-              </Form.Item>
-              <Form.Item
-                label="Shipping Charge"
-                name="shippingAmount"
-                rules={[{ required: true, message: 'Please enter shipping amount' }]}
-              >
-                <Input type="number" placeholder="Enter Shipping Amount" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addWeightUnit') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Weight</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Weight Unit')}>
-              Weight List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={weightUnitForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newWeightUnit = {
-                  id: weightUnits.length + 1,
-                  title: values.title,
-                  shippingAmount: values.shippingAmount,
-                };
-                setWeightUnits(prevWeightUnits => [...prevWeightUnits, newWeightUnit]);
-                setSelectedMenu('Weight Unit');
-                weightUnitForm.resetFields();
-                message.success('Weight unit added successfully');
-              }}
-            >
-              <Form.Item
-                label="Weight"
-                name="title"
-                rules={[{ required: true, message: 'Please enter weight' }]}
-              >
-                <Input placeholder="Enter Weight" />
-              </Form.Item>
-              <Form.Item
-                label="Shipping Charge"
-                name="shippingAmount"
-                rules={[{ required: true, message: 'Please enter shipping amount' }]}
-              >
-                <Input type="number" placeholder="Enter Shipping Amount" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'Tax Manager') {
-      const taxColumns = [
-        { title: '#ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        { title: 'Value (%)', dataIndex: 'value', key: 'value' },
-        { 
-          title: 'Status', 
-          dataIndex: 'status', 
-          key: 'status',
-          render: (status) => (
-            <span className={status === 'Active' ? 'text-green-500' : 'text-red-500'}>
-              {status}
-            </span>
-          ),
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedTax(record);
-                  setSelectedMenu('editTax');
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this tax?"
-                onConfirm={() => {
-                  setTaxes(prevTaxes => prevTaxes.filter(tax => tax.id !== record.id));
-                  message.success('Tax deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Tax</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Tax List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setSelectedMenu('addTax')}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={taxColumns}
-              dataSource={taxes}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'addTax') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Tax</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Tax Manager')}>
-              Back to List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={taxForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newTax = {
-                  id: taxes.length + 1,
-                  name: values.name,
-                  value: values.value,
-                  status: values.status,
-                };
-                setTaxes(prevTaxes => [...prevTaxes, newTax]);
-                setSelectedMenu('Tax Manager');
-                taxForm.resetFields();
-                message.success('Tax added successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter tax name' }]}
-              >
-                <Input placeholder="Enter Tax Name" />
-              </Form.Item>
-              <Form.Item
-                label="Value (%)"
-                name="value"
-                rules={[{ required: true, message: 'Please enter tax value' }]}
-              >
-                <Input type="number" placeholder="Enter Tax Value" />
-              </Form.Item>
-              <Form.Item
-                label="Status"
-                name="status"
-                initialValue="Active"
-                rules={[{ required: true, message: 'Please select status' }]}
-              >
-                <Radio.Group>
-                  <Radio value="Active">Active</Radio>
-                  <Radio value="Inactive">Inactive</Radio>
-                </Radio.Group>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editTax' && selectedTax) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Tax</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Tax Manager')}>
-              Back to List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={taxForm}
-              layout="vertical"
-              initialValues={{ 
-                name: selectedTax.name,
-                value: selectedTax.value,
-                status: selectedTax.status,
-              }}
-              onFinish={(values) => {
-                const updatedTaxes = taxes.map(tax =>
-                  tax.id === selectedTax.id
-                    ? {
-                        ...tax,
-                        name: values.name,
-                        value: values.value,
-                        status: values.status,
-                      }
-                    : tax
-                );
-                setTaxes(updatedTaxes);
-                setSelectedMenu('Tax Manager');
-                message.success('Tax updated successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter tax name' }]}
-              >
-                <Input placeholder="Enter Tax Name" />
-              </Form.Item>
-              <Form.Item
-                label="Value (%)"
-                name="value"
-                rules={[{ required: true, message: 'Please enter tax value' }]}
-              >
-                <Input type="number" placeholder="Enter Tax Value" />
-              </Form.Item>
-              <Form.Item
-                label="Status"
-                name="status"
-                rules={[{ required: true, message: 'Please select status' }]}
-              >
-                <Radio.Group>
-                  <Radio value="Active">Active</Radio>
-                  <Radio value="Inactive">Inactive</Radio>
-                </Radio.Group>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+if (selectedMenu === 'Weight Unit') {
+    return (
+      <WeightUnitList
+        weightUnits={weightUnits}
+        setWeightUnits={setWeightUnits}
+        setSelectedWeightUnit={setSelectedWeightUnit}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'addWeightUnit') {
+    return (
+      <AddWeightUnit
+        weightUnitForm={weightUnitForm}
+        weightUnits={weightUnits}
+        setWeightUnits={setWeightUnits}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editWeightUnit' && selectedWeightUnit) {
+    return (
+      <EditWeightUnit
+        weightUnitForm={weightUnitForm}
+        selectedWeightUnit={selectedWeightUnit}
+        weightUnits={weightUnits}
+        setWeightUnits={setWeightUnits}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+     if (selectedMenu === 'Tax Manager') {
+    return (
+      <TaxList
+        taxes={taxes}
+        setTaxes={setTaxes}
+        setSelectedTax={setSelectedTax}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'addTax') {
+    return (
+      <AddTax
+        taxForm={taxForm}
+        taxes={taxes}
+        setTaxes={setTaxes}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editTax' && selectedTax) {
+    return (
+      <EditTax
+        taxForm={taxForm}
+        selectedTax={selectedTax}
+        taxes={taxes}
+        setTaxes={setTaxes}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'HSNCODE Master') {
-      const hsncodeColumns = [
-        { title: '#ID', dataIndex: 'id', key: 'id' },
-        { title: 'Hsncode', dataIndex: 'hsncode', key: 'hsncode' },
-        { title: 'GST Value', dataIndex: 'gstValue', key: 'gstValue' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedHsncode(record);
-                  setSelectedMenu('editHsncode');
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this HSN code?"
-                onConfirm={() => {
-                  setHsncodes(prevHsncodes => prevHsncodes.filter(hsncode => hsncode.id !== record.id));
-                  message.success('HSN code deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">HSNCODE MASTER</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">HSNCODE List</h3>
-              <div className="flex gap-2">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setSelectedMenu('addHsncode')}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={hsncodeColumns}
-              dataSource={hsncodes}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              rowClassName={() => 'align-top'}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'addHsncode') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Hsncode</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('HSNCODE Master')}>
-              Back to List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={hsncodeForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newHsncode = {
-                  id: hsncodes.length + 1,
-                  hsncode: values.hsncode,
-                  gstValue: values.gstValue,
-                };
-                setHsncodes(prevHsncodes => [...prevHsncodes, newHsncode]);
-                setSelectedMenu('HSNCODE Master');
-                hsncodeForm.resetFields();
-                message.success('HSN code added successfully');
-              }}
-            >
-              <Form.Item
-                label="Hsncode"
-                name="hsncode"
-                rules={[{ required: true, message: 'Please enter HSN code' }]}
-              >
-                <Input placeholder="Enter HSN Code" />
-              </Form.Item>
-              <Form.Item
-                label="GST Value"
-                name="gstValue"
-                rules={[{ required: true, message: 'Please enter GST value' }]}
-              >
-                <Input type="number" placeholder="Enter GST Value" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editHsncode' && selectedHsncode) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Hsncode</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('HSNCODE Master')}>
-              Back to List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={hsncodeForm}
-              layout="vertical"
-              initialValues={{ 
-                hsncode: selectedHsncode.hsncode,
-                gstValue: selectedHsncode.gstValue,
-              }}
-              onFinish={(values) => {
-                const updatedHsncodes = hsncodes.map(hsncode =>
-                  hsncode.id === selectedHsncode.id
-                    ? {
-                        ...hsncode,
-                        hsncode: values.hsncode,
-                        gstValue: values.gstValue,
-                      }
-                    : hsncode
-                );
-                setHsncodes(updatedHsncodes);
-                setSelectedMenu('HSNCODE Master');
-                message.success('HSN code updated successfully');
-              }}
-            >
-              <Form.Item
-                label="Hsncode"
-                name="hsncode"
-                rules={[{ required: true, message: 'Please enter HSN code' }]}
-              >
-                <Input placeholder="Enter HSN Code" />
-              </Form.Item>
-              <Form.Item
-                label="GST Value"
-                name="gstValue"
-                rules={[{ required: true, message: 'Please enter GST value' }]}
-              >
-                <Input type="number" placeholder="Enter GST Value" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'Order Manager') {
-      const orderColumns = [
-        { title: 'Order ID', dataIndex: 'id', key: 'id' },
-        { title: 'Email', dataIndex: 'email', key: 'email' },
-        { title: 'Payment Status', dataIndex: 'paymentStatus', key: 'paymentStatus', width: 100, },
-        { title: 'Order Mode', dataIndex: 'orderMode', key: 'orderMode' },
-        { title: 'Qty', dataIndex: 'qty', key: 'qty', width: 100, },
-        { title: 'Price', dataIndex: 'price', key: 'price' , width: 100, },
-        { title: 'Order Status', dataIndex: 'orderStatus', key: 'orderStatus' },
-        { title: 'Shipping Status', dataIndex: 'shippingStatus', key: 'shippingStatus' },
-        { title: 'Created At', dataIndex: 'createdAt', key: 'createdAt' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EyeOutlined />}
-                onClick={() => {
-                  setSelectedOrder(record);
-                  setSelectedMenu('viewOrder');
-                }}
-                className="text-blue-500 border-blue-500"
-              />
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedOrder(record);
-                  setSelectedMenu('editOrder');
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this order?"
-                onConfirm={() => {
-                  setOrders(prevOrders => prevOrders.filter(order => order.id !== record.id));
-                  message.success('Order deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      const handleExportToExcel = () => {
-        const csv = [
-          ['Order ID,Email,Payment Status,Order Mode,Qty,Price,Order Status,Shipping Status,Created At'],
-          ...orders.map(order => [
-            order.id, order.email, order.paymentStatus, order.orderMode, order.qty, order.price,
-            order.orderStatus, order.shippingStatus, order.createdAt
-          ].join(','))
-        ].join('\n');
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'order.csv';
-        a.click();
-      };
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Order</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Order List</h3>
-              <div className="flex flex-col items-end gap-2">
-                <div className="flex gap-2">
-                  <Button
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => setSelectedMenu('addOrder')}
-                  >
-                    Add
-                  </Button>
-                  <Button
-                    type="primary"
-                    icon={<FileExcelOutlined />}
-                    onClick={handleExportToExcel}
-                    className="bg-green-500"
-                  >
-                    Excel
-                  </Button>
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-2">Search:</span>
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    className="border p-1 rounded"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center mb-4 gap-4">
-              <div className="flex items-center">
-                <span className="mr-2">Show</span>
-                <select
-                  value={pageSize}
-                  onChange={(e) => setPageSize(Number(e.target.value))}
-                  className="border p-1 rounded"
-                >
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-                <span className="ml-2">entries</span>
-              </div>
-            </div>
-            <Table
-              columns={orderColumns}
-              dataSource={orders}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addOrder') {
-      
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Order</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Order Manager')}>
-              Back to List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={orderForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newOrder = {
-                  id: `300420250${orders.length + 1}`,
-                  email: values.email,
-                  paymentStatus: values.paymentStatus,
-                  orderMode: values.orderMode,
-                  qty: products.reduce((sum, p) => sum + p.qty, 0),
-                  price: products.reduce((sum, p) => sum + p.price * p.qty, 0),
-                  orderStatus: values.orderStatus,
-                  shippingStatus: values.shippingStatus,
-                  createdAt: new Date().toLocaleString(),
-                  products: products,
-                };
-                setOrders(prevOrders => [...prevOrders, newOrder]);
-                setSelectedMenu('Order Manager');
-                orderForm.resetFields();
-                setProducts([]);
-                message.success('Order added successfully');
-              }}
-            >
-              <Form.Item
-                label="Customer"
-                name="email"
-                rules={[{ required: true, message: 'Please select customer' }]}
-              >
-                <Input placeholder="Select Customer" />
-              </Form.Item>
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter name' }]}
-              >
-                <Input placeholder="Enter Name" />
-              </Form.Item>
-              <Form.Item
-                label="Phone"
-                name="phone"
-                rules={[{ required: true, message: 'Please enter phone' }]}
-              >
-                <Input placeholder="Enter Phone" />
-              </Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[{ required: true, message: 'Please enter email' }]}
-              >
-                <Input placeholder="Enter Email" />
-              </Form.Item>
-              <Form.Item
-                label="Payment Mode"
-                name="paymentStatus"
-                rules={[{ required: true, message: 'Please select payment mode' }]}
-              >
-                <Select placeholder="Select Payment Mode">
-                  <Option value="COD">Cash on Delivery</Option>
-                  <Option value="success">Success</Option>
-                  <Option value="failure!!!">Failure!!!</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Order Status"
-                name="orderStatus"
-                rules={[{ required: true, message: 'Please select order status' }]}
-              >
-                <Select placeholder="Select Order Status">
-                  {orderStatuses.map(status => (
-                    <Option key={status.id} value={status.name}>
-                      {status.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Shipping Status"
-                name="shippingStatus"
-                rules={[{ required: true, message: 'Please select shipping status' }]}
-              >
-                <Select placeholder="Select Shipping Status">
-                  {shippingStatuses.map(status => (
-                    <Option key={status.id} value={status.name}>
-                      {status.name}
-                    </Option>
-                  ))}
-                </Select>
-             </Form.Item>
-             <Form.Item
-              label="Service Provider"
-              name="serviceProvider"
-              rules={[{ required: true, message: 'Please select service provider' }]}
-            >
-              <Select placeholder="Select Service Provider">
-                {serviceProviders.map(provider => (
-                  <Option key={provider.id} value={provider.name}>
-                    {provider.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-              <Form.Item
-                label="Order Mode"
-                name="orderMode"
-                rules={[{ required: true, message: 'Please select order mode' }]}
-              >
-                <Input placeholder="Enter Order Mode" />
-              </Form.Item>
-              <Form.Item label="Product">
-                <Button type="primary" onClick={addProduct}>
-                  + Add Product
-                </Button>
-                {products.length > 0 && (
-                  <Table
-                    columns={[
-                      {
-                        title: 'Product',
-                        dataIndex: 'name',
-                        key: 'name',
-                        render: (text, record) => (
-                          <Select
-                            value={record.name}
-                            onChange={(value) => handleProductChange(record.id, 'name', value)}
-                            style={{ width: 200 }}
-                          >
-                            {productOptions.map(option => (
-                              <Option key={option.value} value={option.value}>
-                                {option.label}
-                              </Option>
-                            ))}
-                          </Select>
-                        ),
-                      },
-                      {
-                        title: 'Weight',
-                        dataIndex: 'weight',
-                        key: 'weight',
-                        render: (text, record) => (
-                          <Select
-                            value={record.weight}
-                            onChange={(value) => handleProductChange(record.id, 'weight', value)}
-                            style={{ width: 100 }}
-                          >
-                            {weightOptions.map(option => (
-                              <Option key={option.value} value={option.value}>
-                                {option.label}
-                              </Option>
-                            ))}
-                          </Select>
-                        ),
-                      },
-                      {
-                        title: 'Qty',
-                        dataIndex: 'qty',
-                        key: 'qty',
-                        render: (text, record) => (
-                          <Input
-                            type="number"
-                            value={record.qty}
-                            onChange={(e) => handleProductChange(record.id, 'qty', Number(e.target.value))}
-                            style={{ width: 80 }}
-                          />
-                        ),
-                      },
-                      {
-                        title: 'Price',
-                        dataIndex: 'price',
-                        key: 'price',
-                        render: (text, record) => (
-                          <Input
-                            type="number"
-                            value={record.price}
-                            onChange={(e) => handleProductChange(record.id, 'price', Number(e.target.value))}
-                            style={{ width: 80 }}
-                          />
-                        ),
-                      },
-                      {
-                        title: 'Discount',
-                        dataIndex: 'discount',
-                        key: 'discount',
-                        render: (text, record) => (
-                          <Input
-                            type="number"
-                            value={record.discount}
-                            onChange={(e) => handleProductChange(record.id, 'discount', Number(e.target.value))}
-                            style={{ width: 80 }}
-                          />
-                        ),
-                      },
-                      {
-                        title: 'Total',
-                        dataIndex: 'total',
-                        key: 'total',
-                        render: (_, record) => (record.price * record.qty) - (record.discount || 0),
-                      },
-                      {
-                        title: 'Action',
-                        key: 'action',
-                        render: (_, record) => (
-                          <Button
-                            type="link"
-                            danger
-                            onClick={() => setProducts(products.filter(p => p.id !== record.id))}
-                          >
-                            X
-                          </Button>
-                        ),
-                      },
-                    ]}
-                    dataSource={products.map(product => ({
-                      ...product,
-                      key: product.id,
-                    }))}
-                    pagination={false}
-                  />
-                )}
-              </Form.Item>
-              <Form.Item label="Shipping Address">
-                <Input.TextArea placeholder="Enter Shipping Address" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'viewOrder' && selectedOrder) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">View Order</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Order Manager')}>
-              Back to List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <p><strong>Order Id:</strong> {selectedOrder.id}</p>
-            <p><strong>Customer Name:</strong> {selectedOrder.name || 'N/A'}</p>
-            <p><strong>Mobile:</strong> {selectedOrder.phone || 'N/A'}</p>
-            <p><strong>Email:</strong> {selectedOrder.email}</p>
-            <p><strong>Shipping Address:</strong> {selectedOrder.shippingAddress || 'N/A'}</p>
-            <p><strong>Billing Address:</strong> {selectedOrder.billingAddress || 'N/A'}</p>
-            <p><strong>Payment Status:</strong> {selectedOrder.paymentStatus}</p>
-            <p><strong>Order Status:</strong> {selectedOrder.orderStatus}</p>
-            <p><strong>Shipping Status:</strong> {selectedOrder.shippingStatus}</p>
-            <p><strong>Order Mode:</strong> {selectedOrder.orderMode}</p>
-            <p><strong>Promo:</strong> N/A</p>
-            <p><strong>Total Qty:</strong> {selectedOrder.qty}</p>
-            <p><strong>Shipping Amount:</strong> N/A</p>
-            <p><strong>Total Amount:</strong> {selectedOrder.price}</p>
-            <div>
-              <Table
-                columns={[
-                  { title: 'Product', dataIndex: 'name', key: 'name' },
-                  { title: 'Weight', dataIndex: 'weight', key: 'weight' },
-                  { title: 'Qty', dataIndex: 'qty', key: 'qty' },
-                  { title: 'Price', dataIndex: 'price', key: 'price' },
-                  { title: 'Discount', dataIndex: 'discount', key: 'discount' },
-                  { title: 'Total', dataIndex: 'total', key: 'total' },
-                ]}
-                dataSource={selectedOrder.products?.map(product => ({
-                  key: product.id || Date.now(),
-                  name: product.name,
-                  weight: product.weight,
-                  qty: product.qty,
-                  price: product.price,
-                  discount: product.discount,
-                  total: (product.price * product.qty) - (product.discount || 0),
-                })) || [
-                  {
-                    key: Date.now(),
-                    name: 'Jamun Juice with Fiber',
-                    weight: '190ml',
-                    qty: 2,
-                    price: 120,
-                    discount: 120,
-                    total: 120,
-                  },
-                ]}
-                pagination={false}
-                className="mt-4"
-              />
-            </div>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'editOrder' && selectedOrder) {
-      const selectedCustomer = customers.find(c => c.id === selectedOrder.customerId);
-
-  const productColumns = [
-    { title: 'Product', dataIndex: 'name', key: 'name' },
-    { title: 'Weight', dataIndex: 'weight', key: 'weight' },
-    { title: 'Qty', dataIndex: 'qty', key: 'qty' },
-    { title: 'Price', dataIndex: 'price', key: 'price' },
-    { title: 'Discount', dataIndex: 'discount', key: 'discount' },
-    { title: 'Total', dataIndex: 'total', key: 'total' },
-  ];
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Order</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Order Manager')}>
-              Order List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              layout="vertical"
-              initialValues={{
-                customerId: selectedOrder.customerId,
-                name: selectedCustomer?.name,
-                phone: selectedCustomer?.mobile,
-                email: selectedCustomer?.email,
-                orderStatus: selectedOrder.orderStatus,
-                shippingStatus: selectedOrder.shippingStatus,
-                orderMode: selectedOrder.orderMode,
-                address: selectedOrder.address,
-              }}
-              onFinish={(values) => {
-                setOrders(prevOrders =>
-                  prevOrders.map(order =>
-                    order.id === selectedOrder.id
-                      ? {
-                          ...order,
-                          customerId: values.customerId,
-                          orderStatus: values.orderStatus,
-                          shippingStatus: values.shippingStatus,
-                          orderMode: values.orderMode,
-                          trackingDetails: {
-                            serviceProvider: values.serviceProvider,
-                            trackingCode: values.trackingCode,
-                            trackingUrl: values.trackingUrl,
-                          },
-                          address: values.address,
-                        }
-                      : order
-                  )
-                );
-                setSelectedMenu('orderManager');
-                message.success('Order updated successfully');
-              }}
-            >
-              {/* Customer Section */}
-              <Form.Item
-                label="Customer"
-                name="customerId"
-                rules={[{ required: true, message: 'Please select a customer' }]}
-              >
-                <Select
-                  placeholder="Select Customer"
-                  onChange={(value) => {
-                    const customer = customers.find(c => c.id === value);
-                    editOrderForm.setFieldsValue({
-                      name: customer?.name,
-                      phone: customer?.mobile,
-                      email: customer?.email,
-                      address: customer?.address,
-                    });
-                  }}
-                >
-                  {customers.map(customer => (
-                    <Option key={customer.id} value={customer.id}>
-                      {`${customer.name} - ${customer.email}`}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-    
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter customer name' }]}
-              >
-                <Input placeholder="Enter Customer Name"  />
-              </Form.Item>
-    
-              <Form.Item
-                label="Phone"
-                name="phone"
-                rules={[{ required: true, message: 'Please enter phone number' }]}
-              >
-                <Input placeholder="Enter Phone Number" />
-              </Form.Item>
-    
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[{ required: true, message: 'Please enter email' }]}
-              >
-                <Input placeholder="Enter Email"  />
-              </Form.Item>
-    
-              <Form.Item
-                label="Order Status"
-                name="orderStatus"
-                rules={[{ required: true, message: 'Please select order status' }]}
-              >
-                <Select placeholder="Select Order Status">
-                  <Option value="Placed">Placed</Option>
-                  <Option value="Processing">Processing</Option>
-                  <Option value="Shipped">Shipped</Option>
-                  <Option value="Delivered">Delivered</Option>
-                  <Option value="Cancelled">Cancelled</Option>
-                </Select>
-              </Form.Item>
-    
-              <Form.Item
-                label="Shipping Status"
-                name="shippingStatus"
-                rules={[{ required: true, message: 'Please select shipping status' }]}
-              >
-                <Select placeholder="Select Shipping Status">
-                  <Option value="Select Shipping Status">Select Shipping Status</Option>
-                  <Option value="Not Shipped">Not Shipped</Option>
-                  <Option value="Shipped">Shipped</Option>
-                  <Option value="In Transit">In Transit</Option>
-                  <Option value="Delivered">Delivered</Option>
-                </Select>
-              </Form.Item>
-    
-              <Form.Item
-                label="Order Mode"
-                name="orderMode"
-                rules={[{ required: true, message: 'Please enter order mode' }]}
-              >
-                <Input placeholder="Enter Order Mode" />
-              </Form.Item>
-    
-              {/* Tracking Details */}
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <UserOutlined /> Tracking Details
-                </h3>
-              </div>
-    
-              <Form.Item
-                label="Service Provider"
-                name="serviceProvider"
-                rules={[{ required: true, message: 'Please select service provider' }]}
-              >
-                <Select placeholder="Select Service Provider">
-                  <Option value="Select Service Provider">Select Service Provider</Option>
-                  <Option value="DHL">DHL</Option>
-                  <Option value="FedEx">FedEx</Option>
-                  <Option value="UPS">UPS</Option>
-                  <Option value="India Post">India Post</Option>
-                </Select>
-              </Form.Item>
-    
-              <Form.Item label="Tracking Code" name="trackingCode">
-                <Input placeholder="Enter Tracking Code" />
-              </Form.Item>
-    
-              <Form.Item label="Tracking URL" name="trackingUrl">
-                <Input placeholder="Enter Tracking URL" />
-              </Form.Item>
-    
-              {/* Products Table */}
-              <Table
-                columns={productColumns}
-                dataSource={selectedOrder.products}
-                rowKey="name"
-                pagination={false}
-                className="mb-4"
-                scroll={{ x: 'max-content' }}
-              />
-    
-              {/* Address Section */}
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <UserOutlined /> Address
-                </h3>
-              </div>
-    
-              <Form.Item
-                label="Address"
-                name="address"
-                rules={[{ required: true, message: 'Please enter address' }]}
-              >
-                <Input.TextArea placeholder="Enter Address" rows={4} />
-              </Form.Item>
-    
-              {/* Submit Button */}
-              <Form.Item className="text-right">
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
-      );
-    }
+    return (
+      <HsncodeList
+        hsncodes={hsncodes}
+        setHsncodes={setHsncodes}
+        setSelectedHsncode={setSelectedHsncode}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'addHsncode') {
+    return (
+      <AddHsncode
+        hsncodeForm={hsncodeForm}
+        hsncodes={hsncodes}
+        setHsncodes={setHsncodes}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editHsncode' && selectedHsncode) {
+    return (
+      <EditHsncode
+        hsncodeForm={hsncodeForm}
+        selectedHsncode={selectedHsncode}
+        hsncodes={hsncodes}
+        setHsncodes={setHsncodes}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+     if (selectedMenu === 'Order Manager') {
+    return (
+      <OrderList
+        orders={orders}
+        setOrders={setOrders}
+        setSelectedOrder={setSelectedOrder}
+        setSelectedMenu={setSelectedMenu}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+      />
+    );
+  }
+  if (selectedMenu === 'addOrder') {
+    return (
+      <AddOrder
+        orderForm={orderForm}
+        orders={orders}
+        setOrders={setOrders}
+        setSelectedMenu={setSelectedMenu}
+        products={products}
+        setProducts={setProducts}
+        orderStatuses={orderStatuses}
+        shippingStatuses={shippingStatuses}
+        serviceProviders={serviceProviders}
+        productOptions={productOptions}
+        weightOptions={weightOptions}
+        addProduct={addProduct}
+        handleProductChange={handleProductChange}
+      />
+    );
+  }
+  if (selectedMenu === 'viewOrder' && selectedOrder) {
+    return (
+      <ViewOrder
+        selectedOrder={selectedOrder}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editOrder' && selectedOrder) {
+    return (
+      <EditOrder
+        orderForm={orderForm}
+        selectedOrder={selectedOrder}
+        setOrders={setOrders}
+        setSelectedMenu={setSelectedMenu}
+        customers={customers}
+      />
+    );
+  }
     if (selectedMenu === 'Order Status') {
-      const orderStatusColumns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedOrderStatus(record);
-                  setSelectedMenu('editOrderStatus');
-                  orderStatusForm.setFieldsValue({ name: record.name });
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this order status?"
-                onConfirm={() => {
-                  setOrderStatuses(prevStatuses => prevStatuses.filter(status => status.id !== record.id));
-                  message.success('Order status deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Order Status</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Order Status List</h3>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setSelectedMenu('addOrderStatus')}
-              >
-                Add
-              </Button>
-            </div>
-            <Table
-              columns={orderStatusColumns}
-              dataSource={orderStatuses}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addOrderStatus') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Order Status</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Order Status')}>
-              Order Status List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={orderStatusForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newOrderStatus = {
-                  id: orderStatuses.length + 1,
-                  name: values.name,
-                };
-                setOrderStatuses(prevStatuses => [...prevStatuses, newOrderStatus]);
-                setSelectedMenu('Order Status');
-                orderStatusForm.resetFields();
-                message.success('Order status added successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter order status name' }]}
-              >
-                <Input placeholder="Enter Order Status Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'editOrderStatus' && selectedOrderStatus) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Order Status</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Order Status')}>
-              Order Status List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={orderStatusForm}
-              layout="vertical"
-              initialValues={{ name: selectedOrderStatus.name }}
-              onFinish={(values) => {
-                setOrderStatuses(prevStatuses =>
-                  prevStatuses.map(status =>
-                    status.id === selectedOrderStatus.id ? { ...status, name: values.name } : status
-                  )
-                );
-                setSelectedMenu('Order Status');
-                orderStatusForm.resetFields();
-                message.success('Order status updated successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter order status name' }]}
-              >
-                <Input placeholder="Enter Order Status Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'Order status') {
-      const orderStatusColumns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedOrderStatus(record);
-                  setSelectedMenu('editOrderStatus');
-                  orderStatusForm.setFieldsValue({ name: record.name });
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this order status?"
-                onConfirm={() => {
-                  setOrderStatuses(prevStatuses => prevStatuses.filter(status => status.id !== record.id));
-                  message.success('Order status deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Order Status</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Order Status List</h3>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setSelectedMenu('addOrderStatus')}
-              >
-                Add
-              </Button>
-            </div>
-            <Table
-              columns={orderStatusColumns}
-              dataSource={orderStatuses}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addOrderStatus') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Order Status</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Order status')}>
-              Order Status List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={orderStatusForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newOrderStatus = {
-                  id: orderStatuses.length + 1,
-                  name: values.name,
-                };
-                setOrderStatuses(prevStatuses => [...prevStatuses, newOrderStatus]);
-                setSelectedMenu('Order status');
-                orderStatusForm.resetFields();
-                message.success('Order status added successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter order status name' }]}
-              >
-                <Input placeholder="Enter Order Status Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
+    return (
+      <OrderStatusList
+        orderStatuses={orderStatuses}
+        setOrderStatuses={setOrderStatuses}
+        setSelectedOrderStatus={setSelectedOrderStatus}
+        setSelectedMenu={setSelectedMenu}
+        orderStatusForm={orderStatusForm}
+      />
+    );
+  }
+  if (selectedMenu === 'addOrderStatus') {
+    return (
+      <AddOrderStatus
+        orderStatusForm={orderStatusForm}
+        orderStatuses={orderStatuses}
+        setOrderStatuses={setOrderStatuses}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editOrderStatus' && selectedOrderStatus) {
+    return (
+      <EditOrderStatus
+        orderStatusForm={orderStatusForm}
+        selectedOrderStatus={selectedOrderStatus}
+        orderStatuses={orderStatuses}
+        setOrderStatuses={setOrderStatuses}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'Shipping Status') {
-      const shippingStatusColumns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedShippingStatus(record);
-                  setSelectedMenu('editShippingStatus');
-                  shippingStatusForm.setFieldsValue({ name: record.name });
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this shipping status?"
-                onConfirm={() => {
-                  setShippingStatuses(prevStatuses => prevStatuses.filter(status => status.id !== record.id));
-                  message.success('Shipping status deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Shipping Status</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Shipping Status List</h3>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setSelectedMenu('addShippingStatus')}
-              >
-                Add
-              </Button>
-            </div>
-            <Table
-              columns={shippingStatusColumns}
-              dataSource={shippingStatuses}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'addShippingStatus') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Shipping Status</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Shipping Status')}>
-              Shipping Status List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={shippingStatusForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newShippingStatus = {
-                  id: shippingStatuses.length + 1,
-                  name: values.name,
-                };
-                setShippingStatuses(prevStatuses => [...prevStatuses, newShippingStatus]);
-                setSelectedMenu('Shipping Status');
-                shippingStatusForm.resetFields();
-                message.success('Shipping status added successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter shipping status name' }]}
-              >
-                <Input placeholder="Enter Shipping Status Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'addShippingStatus') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Shipping Status</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Shipping Status')}>
-              Shipping Status List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={shippingStatusForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newShippingStatus = {
-                  id: shippingStatuses.length + 1,
-                  name: values.name,
-                };
-                setShippingStatuses(prevStatuses => [...prevStatuses, newShippingStatus]);
-                setSelectedMenu('Shipping Status');
-                shippingStatusForm.resetFields();
-                message.success('Shipping status added successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter shipping status name' }]}
-              >
-                <Input placeholder="Enter Shipping Status Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'editShippingStatus' && selectedShippingStatus) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Shipping Status</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Shipping Status')}>
-              Shipping Status List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={shippingStatusForm}
-              layout="vertical"
-              initialValues={{ name: selectedShippingStatus.name }}
-              onFinish={(values) => {
-                setShippingStatuses(prevStatuses =>
-                  prevStatuses.map(status =>
-                    status.id === selectedShippingStatus.id ? { ...status, name: values.name } : status
-                  )
-                );
-                setSelectedMenu('Shipping Status');
-                shippingStatusForm.resetFields();
-                message.success('Shipping status updated successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter shipping status name' }]}
-              >
-                <Input placeholder="Enter Shipping Status Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    return (
+      <ShippingStatusList
+        shippingStatuses={shippingStatuses}
+        setShippingStatuses={setShippingStatuses}
+        setSelectedShippingStatus={setSelectedShippingStatus}
+        setSelectedMenu={setSelectedMenu}
+        shippingStatusForm={shippingStatusForm}
+      />
+    );
+  }
+  if (selectedMenu === 'addShippingStatus') {
+    return (
+      <AddShippingStatus
+        shippingStatusForm={shippingStatusForm}
+        shippingStatuses={shippingStatuses}
+        setShippingStatuses={setShippingStatuses}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editShippingStatus' && selectedShippingStatus) {
+    return (
+      <EditShippingStatus
+        shippingStatusForm={shippingStatusForm}
+        selectedShippingStatus={selectedShippingStatus}
+        shippingStatuses={shippingStatuses}
+        setShippingStatuses={setShippingStatuses}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'Service Provider') {
-      const serviceProviderColumns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedServiceProvider(record);
-                  setSelectedMenu('editServiceProvider');
-                  serviceProviderForm.setFieldsValue({ name: record.name });
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this service provider?"
-                onConfirm={() => {
-                  setServiceProviders(prevProviders => prevProviders.filter(provider => provider.id !== record.id));
-                  message.success('Service provider deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Service Provider</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Service Provider List</h3>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setSelectedMenu('addServiceProvider')}
-              >
-                Add
-              </Button>
-            </div>
-            <Table
-              columns={serviceProviderColumns}
-              dataSource={serviceProviders}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'addServiceProvider') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add Service Provider</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Service Provider')}>
-              Service Provider List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={serviceProviderForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newServiceProvider = {
-                  id: serviceProviders.length + 1,
-                  name: values.name,
-                };
-                setServiceProviders(prevProviders => [...prevProviders, newServiceProvider]);
-                setSelectedMenu('Service Provider');
-                serviceProviderForm.resetFields();
-                message.success('Service provider added successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter service provider name' }]}
-              >
-                <Input placeholder="Enter Service Provider Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editServiceProvider' && selectedServiceProvider) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Service Provider</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Service Provider')}>
-              Service Provider List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={serviceProviderForm}
-              layout="vertical"
-              initialValues={{ name: selectedServiceProvider.name }}
-              onFinish={(values) => {
-                setServiceProviders(prevProviders =>
-                  prevProviders.map(provider =>
-                    provider.id === selectedServiceProvider.id ? { ...provider, name: values.name } : provider
-                  )
-                );
-                setSelectedMenu('Service Provider');
-                serviceProviderForm.resetFields();
-                message.success('Service provider updated successfully');
-              }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter service provider name' }]}
-              >
-                <Input placeholder="Enter Service Provider Name" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'customerManager') { 
-      console.log("Rendering Customer Manager Page"); 
-      const customerColumns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        { title: 'Mobile', dataIndex: 'mobile', key: 'mobile' },
-        { title: 'Email', dataIndex: 'email', key: 'email' },
-        { title: 'Gender', dataIndex: 'gender', key: 'gender' },
-        { title: 'DOB', dataIndex: 'dob', key: 'dob' },
-        { title: 'Status', dataIndex: 'status', key: 'status' , width: 100,},
-        { title: 'CreatedAt', dataIndex: 'createdAt', key: 'createdAt' },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => {
-                  setSelectedCustomer(record);
-                  setSelectedMenu('editCustomer');
-                  customerForm.setFieldsValue({
-                    name: record.name,
-                    email: record.email,
-                    mobile: record.mobile,
-                    gender: record.gender,
-                    dob: record.dob,
-                    status: record.status,
-                    shippingAddress: record.shippingAddress,
-                    address: record.address,
-                  });
-                }}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure you want to delete this customer?"
-                onConfirm={() => {
-                  setCustomers(prevCustomers => prevCustomers.filter(customer => customer.id !== record.id));
-                  message.success('Customer deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-                icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Customer</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Customer List</h3>
-              <div className="flex flex-col items-end gap-2">
-                <div className="flex gap-2">
-                  <Button
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => setSelectedMenu('addCustomer')}
-                  >
-                    Add
-                  </Button>
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-2">Search:</span>
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    className="border p-1 rounded"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center mb-4 gap-4">
-              <div className="flex items-center">
-                <span className="mr-2">Show</span>
-                <select
-                  value={pageSize}
-                  onChange={(e) => setPageSize(Number(e.target.value))}
-                  className="border p-1 rounded"
-                >
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-                <span className="ml-2">entries</span>
-              </div>
-            </div>
-            <Table
-              columns={customerColumns}
-              dataSource={customers}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-            <div className="mt-4">
-              <span>Showing 1 to {Math.min(pageSize, customers.length)} of {customers.length} entries</span>
-            </div>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'addCustomer') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Customer</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('customerManager')}>
-              Customer List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={customerForm}
-              layout="vertical"
-              onFinish={(values) => {
-                const newCustomer = {
-                  id: customers.length + 1,
-                  name: values.name,
-                  email: values.email,
-                  mobile: values.mobile,
-                  gender: values.gender,
-                  dob: values.dob,
-                  status: values.status || 'ON',
-                  createdAt: new Date().toLocaleDateString(),
-                  shippingAddress: values.shippingAddress,
-                  address: values.address,
-                };
-                setCustomers(prevCustomers => [...prevCustomers, newCustomer]);
-                setSelectedMenu('customerManager'); // यहाँ भी सही करें
-                customerForm.resetFields();
-                message.success('Customer added successfully');
-              }}
-            >
-              <Form.Item
-                label="Full Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter full name' }]}
-              >
-                <Input placeholder="Enter Full Name" />
-              </Form.Item>
-              <Form.Item
-                label="Email Address"
-                name="email"
-                rules={[{ required: true, message: 'Please enter email address' }]}
-              >
-                <Input placeholder="Enter Email Address" />
-              </Form.Item>
-              <Form.Item
-                label="Mobile"
-                name="mobile"
-                rules={[{ required: true, message: 'Please enter mobile number' }]}
-              >
-                <Input placeholder="Enter Mobile Number" />
-              </Form.Item>
-              <Form.Item
-                label="Gender"
-                name="gender"
-                rules={[{ required: true, message: 'Please select gender' }]}
-              >
-                <Select placeholder="Select Gender">
-                  <Option value="Male">Male</Option>
-                  <Option value="Female">Female</Option>
-                  <Option value="Other">Other</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Date of Birth"
-                name="dob"
-                rules={[{ required: true, message: 'Please enter date of birth' }]}
-              >
-                <Input placeholder="mm/dd/yyyy" />
-              </Form.Item>
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please enter password' }]}
-              >
-                <Input.Password placeholder="Enter Password" />
-              </Form.Item>
-              <Form.Item
-                label="Shipping Address"
-                name="shippingAddress"
-              >
-                <Input.TextArea placeholder="Enter Shipping Address" />
-              </Form.Item>
-              <Form.Item
-                label="Address"
-                name="address"
-              >
-                <Input.TextArea placeholder="Enter Address" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'editCustomer' && selectedCustomer) {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Customer</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('customerManager')}>
-              Customer List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              form={customerForm}
-              layout="vertical"
-              initialValues={{
-                name: selectedCustomer.name,
-                email: selectedCustomer.email,
-                mobile: selectedCustomer.mobile,
-                gender: selectedCustomer.gender,
-                dob: selectedCustomer.dob,
-                status: selectedCustomer.status,
-                shippingAddress: selectedCustomer.shippingAddress,
-                address: selectedCustomer.address,
-              }}
-              onFinish={(values) => {
-                setCustomers(prevCustomers =>
-                  prevCustomers.map(customer =>
-                    customer.id === selectedCustomer.id
-                      ? {
-                          ...customer,
-                          name: values.name,
-                          email: values.email,
-                          mobile: values.mobile,
-                          gender: values.gender,
-                          dob: values.dob,
-                          status: values.status,
-                          shippingAddress: values.shippingAddress,
-                          address: values.address,
-                        }
-                      : customer
-                  )
-                );
-                setSelectedMenu('customerManager'); 
-                customerForm.resetFields();
-                message.success('Customer updated successfully');
-              }}
-            >
-              <Form.Item
-                label="Full Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter full name' }]}
-              >
-                <Input placeholder="Enter Full Name" />
-              </Form.Item>
-              <Form.Item
-                label="Email Address"
-                name="email"
-                rules={[{ required: true, message: 'Please enter email address' }]}
-              >
-                <Input placeholder="Enter Email Address" />
-              </Form.Item>
-              <Form.Item
-                label="Mobile"
-                name="mobile"
-                rules={[{ required: true, message: 'Please enter mobile number' }]}
-              >
-                <Input placeholder="Enter Mobile Number" />
-              </Form.Item>
-              <Form.Item
-                label="Gender"
-                name="gender"
-                rules={[{ required: true, message: 'Please select gender' }]}
-              >
-                <Select placeholder="Select Gender">
-                  <Option value="Male">Male</Option>
-                  <Option value="Female">Female</Option>
-                  <Option value="Other">Other</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Date of Birth"
-                name="dob"
-                rules={[{ required: true, message: 'Please enter date of birth' }]}
-              >
-                <Input placeholder="mm/dd/yyyy" />
-              </Form.Item>
-              <Form.Item
-                label="Status"
-                name="status"
-                rules={[{ required: true, message: 'Please select status' }]}
-              >
-                <Select placeholder="Select Status">
-                  <Option value="ON">Active</Option>
-                  <Option value="OFF">Inactive</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Shipping Address"
-                name="shippingAddress"
-              >
-                <Input.TextArea placeholder="Enter Shipping Address" />
-              </Form.Item>
-              <Form.Item
-                label="Address"
-                name="address"
-              >
-                <Input.TextArea placeholder="Enter Address" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
+    return (
+      <ServiceProviderList
+        serviceProviders={serviceProviders}
+        setServiceProviders={setServiceProviders}
+        setSelectedServiceProvider={setSelectedServiceProvider}
+        setSelectedMenu={setSelectedMenu}
+        serviceProviderForm={serviceProviderForm}
+      />
+    );
+  }
+  if (selectedMenu === 'addServiceProvider') {
+    return (
+      <AddServiceProvider
+        serviceProviderForm={serviceProviderForm}
+        serviceProviders={serviceProviders}
+        setServiceProviders={setServiceProviders}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editServiceProvider' && selectedServiceProvider) {
+    return (
+      <EditServiceProvider
+        serviceProviderForm={serviceProviderForm}
+        selectedServiceProvider={selectedServiceProvider}
+        serviceProviders={serviceProviders}
+        setServiceProviders={setServiceProviders}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+    if (selectedMenu === 'customerManager') {
+    return (
+      <CustomerManagerList
+        customers={customers}
+        setCustomers={setCustomers}
+        setSelectedCustomer={setSelectedCustomer}
+        setSelectedMenu={setSelectedMenu}
+        customerForm={customerForm}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+      />
+    );
+  }
+  if (selectedMenu === 'addCustomer') {
+    return (
+      <AddCustomer
+        customerForm={customerForm}
+        customers={customers}
+        setCustomers={setCustomers}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu === 'editCustomer' && selectedCustomer) {
+    return (
+      <EditCustomer
+        customerForm={customerForm}
+        selectedCustomer={selectedCustomer}
+        customers={customers}
+        setCustomers={setCustomers}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'payment') {
-      console.log("Rendering Payment List Page");
-      const paymentColumns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'USER', dataIndex: 'user', key: 'user' },
-        { title: 'PAYMENT ID', dataIndex: 'paymentId', key: 'paymentId' },
-        {
-          title: 'AMOUNT',
-          dataIndex: 'amount',
-          key: 'amount',
-          width: 100,
-          render: (amount) => (amount !== undefined && amount !== null ? amount : 'N/A'),
-        },
-        { title: 'PRODUCT', dataIndex: 'product', key: 'product' },
-        { title: 'CREATED AT', dataIndex: 'createdAt', key: 'createdAt' },
-      ];
-    
-      const paymentData = [
-        {
-          id: 1,
-          user: 'sohinghosh3108@gmail.com',
-          paymentId: '65446252721c0e3417288b',
-          amount: 972,
-          product: '1. Organic Wild Forest Honey\n2. Face Pack Powder\n3. Amla Pachak (Pack of Four)',
-          createdAt: '11/3/2023, 8:30:34 AM',
-        },
-        {
-          id: 2,
-          user: 'kulhadebittu@gmail.com',
-          paymentId: '6537eba5721c0e34164df4',
-          amount: 829,
-          product: '1. Face Pack Powder\n2. Organic Wild Forest Honey\n3. Amla Pachak (Pack of Four)',
-          createdAt: '10/24/2023, 9:37:01 PM',
-        },
-        {
-          id: 3,
-          user: 'kulhadebittu@gmail.com',
-          paymentId: '6537ebb721c0e34164df85',
-          amount: 829,
-          product: '1. Face Pack Powder\n2. Organic Wild Forest Honey\n3. Amla Pachak (Pack of Four)',
-          createdAt: '10/24/2023, 9:36:31 PM',
-        },
-        {
-          id: 4,
-          user: 'sheshagiri.v1@gmail.com',
-          paymentId: '6530d59721c0e3415c8eb',
-          amount: 2227,
-          product: '1. Organic Wild Forest Honey\n2. CTC Tea',
-          createdAt: '10/19/2023, 12:37:04 PM',
-        },
-        {
-          id: 5,
-          user: 'gaurang.mathur95@gmail.com',
-          paymentId: '652ed08721c0e3415b61b2',
-          amount: 330,
-          product: '1. Triphala Churna',
-          createdAt: '10/17/2023, 11:52:16 PM',
-        },
-        {
-          id: 6,
-          user: 'amitupadhyay1987@gmail.com',
-          paymentId: '652be97221c0e3415859e',
-          amount: 684,
-          product: '1. Wild Forest Honey',
-          createdAt: '10/15/2023, 7:32:17 PM',
-        },
-        {
-          id: 7,
-          user: 'bhuwnesh.shrivastava@gmail.com',
-          paymentId: '652bd72821c0e341507dab',
-          amount: 11,
-          product: '1. Lemon Soap',
-          createdAt: '10/13/2023, 11:05:38 AM',
-        },
-        {
-          id: 8,
-          user: 'akm249@yahoo.com',
-          paymentId: '652b375021c0e341491e84',
-          amount: 295,
-          product: '1. Ashwagandha Churna\n2. Madhumeh Nashak Churna',
-          createdAt: '10/11/2023, 3:35:06 PM',
-        },
-        {
-          id: 9,
-          user: 'dilipukpwade@gmail.com',
-          paymentId: '652b026b721c0e3414596fc',
-          amount: 684,
-          product: '1. Organic Wild Forest Honey',
-          createdAt: '10/11/2023, 7:33:23 AM',
-        },
-        {
-          id: 10,
-          user: 'dilipukpwade@gmail.com',
-          paymentId: '652b0269721c0e341459668',
-          amount: 684,
-          product: '1. Organic Wild Forest Honey',
-          createdAt: '10/11/2023, 7:33:21 AM',
-        },
-        {
-          id: 11,
-          user: 'bd.anikpatpal@gmail.com',
-          paymentId: '65237703721c0e341451d5b',
-          amount: 655.2,
-          product: '1. Aloevera Soothing Gel\n2. Aloevera Shampoo',
-          createdAt: '10/10/2023, 9:38:35 PM',
-        },
-        {
-          id: 12,
-          user: 'harishkumarcam@gmail.com',
-          paymentId: '652415e5721c0e3414b0f5',
-          amount: 684,
-          product: '1. Wild Forest Honey',
-          createdAt: '10/9/2023, 8:31:57 PM',
-        },
-        {
-          id: 13,
-          user: 'sohinghosh3108@gmail.com',
-          paymentId: '652123d4721c0e3413730d4',
-          amount: 684,
-          product: '1. Organic Wild Forest Honey',
-          createdAt: '10/7/2023, 2:52:21 PM',
-        },
-        {
-          id: 14,
-          user: 'bvrao.hpcl@gmail.com',
-          paymentId: '65211489721c0e341369b8a',
-          amount: 684,
-          product: '1. Organic Wild Forest Honey',
-          createdAt: '10/7/2023, 1:49:21 PM',
-        },
-      ];
-    
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Payment</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Payment List</h3>
-              <div className="flex items-center">
-                <span className="mr-2">Search:</span>
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="border p-1 rounded"
-                />
-              </div>
-            </div>
-            <Table
-              columns={paymentColumns}
-              dataSource={paymentData}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-        </div>
-      );
-    }
+    return <PaymentList />;
+  }
     if (selectedMenu === 'inventory') {
-      console.log("Rendering Inventory Page");
-      const inventoryColumns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'IMAGE', dataIndex: 'image', key: 'image' },
-        { title: 'TITLE', dataIndex: 'title', key: 'title' },
-        { title: 'CATEGORY', dataIndex: 'category', key: 'category' },
-        { title: 'SUBCATEGORY', dataIndex: 'subcategory', key: 'subcategory' },
-        { title: 'WT/QUANTITY', dataIndex: 'wtQuantity', key: 'wtQuantity' },
-        {
-          title: 'VIEW',
-          key: 'view',
-          render: () => <Button>View</Button>,
-        },
-      ];
-  
-      const inventoryData = []; //blank because data is not available 
-      const handleExportToExcel = () => {
-        const csv = [
-          ['Order ID,Email,Payment Status,Order Mode,Qty,Price,Order Status,Shipping Status,Created At'],
-          ...orders.map(order => [
-            order.id, order.email, order.paymentStatus, order.orderMode, order.qty, order.price,
-            order.orderStatus, order.shippingStatus, order.createdAt
-          ].join(','))
-        ].join('\n');
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Inventory.csv';
-        a.click();
-      };
-  
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Inventory</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Inventory</h3>
-              <div className="flex items-center gap-2">
-              <Button
-                    type="primary"
-                    icon={<FileExcelOutlined />}
-                    onClick={handleExportToExcel}
-                    className="bg-green-500"
-                  >
-                    Excel
-                  </Button>
-              </div>
-            </div>
-            <Table
-              columns={inventoryColumns}
-              dataSource={inventoryData}
-              rowKey="id"
-              pagination={false}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-        </div>
-      );
+    return <InventoryList />;
+  }
+  if (selectedMenu === 'Coupons') {
+  return (
+    <Coupons
+      couponList={couponList}
+      pageSize={pageSize}
+      setSelectedMenu={setSelectedMenu}
+      handleDeleteCoupon={handleDeleteCoupon}
+    />
+  );
+}
+if (selectedMenu === 'addCoupon') {
+  return (
+    <AddCoupon
+      handleAddCoupon={(newCoupon) => {
+        setCouponList([...couponList, { id: Date.now(), ...newCoupon }]);
+        message.success('Coupon added successfully');
+        setSelectedMenu('Coupons');
+      }}
+      setSelectedMenu={setSelectedMenu}
+    />
+  );
+}
+if (selectedMenu.startsWith('editCoupon/')) {
+  const couponId = selectedMenu.split('/')[1];
+  const coupon = couponList.find(c => c.id === parseInt(couponId));
+  if (!coupon) {
+    return <div>Coupon not found</div>;
+  }
+  return (
+    <EditCoupon
+      coupon={coupon}
+      handleUpdateCoupon={(updatedCoupon) => {
+        setCouponList(couponList.map(c => (c.id === coupon.id ? { ...c, ...updatedCoupon } : c)));
+        message.success('Coupon updated successfully');
+        setSelectedMenu('Coupons');
+      }}
+      setSelectedMenu={setSelectedMenu}
+    />
+  );
+}
+  if (selectedMenu === 'Volunteer') {
+  return (
+    <Volunteer
+      volunteerRequests={volunteerRequests}
+      setVolunteerRequests={setVolunteerRequests}
+      pageSize={pageSize}
+    />
+  );
+}
+  if (selectedMenu === 'Forest Lover') {
+  return (
+    <ForestLover
+      forestLoverRequests={volunteerRequests}
+      setForestLoverRequests={setVolunteerRequests}
+      pageSize={pageSize}
+    />
+  );
+}
+
+ if (selectedMenu === 'faq') {
+    return (
+      <FAQ
+        faqData={faqData}
+        setFaqData={setFaqData}
+        setSelectedMenu={setSelectedMenu}
+        pageSize={pageSize}
+      />
+    );
+  }
+  if (selectedMenu === 'addFAQ') {
+    return (
+      <AddFAQ
+        faqData={faqData}
+        setFaqData={setFaqData}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu.startsWith('editFAQ/')) {
+    const faqId = selectedMenu.split('/')[1];
+    const faq = faqData.find(f => f.id === parseInt(faqId));
+    if (!faq) {
+      return <div>FAQ not found</div>;
     }
-   
-    if (selectedMenu === 'Coupons') {
-      const couponData = [
-        { id: 1, code: "CODE50", amount: 50, percent: "", status: "On", createdAt: "15-02-2022" },
-        { id: 2, code: "NEWUSER", amount: 100, percent: "", status: "On", createdAt: "15-02-2022" },
-        { id: 3, code: "xyz12345", amount: 50, percent: "", status: "Off", createdAt: "11-04-2022" },
-      ];
-
-      const columns = [
-        { title: "ID", dataIndex: "id", key: "id" },
-        { title: "COUPON CODE", dataIndex: "code", key: "code" },
-        { title: "AMOUNT", dataIndex: "amount", key: "amount" },
-        { title: "PERCENT", dataIndex: "percent", key: "percent" , width: 100, },
-        { 
-          title: "STATUS", 
-          dataIndex: "status", 
-          key: "status", 
-          render: (text) => (
-            <span className={text === "On" ? "text-green-500" : "text-red-500"}>{text}</span>
-          )
-        },
-        { title: "CREATEDAT", dataIndex: "createdAt", key: "createdAt" },
-        {
-          title: "ACTION",
-          key: "action",
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => setSelectedMenu(`editCoupon/${record.id}`)}
-                className="text-yellow-500 border-yellow-500"
-              >      
-              </Button>
-              <Popconfirm
-                title="Are you sure to delete this coupon?"
-                onConfirm={() => {
-                  
-                  message.success('Coupon deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                >
-                </Button>
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Coupons</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Coupons List</h3>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setSelectedMenu('addCoupon')}
-              >
-                Add
-              </Button>
-            </div>
-            <Table
-              columns={columns}
-              dataSource={couponData}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
+    return (
+      <EditFAQ
+        faq={faq}
+        faqData={faqData}
+        setFaqData={setFaqData}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+   if (selectedMenu === 'grievanceCategory') {
+    return (
+      <GrievanceCategory
+        grievanceData={grievanceData}
+        setGrievanceData={setGrievanceData}
+        setSelectedMenu={setSelectedMenu}
+        pageSize={pageSize}
+      />
+    );
+  }
+  if (selectedMenu === 'addGrievance') {
+    return (
+      <AddGrievance
+        grievanceData={grievanceData}
+        setGrievanceData={setGrievanceData}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
+  if (selectedMenu.startsWith('editGrievance/')) {
+    const grievanceId = selectedMenu.split('/')[1];
+    const grievance = grievanceData.find(g => g.id === parseInt(grievanceId));
+    if (!grievance) {
+      return <div>Grievance not found</div>;
     }
-
-    if (selectedMenu === 'addCoupon') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Coupon</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Coupons')}>
-              Coupons List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              layout="vertical"
-              onFinish={(values) => {
-                message.success('Coupon added successfully');
-                setSelectedMenu('Coupons');
-              }}
-            >
-              <Form.Item
-                label="COUPON CODE"
-                name="code"
-                rules={[{ required: true, message: 'Please enter coupon code' }]}
-              >
-                <Input placeholder="Enter coupon code" />
-              </Form.Item>
-              <Form.Item
-                label="OFFER TYPE"
-                name="offerType"
-                rules={[{ required: true, message: 'Please select offer type' }]}
-              >
-                <Select placeholder="Select Type">
-                  <Select.Option value="amount">Amount</Select.Option>
-                  <Select.Option value="percent">Percent</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="VALUE"
-                name="value"
-                rules={[{ required: true, message: 'Please enter value' }]}
-              >
-                <Input placeholder="Enter value" />
-              </Form.Item>
-              <Form.Item
-                label="DESCRIPTION"
-                name="description"
-              >
-                <Input.TextArea rows={4} placeholder="Enter description" />
-              </Form.Item>
-              <Form.Item
-                label="STATUS"
-                name="status"
-                valuePropName="checked"
-              >
-                <Checkbox defaultChecked>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Add Coupon
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-
-    if (selectedMenu.startsWith('editCoupon/')) {
-      const couponId = selectedMenu.split('/')[1];
-      const couponData = [
-        { id: 1, code: "CODE50", amount: 50, percent: "", status: "On", createdAt: "15-02-2022" },
-        { id: 2, code: "NEWUSER", amount: 100, percent: "", status: "On", createdAt: "15-02-2022" },
-        { id: 3, code: "xyz12345", amount: 50, percent: "", status: "Off", createdAt: "11-04-2022" },
-      ];
-      const coupon = couponData.find(c => c.id === parseInt(couponId));
-
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Coupon</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('Coupons')}>
-              Coupons List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              layout="vertical"
-              initialValues={{
-                code: coupon?.code,
-                offerType: coupon?.amount ? 'amount' : 'percent',
-                value: coupon?.amount || coupon?.percent,
-                description: "New Offer",
-                status: coupon?.status === "On",
-              }}
-              onFinish={(values) => {
-                
-                message.success('Coupon updated successfully');
-                setSelectedMenu('Coupons');
-              }}
-            >
-              <Form.Item
-                label="COUPON CODE"
-                name="code"
-                rules={[{ required: true, message: 'Please enter coupon code' }]}
-              >
-                <Input placeholder="Enter coupon code" />
-              </Form.Item>
-              <Form.Item
-                label="OFFER TYPE"
-                name="offerType"
-                rules={[{ required: true, message: 'Please select offer type' }]}
-              >
-                <Select placeholder="Select Type">
-                  <Select.Option value="amount">Amount</Select.Option>
-                  <Select.Option value="percent">Percent</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="VALUE"
-                name="value"
-                rules={[{ required: true, message: 'Please enter value' }]}
-              >
-                <Input placeholder="Enter value" />
-              </Form.Item>
-              <Form.Item
-                label="DESCRIPTION"
-                name="description"
-              >
-                <Input.TextArea rows={4} placeholder="Enter description" />
-              </Form.Item>
-              <Form.Item
-                label="STATUS"
-                name="status"
-                valuePropName="checked"
-              >
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update Coupon
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-          <footer className="mt-8 text-center text-gray-600">
-            Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.
-          </footer>
-        </div>
-      );
-    }
-    if (selectedMenu === 'Volunteer') {
-      const requestData = [
-        { id: 1, firstName: "Ajay", lastName: "Dewangan", email: "ajaydewangan215@gmail.com", mobile: "7999672902", createdAt: "25.04.2022" },
-        { id: 2, firstName: "Aayush", lastName: "Nandeshwar", email: "aayushnandeshwar9@gmail.com", mobile: "747110458", createdAt: "05.06.2023" },
-      ];
-
-      const columns = [
-        { title: "ID", dataIndex: "id", key: "id" },
-        { title: "FIRST NAME", dataIndex: "firstName", key: "firstName" },
-        { title: "LAST NAME", dataIndex: "lastName", key: "lastName" },
-        { title: "EMAIL", dataIndex: "email", key: "email" },
-        { title: "MOBILE", dataIndex: "mobile", key: "mobile" },
-        { title: "CREATEDAT", dataIndex: "createdAt", key: "createdAt" },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Request</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Request List</h3>
-              <Input.Search
-                placeholder="Search"
-                style={{ width: 200 }}
-                onSearch={(value) => console.log(value)}
-              />
-            </div>
-            <Table
-              columns={columns}
-              dataSource={requestData}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-        </div>
-      );
-    }
-    if (selectedMenu === 'Forest Lover') {
-      const requestData = [
-        { id: 1, firstName: "Ajay", lastName: "Dewangan", email: "ajaydewangan215@gmail.com", mobile: "7999672902", createdAt: "25.04.2022" },
-        { id: 2, firstName: "Aayush", lastName: "Nandeshwar", email: "aayushnandeshwar9@gmail.com", mobile: "747110458", createdAt: "05.06.2023" },
-      ];
-
-      const columns = [
-        { title: "ID", dataIndex: "id", key: "id" },
-        { title: "FIRST NAME", dataIndex: "firstName", key: "firstName" },
-        { title: "LAST NAME", dataIndex: "lastName", key: "lastName" },
-        { title: "EMAIL", dataIndex: "email", key: "email" },
-        { title: "MOBILE", dataIndex: "mobile", key: "mobile" },
-        { title: "CREATEDAT", dataIndex: "createdAt", key: "createdAt" },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Request</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Request List</h3>
-              <Input.Search
-                placeholder="Search"
-                style={{ width: 200 }}
-                onSearch={(value) => console.log(value)}
-              />
-            </div>
-            <Table
-              columns={columns}
-              dataSource={requestData}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-        </div>
-      );
-    }
-    if (selectedMenu === 'faq') {
-      const faqData = [
-        { id: 1, question: "How do I place an order?", answer: "Step 1: Pick the product of your choice. Step 2: Click on SHOP NOW. Step 3: Click on ADD TO CART the products you wish to purchase. Step 4: Click on PLACE ORDER Step 5: Fill out your personal details required for the delivery of your order. Step 6: Choose a payment option most convenient to you. Step 7: Confirm & place your order." },
-        { id: 2, question: "Can I ship the products to an address that is different from my billing address?", answer: "Yes, you can do this by filling in your address in the 'Billing address'. Check the box that says 'Is this order a gift?' and enter the details of the address you wish to ship it to in the box below it." },
-        { id: 3, question: "How do I know that my order is confirmed?", answer: "For all orders, the confirmation status will be automatically updated in the 'My Profile' section." },
-        { id: 4, question: "Do I have to have an account to place an order?", answer: "We strongly recommend making an account on our website to make your shopping experience swift and simple. This will also help you enjoy special benefits as well as share ratings and review our products as per your experience." },
-        { id: 5, question: "Can I order a product that is 'Out of Stock'?", answer: "Unfortunately, products listed as 'Out of Stock' are not available for immediate sale. We consistently restock our products, so rest assured that it will be back in stock soon." },
-        { id: 6, question: "How safe is it to use my Debit/Credit card and make an online payment on Chattisgarh Herbals?", answer: "All transactions at Chattisgarh Herbals Online are protected by SSL (Secure Sockets Layer) and Secure Data Encryption using a 1024-bit process. Any information you enter when transacting with Chattisgarh Herbals Online is sent in a Secure Socket Layer (SSL) session and is encrypted to protect you against unintentional disclosure to third parties. This is an assurance that we follow the best security practices adopted by major online vendors, where all payments are processed in real-time for your security and immediate peace of mind. You can tell if you are in secure mode at 'Checkout', by looking for the padlock icon at the bottom corner or at the end of the address bar of your browser window." },
-        { id: 7, question: "Why was my online payment rejected?", answer: "There are various reasons why this may have happened ranging from validity of card/net banking details, insufficient funds in the account to technical difficulties. If you were recently issued a new card, some of the information may have changed. In that case, please confirm your credit card details and try again. Also, check that your name and address match the name and address on your current credit card." },
-        { id: 8, question: "I cannot complete my registration, what do I do?", answer: "Contact us, detailing the problem you have encountered. You can either email us on support@chattisgarhherbals.com and our Customer Care will be happy to assist you." },
-      ];
-
-      const columns = [
-        { title: "ID", dataIndex: "id", key: "id"  , width: 100},
-        { title: "QUESTION", dataIndex: "question", key: "question" },
-        { title: "ANSWER", dataIndex: "answer", key: "answer" },
-        {
-          title: "ACTION",
-          key: "action",
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => setSelectedMenu(`editFAQ/${record.id}`)}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure to delete this FAQ?"
-                onConfirm={() => {
-                  message.success('FAQ deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">FAQ</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">FAQ List</h3>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setSelectedMenu('addFAQ')}
-              >
-                Add
-              </Button>
-            </div>
-            <Table
-              columns={columns}
-              dataSource={faqData}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addFAQ') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New FAQ</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('faq')}>
-              FAQ List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              layout="vertical"
-              onFinish={(values) => {
-                message.success('FAQ added successfully');
-                setSelectedMenu('faq');
-              }}
-            >
-              <Form.Item
-                label="QUESTION"
-                name="question"
-                rules={[{ required: true, message: 'Please enter the question' }]}
-              >
-                <Input placeholder="Enter question" />
-              </Form.Item>
-              <Form.Item
-                label="ANSWER"
-                name="answer"
-                rules={[{ required: true, message: 'Please enter the answer' }]}
-              >
-                <Input.TextArea rows={4} placeholder="Enter answer" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
-      );
-    }
-
-    if (selectedMenu.startsWith('editFAQ/')) {
-      const faqId = selectedMenu.split('/')[1];
-      const faqData = [
-        { id: 1, question: "How do I place an order?", answer: "Step 1: Pick the product of your choice. Step 2: Click on SHOP NOW. Step 3: Click on ADD TO CART the products you wish to purchase. Step 4: Click on PLACE ORDER Step 5: Fill out your personal details required for the delivery of your order. Step 6: Choose a payment option most convenient to you. Step 7: Confirm & place your order." },
-        { id: 2, question: "Can I ship the products to an address that is different from my billing address?", answer: "Yes, you can do this by filling in your address in the 'Billing address'. Check the box that says 'Is this order a gift?' and enter the details of the address you wish to ship it to in the box below it." },
-        { id: 3, question: "How do I know that my order is confirmed?", answer: "For all orders, the confirmation status will be automatically updated in the 'My Profile' section." },
-        { id: 4, question: "Do I have to have an account to place an order?", answer: "We strongly recommend making an account on our website to make your shopping experience swift and simple. This will also help you enjoy special benefits as well as share ratings and review our products as per your experience." },
-        { id: 5, question: "Can I order a product that is 'Out of Stock'?", answer: "Unfortunately, products listed as 'Out of Stock' are not available for immediate sale. We consistently restock our products, so rest assured that it will be back in stock soon." },
-        { id: 6, question: "How safe is it to use my Debit/Credit card and make an online payment on Chattisgarh Herbals?", answer: "All transactions at Chattisgarh Herbals Online are protected by SSL (Secure Sockets Layer) and Secure Data Encryption using a 1024-bit process. Any information you enter when transacting with Chattisgarh Herbals Online is sent in a Secure Socket Layer (SSL) session and is encrypted to protect you against unintentional disclosure to third parties. This is an assurance that we follow the best security practices adopted by major online vendors, where all payments are processed in real-time for your security and immediate peace of mind. You can tell if you are in secure mode at 'Checkout', by looking for the padlock icon at the bottom corner or at the end of the address bar of your browser window." },
-        { id: 7, question: "Why was my online payment rejected?", answer: "There are various reasons why this may have happened ranging from validity of card/net banking details, insufficient funds in the account to technical difficulties. If you were recently issued a new card, some of the information may have changed. In that case, please confirm your credit card details and try again. Also, check that your name and address match the name and address on your current credit card." },
-        { id: 8, question: "I cannot complete my registration, what do I do?", answer: "Contact us, detailing the problem you have encountered. You can either email us on support@chattisgarhherbals.com and our Customer Care will be happy to assist you." },
-      ];
-      const faq = faqData.find(f => f.id === parseInt(faqId));
-
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit FAQ</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('faq')}>
-              FAQ List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              layout="vertical"
-              initialValues={{
-                question: faq?.question,
-                answer: faq?.answer,
-              }}
-              onFinish={(values) => {
-                message.success('FAQ updated successfully');
-                setSelectedMenu('faq');
-              }}
-            >
-              <Form.Item
-                label="QUESTION"
-                name="question"
-                rules={[{ required: true, message: 'Please enter the question' }]}
-              >
-                <Input placeholder="Enter question" />
-              </Form.Item>
-              <Form.Item
-                label="ANSWER"
-                name="answer"
-                rules={[{ required: true, message: 'Please enter the answer' }]}
-              >
-                <Input.TextArea rows={4} placeholder="Enter answer" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'grievanceCategory') {
-      const grievanceData = [
-        { id: 1, name: "Support and Feedback", status: "Active" },
-        { id: 2, name: "Grievances", status: "Active" },
-      ];
-
-      const columns = [
-        { title: "ID", dataIndex: "id", key: "id" },
-        { title: "NAME", dataIndex: "name", key: "name" },
-        { 
-          title: "STATUS", 
-          dataIndex: "status", 
-          key: "status", 
-          render: (text) => (
-            <span className={text === "Active" ? "text-green-500" : "text-red-500"}>{text}</span>
-          )
-        },
-        {
-          title: "ACTION",
-          key: "action",
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => setSelectedMenu(`editGrievance/${record.id}`)}
-                className="text-yellow-500 border-yellow-500"
-              />
-              <Popconfirm
-                title="Are you sure to delete this grievance category?"
-                onConfirm={() => {
-                  message.success('Grievance category deleted successfully');
-                }}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  className="text-red-500 border-red-500"
-                />
-              </Popconfirm>
-            </div>
-          ),
-        },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Grievance Category</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Grievance List</h3>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setSelectedMenu('addGrievance')}
-              >
-                Add
-              </Button>
-            </div>
-            <Table
-              columns={columns}
-              dataSource={grievanceData}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-        </div>
-      );
-    }
-
-    if (selectedMenu === 'addGrievance') {
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Add New Grievance</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('grievanceCategory')}>
-              Grievance List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              layout="vertical"
-              onFinish={(values) => {
-                message.success('Grievance category added successfully');
-                setSelectedMenu('grievanceCategory');
-              }}
-            >
-              <Form.Item
-                label="NAME"
-                name="name"
-                rules={[{ required: true, message: 'Please enter the name' }]}
-              >
-                <Input placeholder="Enter name" />
-              </Form.Item>
-              <Form.Item
-                label="STATUS"
-                name="status"
-                valuePropName="checked"
-              >
-                <Checkbox defaultChecked>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
-      );
-    }
-
-    if (selectedMenu.startsWith('editGrievance/')) {
-      const grievanceId = selectedMenu.split('/')[1];
-      const grievanceData = [
-        { id: 1, name: "Support and Feedback", status: "Active" },
-        { id: 2, name: "Grievances", status: "Active" },
-      ];
-      const grievance = grievanceData.find(g => g.id === parseInt(grievanceId));
-
-      return (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Edit Grievance</h2>
-            <Button type="primary" onClick={() => setSelectedMenu('grievanceCategory')}>
-              Grievance List
-            </Button>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <Form
-              layout="vertical"
-              initialValues={{
-                name: grievance?.name,
-                status: grievance?.status === "Active",
-              }}
-              onFinish={(values) => {
-                message.success('Grievance category updated successfully');
-                setSelectedMenu('grievanceCategory');
-              }}
-            >
-              <Form.Item
-                label="NAME"
-                name="name"
-                rules={[{ required: true, message: 'Please enter the name' }]}
-              >
-                <Input placeholder="Enter name" />
-              </Form.Item>
-              <Form.Item
-                label="STATUS"
-                name="status"
-                valuePropName="checked"
-              >
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Update
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
-      );
-    }
+    return (
+      <EditGrievance
+        grievance={grievance}
+        grievanceData={grievanceData}
+        setGrievanceData={setGrievanceData}
+        setSelectedMenu={setSelectedMenu}
+      />
+    );
+  }
     if (selectedMenu === 'grievanceUserData') {
-      const userData = []; // Screenshot ke hisaab se abhi data khali hai
-
-      const columns = [
-        { title: "ID", dataIndex: "id", key: "id" },
-        { title: "FIRST NAME", dataIndex: "firstName", key: "firstName" },
-        { title: "LAST NAME", dataIndex: "lastName", key: "lastName" },
-        { title: "EMAIL", dataIndex: "email", key: "email" },
-        { title: "GRIEVANCE", dataIndex: "grievance", key: "grievance" },
-        { title: "MESSAGE", dataIndex: "message", key: "message" },
-      ];
-
-      return (
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Grievance UserData</h2>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Grievance UserData List</h3>
-              <Input.Search
-                placeholder="Search"
-                style={{ width: 200 }}
-                onSearch={(value) => console.log(value)}
-              />
-            </div>
-            <Table
-              columns={columns}
-              dataSource={userData}
-              rowKey="id"
-              pagination={{ pageSize }}
-              className="bg-white"
-              scroll={{ x: 'max-content', y: 400 }}
-              locale={{ emptyText: 'No data' }}
-            />
-          </div>
-        </div>
-      );
-    }
+    return (
+      <GrievanceUserData
+        grievanceUserData={grievanceUserData}
+        pageSize={pageSize}
+      />
+    );
+  }
     return <div>Select a section from the menu</div>;
   };
   return (
-    <Layout className="   min-h-screen">
+    <Layout className="min-h-screen">
       <Sider 
         width={250} 
         className="bg-gray-800 text-white" 
@@ -8209,75 +2751,7 @@ const categoryListColumns = [
             className="mb-1 relative  left-7"
           />
         </div>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={['dashboard']}
-          className="bg-gray-800 text-white"
-          style={{
-            backgroundColor: '#ffffff', 
-            color: '#000000', 
-          }}
-          onClick={handleMenuSelect}
-          items={[
-            { key: 'dashboard', icon: <HomeOutlined />, label: 'Dashboard' },
-            { key: 'profile', icon: <UserOutlined />, label: 'Profile' },
-            { key: 'admin', icon: <UserOutlined />, label: 'Admin', children: [
-              { key: 'users', label: 'Users' },
-              { key: 'roles', label: 'Roles' },
-            ] },
-            { key: 'productManager', icon: <ShoppingOutlined />, label: 'Product Manager', children: [
-              { key: 'Product', label: 'Product' },
-              { key: 'Category', label: 'Category' },
-              { key: 'Sub Category', label: 'Sub Category' },
-              { key: 'Remedy', label: 'Remedy' },
-              { key: 'Ingridients', label: 'Ingridients' },
-              { key: 'Weight Unit', label: 'Weight Unit' },
-              { key: 'Length Unit', label: 'Length Unit' },
-              { key: 'Tax Manager', label: 'Tax Manager' },
-              { key: 'HSNCODE Master', label: 'HSNCODE Master' },
-            ] },
-            { key: 'orderManager', icon: <ShoppingOutlined />, label: 'Order Manager', children: [
-              { key: 'Order Manager', label: 'Order Manager' },
-              { key: 'Order Status', label: 'Order Status' },
-              { key: 'Shipping Status', label: 'Shipping Status' },
-              { key: 'Service Provider', label: 'Service Provider' },
-            ] },
-            { key: 'payment', icon: <ShoppingOutlined />, label: 'Payment' },
-            { key: 'customerManager', icon: <UserOutlined />, label: 'Customer Manager' },
-            { key: 'inventory', icon: <ShoppingOutlined />, label: 'Inventory' },
-            { key: 'homeComponent', icon: <HomeOutlined />, label: 'Home Component', children: [
-              { key: 'Banner', label: 'Banner' },
-              { key: 'Featured Product', label: 'Featured Product' },
-              { key: 'Empowerd', label: 'Empowerd' },
-              { key: 'Community', label: 'Community' },
-              { key: 'District', label: 'District' },
-              { key: 'Store', label: 'Store' },
-              { key: 'Warhouse', label: 'Warhouse' },
-              { key: 'Samiti', label: 'Samiti' },
-            ] },
-            { key: 'pages', icon: <FileTextOutlined />, label: 'Pages', children: [
-              { key: 'About', label: 'About' },
-              { key: 'News', label: 'News' },
-              { key: 'Blogs', label: 'Blogs' },
-              { key: 'Corporate', label: 'Corporate' },
-              { key: 'Stories', label: 'Stories' },
-              { key: 'Contact', label: 'Contact' },
-            ] },
-            { key: 'customerManager', icon: <UserOutlined />, label: 'Customer Manager' },
-           
-            { key: 'inventory', icon: <ShoppingOutlined />, label: 'Inventory' },
-            { key: 'discount', icon: <ShoppingOutlined />, label: 'Discount', children: [
-              { key: 'Coupons', label: 'Coupons' },
-            ] },
-            { key: 'connect', icon: <HomeOutlined />, label: 'Connect', children: [
-              { key: 'Volunteer', label: 'Volunteer' },
-              { key: 'Forest Lover', label: 'Forest Lover' },
-            ] },
-            { key: 'faq', icon: <FileTextOutlined />, label: 'FAQ' },
-            { key: 'grievanceCategory', icon: <UserOutlined />, label: 'Grievance Category' },
-            { key: 'grievanceUserData', icon: <UserOutlined />, label: 'Grievance User Data' },
-          ]}
-        /> 
+        <Leftmenu handleMenuSelect={(key)=>  handleMenuSelect(key)}/>
       </Sider>
       <Layout>
       <Header className="!bg-white shadow-md p-4 flex justify-between items-center">
