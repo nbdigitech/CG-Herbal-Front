@@ -38,7 +38,7 @@ import EditNews from  '../Commoncomponents/EditNews';
 import BlogList from  '../Commoncomponents/BlogList';
 import AddBlog from  '../Commoncomponents/AddBlog';
 import EditBlog from  '../Commoncomponents/EditBlog';
-import CorporateList from  '../Commoncomponents/CorporateList';
+import Corporate from  '../Commoncomponents/Corporate';
 import Stories from  '../Commoncomponents/Stories';
 import Contact from  '../Commoncomponents/Contact';
 import ProductList from  '../Commoncomponents/ProductList';
@@ -374,16 +374,16 @@ const [volunteerRequests, setVolunteerRequests] = useState([
   ]);
   const [exhibitionList, setExhibitionList] = useState([]);
   const [contactList, setContactList] = useState([
-    { id: 1, firstName: 'Ajay', lastName: 'Dewangan', email: 'ajaydewangan215@gmail.com', subject: 'Subject', message: 'This is Testing' },
-    { id: 2, firstName: 'test', lastName: 'test', email: 'test@gmail.com', subject: 'test', message: 'test' },
-    { id: 3, firstName: 'abcd', lastName: 'abcd', email: 'abcd@gmail.com', subject: 'abcdddd', message: 'test' },
-    { id: 4, firstName: 'Vinod', lastName: 'Dewangan', email: 'vinod.dewangan@gmail.com', subject: 'Supply my order no. 2508202201.', message: 'Please quick supply my order no. 2508202201.' },
-    { id: 5, firstName: 'Debosmita', lastName: 'Saha', email: 'debosmita.sh4@gmail.com', subject: 'I didn\'t get my product yet after payment', message: 'HI, When I will get my product I had already paid for mahua jam, mahua squash mahua chikki etc. Through paytm but 1week has passed till I didn\'t receive my products yet.' },
-    { id: 6, firstName: 'Abhishek', lastName: 'Verma', email: 'abhishek_verma_all@yahoo.in', subject: 'Cricket Association', message: 'Please let us know of whom to connect for marketing tie ups for cricket products.' },
-    { id: 7, firstName: 'Carl', lastName: 'E.', email: 'c.e@aneesho.com', subject: 'DESIGN WORK', message: 'Do you need help with graphic design – brochures, banners, flyers, advertisements, social media posts, logos etc? We charge a low fixed monthly fee. Let me know if you’re interested and I would like to see your portfolio.' },
-    { id: 8, firstName: 'Janardan L', lastName: 'Kulkarani', email: 'kulkarnijanardan@gmail.com', subject: 'Please give me your contact number', message: 'I have same purchase' },
-    { id: 9, firstName: 'Luna', lastName: 'Luna Wilson', email: 'luna@theheritage-seo.com', subject: 'Website Design with 6 Months Free Maintenance', message: 'Hi, We have a team of 55+ highly qualified and award-winning design teams that creates Innovative, effective websites that capture your brand, improve your conversion rates, and maximize your revenue to help grow your business and achieve your goals. With our web design services, you can resolve your design.' },
-  ]);
+  { id: 1, firstName: 'Ajay', lastName: 'Dewangan', email: 'ajaydewangan215@gmail.com', subject: 'Subject', message: 'This is Testing' },
+  { id: 2, firstName: 'test', lastName: 'test', email: 'test@gmail.com', subject: 'test', message: 'test' },
+  { id: 3, firstName: 'abcd', lastName: 'abcd', email: 'abcd@gmail.com', subject: 'abcdddd', message: 'test' },
+  { id: 4, firstName: 'Vinod', lastName: 'Dewangan', email: 'vinod.dewangan@gmail.com', subject: 'Supply my order no. 2508202201.', message: 'Please quick supply my order no. 2508202201.' },
+  { id: 5, firstName: 'Debosmita', lastName: 'Saha', email: 'debosmita.sh4@gmail.com', subject: 'I didn\'t get my product yet after payment', message: 'HI, When I will get my product I had already paid for mahua jam, mahua squash mahua chikki etc. Through paytm but 1week has passed till I didn\'t receive my products yet.' },
+  { id: 6, firstName: 'Abhishek', lastName: 'Verma', email: 'abhishek_verma_all@yahoo.in', subject: 'Cricket Association', message: 'Please let us know of whom to connect for marketing tie ups for cricket products.' },
+  { id: 7, firstName: 'Carl', lastName: 'E.', email: 'c.e@aneesho.com', subject: 'DESIGN WORK', message: 'Do you need help with graphic design – brochures, banners, flyers, advertisements, social media posts, logos etc? We charge a low fixed monthly fee. Let me know if you’re interested and I would like to see your portfolio.' },
+  { id: 8, firstName: 'Janardan L', lastName: 'Kulkarani', email: 'kulkarnijanardan@gmail.com', subject: 'Please give me your contact number', message: 'I have same purchase' },
+  { id: 9, firstName: 'Luna', lastName: 'Luna Wilson', email: 'luna@theheritage-seo.com', subject: 'Website Design with 6 Months Free Maintenance', message: 'Hi, We have a team of 55+ highly qualified and award-winning design teams that creates Innovative, effective websites that capture your brand, improve your conversion rates, and maximize your revenue to help grow your business and achieve your goals. With our web design services, you can resolve your design.' },
+]);
 const [selectedProduct, setSelectedProduct] = useState(null);
 const [weightList, setWeightList] = useState([]);
 const [isAddCategoryModalVisible, setIsAddCategoryModalVisible] = useState(false);
@@ -534,35 +534,6 @@ const router = useRouter();
   ]);
  
   
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [orderRes, userRes, productRes, blogRes] = await Promise.all([
-          fetch('http://localhost:5000/api/orders'),
-          fetch('http://localhost:5000/api/user'),
-          fetch('http://localhost:5000/api/products'),
-          fetch('http://localhost:5000/api/blogs'),
-        ]);
-
-        if (!orderRes.ok || !userRes.ok || !productRes.ok || !blogRes.ok) {
-          throw new Error('Failed to fetch data');
-        }
-
-        setOrders(await orderRes.json());
-        setUsers(await userRes.json());
-        setProducts(await productRes.json());
-        setBlogs(await blogRes.json());
-      } catch (error) {
-        message.error('Error fetching data: ' + error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
   // Reset form when navigating to addFeaturedProduct or editFeaturedProduct
   useEffect(() => {
     if (selectedMenu === 'addFeaturedProduct') {
@@ -1124,8 +1095,7 @@ const contactListColumns = [
       </div>
     ),
   },
-  {
-    title: 'Delete',
+  { title: 'Delete',
     key: 'action',
     render: (_, record) => (
       <Popconfirm
@@ -1603,10 +1573,11 @@ const categoryListColumns = [
   };
 
   const handleDeleteContact = (id) => {
-    const updatedList = contactList.filter((contact) => contact.id !== id);
-    setContactList(updatedList);
-    message.success('Contact deleted successfully');
-  };
+  console.log("Deleting contact with ID:", id);
+  const updatedList = contactList.filter((contact) => contact.id !== id);
+  setContactList(updatedList);
+  message.success('Contact deleted successfully');
+};
 
   
   const handleAddWeight = (values) => {
@@ -2133,17 +2104,17 @@ const categoryListColumns = [
       />
     );
   }
-  if (selectedMenu === 'CorporateList') {
-    return (
-      <CorporateList
-        corporateList={corporateList}
-        corporateListColumns={corporateListColumns}
-        setSelectedMenu={setSelectedMenu}
-        handleDeleteCorporate={handleDeleteCorporate}
-      />
-    );
-  }
-
+  console.log("Current selectedMenu:", selectedMenu);
+if (selectedMenu === 'Corporate') {
+  return (
+    <Corporate
+      corporateList={corporateList}
+      corporateListColumns={corporateListColumns}
+      setSelectedMenu={setSelectedMenu}
+      handleDeleteCorporate={handleDeleteCorporate}
+    />
+  );
+}
     if (selectedMenu === 'Stories') {
   return (
     <Stories
@@ -2151,14 +2122,26 @@ const categoryListColumns = [
     />
   );
 }  
-    if (selectedMenu === 'Contact') {
-      return (
-        <Contact
-      setSelectedMenu={setSelectedMenu}
+    console.log("AdminDashboard Rendering...");
+console.log("Selected Menu:", selectedMenu);
+console.log("Contact List before rendering Contact:", contactList);
+console.log("Contact List Columns before rendering Contact:", contactListColumns);
+console.log("Handle Delete Contact Function:", handleDeleteContact);
+
+if (selectedMenu === 'Contact') {
+  console.log("Rendering Contact Component with props:", {
+    contactList,
+    contactListColumns,
+    handleDeleteContact,
+  });
+  return (
+    <Contact
+      contactList={contactList}
+      contactListColumns={contactListColumns}
+      handleDeleteContact={handleDeleteContact}
     />
-       
-      );
-    }
+  );
+}
 
     if (selectedMenu === 'Product') {
     return (
@@ -2898,18 +2881,18 @@ if (selectedMenu.startsWith('editCoupon/')) {
                 label="Permissions"
                 name="permissions"
               >
-                <Select mode="multiple" placeholder="Select permissions">
-                  {[
-                    'Dashboard', 'Profile', 'Users', 'Roles', 'Banner', 'Featured Product', 'Empowerd', 'Community',
-                    'District', 'Store', 'Warhouse', 'Samiti', 'About', 'News', 'Blog', 'Corporate', 'Stories',
-                    'Contact', 'Product', 'Category', 'Sub Category', 'Remedy', 'Ingridients', 'Weight Unit',
-                    'Length Unit', 'Tax Manager', 'HSNCODE Master', 'Order Manager', 'Order Status',
-                    'Shipping Status', 'Service Provider', 'Payment', 'Inventory', 'Discount', 'Coupons',
-                    'Volunteer', 'Forest Lover', 'FAQ', 'Grievance Category', 'Grievance UserData'
-                  ].map((perm) => (
-                    <Option key={perm} value={perm}>{perm}</Option>
-                  ))}
-                </Select>
+               <Select mode="multiple" placeholder="Select permissions">
+                {[
+                  'Dashboard', 'Profile', 'Users', 'Roles', 'Banner', 'Featured Product', 'Empowerd', 'Community',
+                  'District', 'Store', 'Warhouse', 'Samiti', 'About', 'News', 'Blog', 'Corporate', 'Stories',
+                  'Contact', 'Product', 'Category', 'Sub Category', 'Remedy', 'Ingridients', 'Weight Unit',
+                  'Length Unit', 'Tax Manager', 'HSNCODE Master', 'Order Manager', 'Order Status',
+                  'Shipping Status', 'Service Provider', 'Payment', 'Inventory', 'Discount', 'Coupons',
+                  'Volunteer', 'Forest Lover', 'FAQ', 'Grievance Category', 'Grievance UserData'
+                ].map((perm) => (
+                  <Option key={perm} value={perm}>{perm}</Option>
+                ))}
+              </Select>
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">

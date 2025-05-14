@@ -1,6 +1,34 @@
 import { Button, Checkbox, message } from 'antd';
+import { useEffect, useState } from 'react';
 
 export default function Permissions({ selectedRole, permissionCategories, setSelectedMenu, handleUpdateRole }) {
+  // Local state to track permissions
+  const [updatedPermissions, setUpdatedPermissions] = useState(selectedRole.permissions);
+
+  // Ensure the menu is set to 'permissions' when the component mounts
+  useEffect(() => {
+    setSelectedMenu('permissions');
+  }, [setSelectedMenu]);
+
+  // Update local permissions when a checkbox is toggled
+  const handleCheckboxChange = (permission, checked) => {
+    if (checked) {
+      setUpdatedPermissions([...updatedPermissions, permission]);
+    } else {
+      setUpdatedPermissions(updatedPermissions.filter((p) => p !== permission));
+    }
+  };
+
+  // Handle the "Update" button click
+  const handleUpdate = () => {
+    // Update the role with the new permissions
+    handleUpdateRole({ ...selectedRole, permissions: updatedPermissions });
+    // Show the success message
+    message.success('Role updated successfully');
+    // Ensure the menu stays on the permissions view
+    setSelectedMenu('permissions');
+  };
+
   return (
     <div className="p-6">
       <Button type="primary" onClick={() => setSelectedMenu('roles')} className="mb-4">
@@ -13,13 +41,8 @@ export default function Permissions({ selectedRole, permissionCategories, setSel
           {permissions.map((permission) => (
             <div key={permission} className="flex items-center mb-2">
               <Checkbox
-                checked={selectedRole.permissions.includes(permission)}
-                onChange={(e) => {
-                  const updatedPermissions = e.target.checked
-                    ? [...selectedRole.permissions, permission]
-                    : selectedRole.permissions.filter(p => p !== permission);
-                  handleUpdateRole({ ...selectedRole, permissions: updatedPermissions });
-                }}
+                checked={updatedPermissions.includes(permission)}
+                onChange={(e) => handleCheckboxChange(permission, e.target.checked)}
               >
                 {permission}
               </Checkbox>
@@ -27,7 +50,7 @@ export default function Permissions({ selectedRole, permissionCategories, setSel
           ))}
         </div>
       ))}
-      <Button type="primary" onClick={() => message.success('Permissions updated successfully')}>
+      <Button type="primary" onClick={handleUpdate}>
         Update
       </Button>
       <footer className="mt-8 text-center text-gray-600">
