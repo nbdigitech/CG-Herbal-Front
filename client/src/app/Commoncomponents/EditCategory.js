@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Select, Button, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -18,21 +19,32 @@ const EditCategory = ({ categoryForm, selectedCategory, categories, setCategorie
           form={categoryForm}
           layout="vertical"
           initialValues={{ ...selectedCategory, image: undefined }}
-          onFinish={(values) => {
-            const updatedCategories = categories.map(category =>
-              category.id === selectedCategory.id
-                ? {
-                    ...category,
-                    image: values.image?.file ? URL.createObjectURL(values.image.file) : category.image,
-                    name: values.name,
-                    status: values.status,
-                  }
-                : category
-            );
-            setCategories(updatedCategories);
-            setSelectedMenu('Category');
-            message.success('Category updated successfully');
-          }}
+          onFinish={async (values) => {
+  const formData = new FormData();
+  formData.append("category_name", values.name);
+  formData.append("status", values.status === "Active");
+  if (values.image?.[0]?.originFileObj) {
+    formData.append("images", values.image[0].originFileObj);
+  }
+
+  try {
+    await axios.put(
+      `${process.env.NEXT_PUBLIC_API_URL}/category/update/${selectedCategory.id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    message.success("Category updated successfully");
+    setSelectedMenu("Category");
+  } catch (err) {
+    console.error("Update category failed:", err);
+    message.error("Failed to update category");
+  }
+}}
+
         >
           <Form.Item 
             label="Image" 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Select, Button, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -17,18 +18,28 @@ const AddCategory = ({ categoryForm, categories, setCategories, setSelectedMenu 
         <Form
           form={categoryForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newCategory = {
-              id: categories.length + 1,
-              image: values.image?.file ? URL.createObjectURL(values.image.file) : '/placeholder.jpg',
-              name: values.name,
-              status: values.status || 'Active',
-            };
-            setCategories(prevCategories => [...prevCategories, newCategory]);
-            setSelectedMenu('Category');
-            categoryForm.resetFields();
-            message.success('Category added successfully');
-          }}
+          onFinish={async (values) => {
+  const formData = new FormData();
+  formData.append("category_name", values.name);
+  formData.append("status", values.status === "Active");
+  if (values.image?.[0]?.originFileObj) {
+    formData.append("images", values.image[0].originFileObj);
+  }
+
+  try {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/category/create`,
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    message.success("Category created successfully");
+    setSelectedMenu("Category");
+  } catch (err) {
+    console.error("Create category failed:", err);
+    message.error("Failed to create category");
+  }
+}}
+
         >
           <Form.Item 
             label="Image" 

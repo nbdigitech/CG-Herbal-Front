@@ -3,14 +3,14 @@ import React from 'react';
 import { Table, Button, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const GrievanceCategory = ({ grievanceData, setGrievanceData, setSelectedMenu, pageSize }) => {
+const GrievanceCategory = ({ grievanceData, setGrievanceData, setSelectedMenu, pageSize,  handleDeleteGrievanceCategory }) => {
   const columns = [
     { title: "ID", dataIndex: "id", key: "id" },
     { title: "NAME", dataIndex: "name", key: "name" },
-    { 
-      title: "STATUS", 
-      dataIndex: "status", 
-      key: "status", 
+    {
+      title: "STATUS",
+      dataIndex: "status",
+      key: "status",
       render: (text) => (
         <span className={text === "Active" ? "text-green-500" : "text-red-500"}>{text}</span>
       )
@@ -26,14 +26,11 @@ const GrievanceCategory = ({ grievanceData, setGrievanceData, setSelectedMenu, p
             className="text-yellow-500 border-yellow-500"
           />
           <Popconfirm
-            title="Are you sure to delete this grievance category?"
-            onConfirm={() => {
-              setGrievanceData(grievanceData.filter(grievance => grievance.id !== record.id));
-              message.success('Grievance category deleted successfully');
-            }}
-            okText="Yes"
-            cancelText="No"
-          >
+  title="Are you sure to delete this grievance category?"
+  onConfirm={() => handleDeleteGrievanceCategory(record.id)}
+  okText="Yes"
+  cancelText="No"
+>
             <Button
               icon={<DeleteOutlined />}
               className="text-red-500 border-red-500"

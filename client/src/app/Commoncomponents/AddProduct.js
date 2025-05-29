@@ -241,6 +241,16 @@ const AddProduct = ({ form, weights, setWeights, benefits, setBenefits, faqs, se
         <Form.Item label="Breadcrumb Schema" name="breadcrumbSchema">
           <Input.TextArea />
         </Form.Item>
+        <Form.Item label="Product Images" name="images" valuePropName="fileList" getValueFromEvent={(e) => e.fileList}>
+  <Upload
+    listType="picture"
+    beforeUpload={() => false} // prevent auto-upload
+    multiple
+  >
+    <Button icon={<UploadOutlined />}>Upload Images</Button>
+  </Upload>
+</Form.Item>
+
         <Form.Item label="Organization Schema" name="organizationSchema">
           <Input.TextArea />
         </Form.Item>

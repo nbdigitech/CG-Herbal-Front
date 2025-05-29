@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Select, Button, Upload, Checkbox, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -23,22 +24,27 @@ const EditSubCategory = ({ categoryForm, selectedSubCategory, subCategories, set
             status: selectedSubCategory.status === 'Active',
             image: undefined,
           }}
-          onFinish={(values) => {
-            const updatedSubCategories = subCategories.map(subCategory =>
-              subCategory.id === selectedSubCategory.id
-                ? {
-                    ...subCategory,
-                    category: values.category,
-                    name: values.name,
-                    status: values.status ? 'Active' : 'Inactive',
-                    image: values.image?.file ? URL.createObjectURL(values.image.file) : subCategory.image,
-                  }
-                : subCategory
-            );
-            setSubCategories(updatedSubCategories);
-            setSelectedMenu('Sub Category');
-            message.success('Sub Category updated successfully');
-          }}
+          onFinish={async (values) => {
+  const formData = new FormData();
+  formData.append("category", values.category); // category ID
+  formData.append("category_name", values.name);
+  formData.append("status", values.status); // boolean
+  if (values.image?.[0]?.originFileObj) {
+    formData.append("images", values.image[0].originFileObj);
+  }
+
+  try {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/category/sub-category/update/${selectedSubCategory.id}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+    message.success("Sub Category updated successfully");
+    setSelectedMenu("Sub Category");
+  } catch (err) {
+    console.error("Update Sub Category failed:", err);
+    message.error("Failed to update sub category");
+  }
+}}
+
         >
           <Form.Item
             label="Select Category"

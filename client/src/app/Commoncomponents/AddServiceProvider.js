@@ -14,16 +14,32 @@ const AddServiceProvider = ({ serviceProviderForm, serviceProviders, setServiceP
         <Form
           form={serviceProviderForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newServiceProvider = {
-              id: serviceProviders.length + 1,
-              name: values.name,
-            };
-            setServiceProviders(prevProviders => [...prevProviders, newServiceProvider]);
-            setSelectedMenu('Service Provider');
-            serviceProviderForm.resetFields();
-            message.success('Service provider added successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order/service-provider/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: values.name }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      setServiceProviders(prev => [...prev, {
+        id: data.data._id,
+        name: data.data.name,
+      }]);
+      message.success('Service provider added successfully');
+      setSelectedMenu('Service Provider');
+      serviceProviderForm.resetFields();
+    } else {
+      throw new Error(data.message || 'Failed to create');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Error adding service provider');
+  }
+}}
+
         >
           <Form.Item
             label="Name"

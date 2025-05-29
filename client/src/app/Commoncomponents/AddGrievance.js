@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
-
+import axios from 'axios';
 const AddGrievance = ({ grievanceData, setGrievanceData, setSelectedMenu }) => {
   return (
     <div className="p-6">
@@ -12,20 +12,24 @@ const AddGrievance = ({ grievanceData, setGrievanceData, setSelectedMenu }) => {
         </Button>
       </div>
       <div className="bg-white p-4 shadow-md rounded-lg">
-        <Form
+         <Form
           layout="vertical"
-          onFinish={(values) => {
-            const newGrievance = {
-              id: grievanceData.length + 1, // नया ID
-              name: values.name,
-              status: values.status ? "Active" : "Inactive",
-            };
-            setGrievanceData([...grievanceData, newGrievance]); // Grievance लिस्ट में नया Grievance जोड़ें
-            message.success('Grievance category added successfully');
-            setSelectedMenu('grievanceCategory');
+          onFinish={async (values) => {
+            try {
+              await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/grievance_category/create`, {
+                name: values.name,
+                status: values.status ? true : false,
+              });
+
+              message.success('Grievance category created successfully');
+              setSelectedMenu('grievanceCategory');
+            } catch (error) {
+              console.error("❌ Failed to create grievance category:", error);
+              message.error('Failed to create grievance category');
+            }
           }}
         >
-          <Form.Item
+                    <Form.Item
             label="NAME"
             name="name"
             rules={[{ required: true, message: 'Please enter the name' }]}

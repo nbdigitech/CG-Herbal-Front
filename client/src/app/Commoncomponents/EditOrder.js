@@ -44,29 +44,43 @@ const EditOrder = ({
             orderMode: selectedOrder.orderMode,
             address: selectedOrder.address,
           }}
-          onFinish={(values) => {
-            setOrders(prevOrders =>
-              prevOrders.map(order =>
-                order.id === selectedOrder.id
-                  ? {
-                      ...order,
-                      customerId: values.customerId,
-                      orderStatus: values.orderStatus,
-                      shippingStatus: values.shippingStatus,
-                      orderMode: values.orderMode,
-                      trackingDetails: {
-                        serviceProvider: values.serviceProvider,
-                        trackingCode: values.trackingCode,
-                        trackingUrl: values.trackingUrl,
-                      },
-                      address: values.address,
-                    }
-                  : order
-              )
-            );
-            setSelectedMenu('Order Manager');
-            message.success('Order updated successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const payload = {
+      customerId: values.customerId,
+      name: values.name,
+      phone: values.phone,
+      email: values.email,
+      orderStatus: values.orderStatus,
+      shippingStatus: values.shippingStatus,
+      orderMode: values.orderMode,
+      address: values.address,
+      trackingDetails: {
+        serviceProvider: values.serviceProvider,
+        trackingCode: values.trackingCode,
+        trackingUrl: values.trackingUrl,
+      },
+    };
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/update/${selectedOrder.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      message.success('Order updated successfully');
+      setSelectedMenu('Order Manager');
+    } else {
+      throw new Error(data.message || 'Update failed');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to update order');
+  }
+}}
+
         >
           <Form.Item
             label="Customer"

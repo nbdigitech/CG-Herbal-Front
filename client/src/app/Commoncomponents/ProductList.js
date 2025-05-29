@@ -1,8 +1,11 @@
 import React from 'react';
 import { Table, Button, Input, Select , Popconfirm } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-
+import axios from 'axios';
 const { Option } = Select;
+
+
+
 
 const ProductList = ({ productList, setSelectedMenu, handleEditProduct, handleDeleteProduct }) => {
   const columns = [
@@ -21,12 +24,14 @@ const ProductList = ({ productList, setSelectedMenu, handleEditProduct, handleDe
       dataIndex: 'weights', 
       key: 'weights', 
       render: (weights) => (
-        <ul>
-          {weights.map((w, index) => (
-            <li key={index}>{w.wt} | price: {w.price} | count: {w.count}</li>
-          ))}
-        </ul>
-      )
+
+  <ul>
+    {(weights || []).map((w, index) => (
+      <li key={index}>{w.wt} | price: {w.price} | count: {w.count}</li>
+    ))}
+  </ul>
+)
+
     },
     { 
       title: 'Action', 
@@ -88,7 +93,7 @@ const ProductList = ({ productList, setSelectedMenu, handleEditProduct, handleDe
         <Table
           columns={columns}
           dataSource={productList}
-          rowKey="id"
+          rowKey="_id"
           pagination={false}
           className="bg-white"
           scroll={{ x: 'max-content' }}

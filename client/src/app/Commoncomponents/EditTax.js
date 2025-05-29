@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Radio, message } from 'antd';
 
-const AddTax = ({ taxForm, taxes, setTaxes, setSelectedMenu }) => {
+const EditTax = ({ taxForm, selectedTax, setSelectedMenu }) => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
@@ -14,18 +14,26 @@ const AddTax = ({ taxForm, taxes, setTaxes, setSelectedMenu }) => {
         <Form
           form={taxForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newTax = {
-              id: taxes.length + 1,
-              name: values.name,
-              value: values.value,
-              status: values.status,
-            };
-            setTaxes(prevTaxes => [...prevTaxes, newTax]);
-            setSelectedMenu('Tax Manager');
-            taxForm.resetFields();
-            message.success('Tax added successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/units/tax/update/${selectedTax.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      message.success('Tax updated successfully');
+      setSelectedMenu('Tax Manager');
+    } else {
+      throw new Error(data.message || 'Update failed');
+    }
+  } catch (error) {
+    console.error(error);
+    message.error('Failed to update tax');
+  }
+}}
+
         >
           <Form.Item
             label="Name"
@@ -66,4 +74,4 @@ const AddTax = ({ taxForm, taxes, setTaxes, setSelectedMenu }) => {
   );
 };
 
-export default AddTax;
+export default EditTax;

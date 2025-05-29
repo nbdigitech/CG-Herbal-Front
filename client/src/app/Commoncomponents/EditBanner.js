@@ -1,5 +1,6 @@
 import { Button, Form, Input, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from "axios";
 
 export default function EditBanner({ form, selectedBanner, handleUpdateBanner, setSelectedMenu }) {
   return (

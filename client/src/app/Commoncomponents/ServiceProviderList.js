@@ -22,10 +22,25 @@ const ServiceProviderList = ({ serviceProviders, setServiceProviders, setSelecte
           />
           <Popconfirm
             title="Are you sure you want to delete this service provider?"
-            onConfirm={() => {
-              setServiceProviders(prevProviders => prevProviders.filter(provider => provider.id !== record.id));
-              message.success('Service provider deleted successfully');
-            }}
+            onConfirm={async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order/service-provider/${record.id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      setServiceProviders(prev => prev.filter(provider => provider.id !== record.id));
+      message.success('Service provider deleted successfully');
+    } else {
+      const data = await res.json();
+      throw new Error(data.message || 'Delete failed');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Error deleting service provider');
+  }
+}}
+
             okText="Yes"
             cancelText="No"
             icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}

@@ -3,7 +3,7 @@ import React from 'react';
 import { Table, Button, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const FAQ = ({ faqData, setFaqData, setSelectedMenu, pageSize }) => {
+const FAQ = ({ faqData, setFaqData, setSelectedMenu, pageSize,  handleDeleteFAQ  }) => {
   const columns = [
     { title: "ID", dataIndex: "id", key: "id", width: 100 },
     { title: "QUESTION", dataIndex: "question", key: "question" },
@@ -21,7 +21,7 @@ const FAQ = ({ faqData, setFaqData, setSelectedMenu, pageSize }) => {
           <Popconfirm
             title="Are you sure to delete this FAQ?"
             onConfirm={() => {
-              setFaqData(faqData.filter(faq => faq.id !== record.id));
+              handleDeleteFAQ(record.id);
               message.success('FAQ deleted successfully');
             }}
             okText="Yes"

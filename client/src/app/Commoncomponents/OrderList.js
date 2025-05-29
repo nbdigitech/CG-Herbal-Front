@@ -36,10 +36,25 @@ const OrderList = ({ orders, setOrders, setSelectedOrder, setSelectedMenu, pageS
           />
           <Popconfirm
             title="Are you sure you want to delete this order?"
-            onConfirm={() => {
-              setOrders(prevOrders => prevOrders.filter(order => order.id !== record.id));
-              message.success('Order deleted successfully');
-            }}
+            onConfirm={async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${record.id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      setOrders(prevOrders => prevOrders.filter(order => order.id !== record.id));
+      message.success('Order deleted successfully');
+    } else {
+      const data = await res.json();
+      throw new Error(data.message || 'Delete failed');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to delete order');
+  }
+}}
+
             okText="Yes"
             cancelText="No"
             icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}

@@ -57,10 +57,11 @@ export default function AddEmpowrd({ form, handleAddEmpowrd, setSelectedMenu }) 
               <Upload
                 beforeUpload={() => false}
                 onChange={(info) => {
-                  if (info.fileList.length > 0) {
-                    form.setFieldsValue({ image: info.fileList[0].originFileObj });
-                  }
-                }}
+  if (info.fileList.length > 0) {
+    form.setFieldsValue({ image: info.fileList[0].originFileObj });
+  }
+}}
+
                 maxCount={1}
               >
                 <Button icon={<UploadOutlined />}>Choose File</Button>

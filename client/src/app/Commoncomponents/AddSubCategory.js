@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Select, Button, Upload, Checkbox, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -17,19 +18,27 @@ const AddSubCategory = ({ categoryForm, subCategories, setSubCategories, categor
         <Form
           form={categoryForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newSubCategory = {
-              id: subCategories.length + 1,
-              category: values.category,
-              name: values.name,
-              status: values.status ? 'Active' : 'Inactive',
-              image: values.image?.file ? URL.createObjectURL(values.image.file) : '/placeholder.jpg',
-            };
-            setSubCategories(prevSubCategories => [...prevSubCategories, newSubCategory]);
-            setSelectedMenu('Sub Category');
-            categoryForm.resetFields();
-            message.success('Sub Category added successfully');
-          }}
+          onFinish={async (values) => {
+  const formData = new FormData();
+  formData.append("category", values.category);  // category ID expected
+  formData.append("category_name", values.name); // name of subcategory
+formData.append("status", values.status === true);  // ensures Boolean
+  if (values.image?.[0]?.originFileObj) {
+    formData.append("images", values.image[0].originFileObj);
+  }
+
+  try {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/category/sub-category/create`, formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+    message.success("Sub Category created successfully");
+    setSelectedMenu("Sub Category");
+  } catch (err) {
+    console.error("Create Sub Category failed:", err);
+    message.error("Failed to create sub category");
+  }
+}}
+
         >
           <Form.Item
             label="Select Category"
@@ -38,7 +47,10 @@ const AddSubCategory = ({ categoryForm, subCategories, setSubCategories, categor
           >
             <Select placeholder="Select Category">
               {categories.map(category => (
-                <Option key={category.id} value={category.name}>{category.name}</Option>
+                <Option key={category.id} value={category.id}>
+  {category.name}
+</Option>
+
               ))}
             </Select>
           </Form.Item>

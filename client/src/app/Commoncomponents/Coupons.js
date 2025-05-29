@@ -3,7 +3,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 export default function Coupons({ couponList = [], pageSize, setSelectedMenu, handleDeleteCoupon }) {
   const columns = [
-    { title: "ID", dataIndex: "id", key: "id" },
+    { title: "ID", dataIndex: "_id", key: "_id" },
     { title: "COUPON CODE", dataIndex: "code", key: "code" },
     { title: "AMOUNT", dataIndex: "amount", key: "amount" },
     { title: "PERCENT", dataIndex: "percent", key: "percent", width: 100 },
@@ -23,12 +23,12 @@ export default function Coupons({ couponList = [], pageSize, setSelectedMenu, ha
         <div className="flex gap-2">
           <Button
             icon={<EditOutlined />}
-            onClick={() => setSelectedMenu(`editCoupon/${record.id}`)}
+            onClick={() => setSelectedMenu(`editCoupon/${record._id}`)} 
             className="text-yellow-500 border-yellow-500"
           />      
           <Popconfirm
             title="Are you sure to delete this coupon?"
-            onConfirm={() => handleDeleteCoupon(record.id)}
+            onConfirm={() => handleDeleteCoupon(record._id)}
             okText="Yes"
             cancelText="No"
           >
@@ -59,7 +59,7 @@ export default function Coupons({ couponList = [], pageSize, setSelectedMenu, ha
         <Table
           columns={columns}
           dataSource={couponList}
-          rowKey="id"
+          rowKey="_id"
           pagination={{ pageSize }}
           className="bg-white"
           scroll={{ x: 'max-content', y: 400 }}

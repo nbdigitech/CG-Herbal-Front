@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
-const WeightUnitList = ({ weightUnits, setWeightUnits, setSelectedWeightUnit, setSelectedMenu }) => {
+const WeightUnitList = ({ weightUnits, setWeightUnits, setSelectedWeightUnit, setSelectedMenu, selectedProductId }) => {
   const weightUnitColumns = [
     { title: '#ID', dataIndex: 'id', key: 'id' },
     { title: 'Title', dataIndex: 'title', key: 'title' },
@@ -22,10 +22,23 @@ const WeightUnitList = ({ weightUnits, setWeightUnits, setSelectedWeightUnit, se
           />
           <Popconfirm
             title="Are you sure you want to delete this weight unit?"
-            onConfirm={() => {
-              setWeightUnits(prevWeightUnits => prevWeightUnits.filter(weightUnit => weightUnit.id !== record.id));
-              message.success('Weight unit deleted successfully');
-            }}
+            onConfirm={async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/weight/${record._id}`,
+      { method: 'DELETE' }
+    );
+
+    if (!response.ok) throw new Error('Delete failed');
+
+    message.success('Weight deleted successfully');
+    setWeightUnits(prev => prev.filter(w => w._id !== record._id));
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to delete weight');
+  }
+}}
+
             okText="Yes"
             cancelText="No"
             icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}

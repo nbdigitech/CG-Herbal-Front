@@ -93,6 +93,7 @@ import GrievanceCategory  from '../Commoncomponents/GrievanceCategory';
 import AddGrievance from '../Commoncomponents/AddGrievance';
 import EditGrievance from '../Commoncomponents/EditGrievance';
 import GrievanceUserData from '../Commoncomponents/GrievanceUserData';
+import axios from 'axios';
 
 
 const { Header, Sider, Content } = Layout;
@@ -109,156 +110,867 @@ export default function AdminDashboard() {
   
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([
-    { id: 1, image: '/placeholder1.jpg', name: 'Holi Gift Package', status: 'Inactive' },
-    { id: 2, image: '/placeholder2.jpg', name: 'Gourmet Products', status: 'Active' },
-    { id: 3, image: '/placeholder3.jpg', name: 'Personal Care', status: 'Active' },
-    { id: 4, image: '/placeholder4.jpg', name: 'Ayush Products', status: 'Active' },
-    { id: 5, image: '/placeholder5.jpg', name: 'Home Care', status: 'Inactive' },
-    { id: 6, image: '/placeholder6.jpg', name: 'Sweets', status: 'Inactive' },
-    { id: 7, image: '/placeholder7.jpg', name: 'Combo', status: 'Inactive' },
-    { id: 8, image: '/placeholder8.jpg', name: 'Premium Products', status: 'Active' },
-    { id: 9, image: '/placeholder9.jpg', name: 'Other Products', status: 'Active' },
-  ]);
-  
-  const [subCategories, setSubCategories] = useState([
-    { id: 1, image: '/placeholder.jpg', name: 'Gourmet', category: 'Gourmet Products', status: 'Active' },
-    { id: 2, image: '/placeholder.jpg', name: 'Herbal Soaps', category: 'Personal Care', status: 'Active' },
-    { id: 3, image: '/placeholder.jpg', name: 'Herbal Foods', category: 'Gourmet Products', status: 'Active' },
-    { id: 4, image: '/placeholder.jpg', name: 'Aloe Vera Products', category: 'Personal Care', status: 'Inactive' },
-    { id: 5, image: '/placeholder.jpg', name: 'Grooming', category: 'Personal Care', status: 'Inactive' },
-    { id: 6, image: '/placeholder.jpg', name: 'Essential Oils', category: 'Personal Care', status: 'Active' },
-    { id: 7, image: '/placeholder.jpg', name: 'Churna', category: 'Ayush Products', status: 'Active' },
-    { id: 8, image: '/placeholder.jpg', name: 'Energy, Strengthens', category: 'Ayush Products', status: 'Active' },
-    { id: 9, image: '/placeholder.jpg', name: 'Aloevera Products', category: 'Premium Products', status: 'Active' },
-  ]);
-  const [couponList, setCouponList] = useState([
-  { id: 1, code: "CODE50", amount: 50, percent: "", status: "On", createdAt: "15-02-2022", description: "" },
-    { id: 2, code: "NEWUSER", amount: 100, percent: "", status: "On", createdAt: "15-02-2022", description: "" },
-    { id: 3, code: "xyz12345", amount: 50, percent: "", status: "Off", createdAt: "11-04-2022", description: "" },
-]);
+  const [categories, setCategories] = useState([]);
+  const [selectedMenu, setSelectedMenu] = useState('dashboard' , );
+  const [subCategories, setSubCategories] = useState([]);
+  const [payments, setPayments] = useState([]);
+  const [forestLoverRequests, setForestLoverRequests] = useState([]);
 
-const handleDeleteCoupon = (couponId) => {
-  setCouponList(couponList.filter(coupon => coupon.id !== couponId));
-  message.success('Coupon deleted successfully');
+
+
+  const fetchCategories = async () => {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/category/list`);
+    const mappedCategories = (res.data.data || []).map(category => ({
+      id: category._id,
+      image: category.images?.[0]?.img || '',  // first image
+      name: category.category_name || '',
+      status: category.status ? 'Active' : 'Inactive',
+    }));
+    setCategories(mappedCategories);
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+  }
 };
-const [volunteerRequests, setVolunteerRequests] = useState([
-    { id: 1, firstName: "Ajay", lastName: "Dewangan", email: "ajaydewangan215@gmail.com", mobile: "7999672902", createdAt: "25.04.2022" },
-    { id: 2, firstName: "Aayush", lastName: "Nandeshwar", email: "aayushnandeshwar9@gmail.com", mobile: "747110458", createdAt: "05.06.2023" },
-  ]);
-  const [faqData, setFaqData] = useState([
-    { id: 1, question: "How do I place an order?", answer: "Step 1: Pick the product of your choice. Step 2: Click on SHOP NOW. Step 3: Click on ADD TO CART the products you wish to purchase. Step 4: Click on PLACE ORDER Step 5: Fill out your personal details required for the delivery of your order. Step 6: Choose a payment option most convenient to you. Step 7: Confirm & place your order." },
-    { id: 2, question: "Can I ship the products to an address that is different from my billing address?", answer: "Yes, you can do this by filling in your address in the 'Billing address'. Check the box that says 'Is this order a gift?' and enter the details of the address you wish to ship it to in the box below it." },
-    { id: 3, question: "How do I know that my order is confirmed?", answer: "For all orders, the confirmation status will be automatically updated in the 'My Profile' section." },
-    { id: 4, question: "Do I have to have an account to place an order?", answer: "We strongly recommend making an account on our website to make your shopping experience swift and simple. This will also help you enjoy special benefits as well as share ratings and review our products as per your experience." },
-    { id: 5, question: "Can I order a product that is 'Out of Stock'?", answer: "Unfortunately, products listed as 'Out of Stock' are not available for immediate sale. We consistently restock our products, so rest assured that it will be back in stock soon." },
-    { id: 6, question: "How safe is it to use my Debit/Credit card and make an online payment on Chattisgarh Herbals?", answer: "All transactions at Chattisgarh Herbals Online are protected by SSL (Secure Sockets Layer) and Secure Data Encryption using a 1024-bit process. Any information you enter when transacting with Chattisgarh Herbals Online is sent in a Secure Socket Layer (SSL) session and is encrypted to protect you against unintentional disclosure to third parties. This is an assurance that we follow the best security practices adopted by major online vendors, where all payments are processed in real-time for your security and immediate peace of mind. You can tell if you are in secure mode at 'Checkout', by looking for the padlock icon at the bottom corner or at the end of the address bar of your browser window." },
-    { id: 7, question: "Why was my online payment rejected?", answer: "There are various reasons why this may have happened ranging from validity of card/net banking details, insufficient funds in the account to technical difficulties. If you were recently issued a new card, some of the information may have changed. In that case, please confirm your credit card details and try again. Also, check that your name and address match the name and address on your current credit card." },
-    { id: 8, question: "I cannot complete my registration, what do I do?", answer: "Contact us, detailing the problem you have encountered. You can either email us on support@chattisgarhherbals.com and our Customer Care will be happy to assist you." },
-  ]);
-  const [grievanceData, setGrievanceData] = useState([
-    { id: 1, name: "Support and Feedback", status: "Active" },
-    { id: 2, name: "Grievances", status: "Active" },
-  ]);
+
+const fetchSubCategories = async () => {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/category/sub-category/list`);
+    const mappedSubCategories = (res.data.data || []).map(subcategory => ({
+  id: subcategory._id,
+  image: (subcategory.images && subcategory.images.length && subcategory.images[0].img) ? subcategory.images[0].img : '',
+  name: subcategory.category_name || '',
+  category: subcategory.category?.category_name || '',
+  status: subcategory.status ? 'Active' : 'Inactive',
+}));
+
+    setSubCategories(mappedSubCategories);
+  } catch (error) {
+    console.error("Failed to fetch subcategories:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu === 'Sub Category') {
+    fetchSubCategories();
+  }
+}, [selectedMenu]);
+
+
+const fetchRemedies = async () => {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/remedy/list`);    const remediesData = res.data.data.map(remedy => ({
+      id: remedy._id,         // map _id to id
+      name: remedy.remedy_name, // map remedy_name to name
+      status: remedy.status === true ? 'Active' : 'Inactive', // format status nicely
+    }));
+    setRemedies(remediesData);
+  } catch (error) {
+    console.error("Error fetching remedies:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Remedy') {
+    fetchRemedies();
+  }
+}, [selectedMenu]);
+
+
+useEffect(() => {
+  if (selectedMenu === 'Ingridients') {   // match the key spelling exactly
+    fetchIngredients();
+  }
+}, [selectedMenu]);
+
+
+const fetchIngredients = async () => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ingridient/list`);
+    const data = await response.json();
+    setIngredients(data.data || []); // set in state
+  } catch (error) {
+    console.error('Error fetching ingredients:', error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Weight Unit') {
+    fetchWeightUnits();
+  }
+}, [selectedMenu]);
+
+
+const fetchWeightUnits = async () => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/units/weight/list`);
+    const data = await response.json();
+    if (data.data) {
+      const mappedUnits = data.data.map(unit => ({
+        id: unit._id,
+        title: unit.weight_gram,
+        shippingAmount: unit.shipping_amount,
+      }));
+      setWeightUnits(mappedUnits);
+    }
+  } catch (error) {
+    console.error("Error fetching weight units:", error);
+  }
+};
+
+
+const fetchHsncodes = async () => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hsncode/list`);
+    const data = await response.json();
+    if (data.data) {
+      const mappedHsncodes = data.data.map(item => ({
+        id: item._id,
+        hsncode: item.hsncode,
+        gstValue: item.gst_value,  // Make sure API returns `gst_value`
+      }));
+      setHsncodes(mappedHsncodes);
+    }
+  } catch (error) {
+    console.error("Error fetching HSN codes:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu === 'HSNCODE Master') {
+    fetchHsncodes();
+  }
+}, [selectedMenu]);
+
+
+const fetchOrders = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/order/list`);
+    const rawOrders = response.data.doc || [];
+
+    const mappedOrders = rawOrders.map(order => ({
+      id: order._id,
+      email: order.billingAddress?.email || '', // fallback to empty if not available
+      paymentStatus: order.paymentStatus || 'Pending', // If your backend adds this
+      orderMode: order.orderMode || 'Online', // If your backend adds this
+      qty: order.products_?.reduce((sum, product) => sum + (product.weight?.reduce((acc, wt) => acc + (wt.count || 0), 0) || 0), 0) || 0,
+      price: order.products_?.reduce((sum, product) => sum + (product.weight?.reduce((acc, wt) => acc + (wt.price || 0), 0) || 0), 0) || 0,
+      orderStatus: order.orderStatus || 'Placed', // Default fallback
+      shippingStatus: order.shippingStatus || 'Despatched', // Default fallback
+      createdAt: order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '',
+    }));
+
+    setOrders(mappedOrders);
+  } catch (error) {
+    console.error("Failed to fetch orders", error);
+  }
+};
+
+
+
+  useEffect(() => {
+  if (selectedMenu === 'Order Manager') {
+    fetchOrders();
+  }
+}, [selectedMenu]);
+
+const fetchOrderStatuses = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/order/order-status/list`);
+ const data = Array.isArray(response.data) ? response.data : response.data.data || [];
+
+
+    const mappedStatuses = data.map(status => ({
+      id: status._id,
+      name: status.status,
+    }));
+
+    setOrderStatuses(mappedStatuses);
+  } catch (error) {
+    console.error("Failed to fetch order statuses", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Order Status') {
+    fetchOrderStatuses();
+  }
+}, [selectedMenu]);
+
+
+const fetchShippingStatuses = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/order/shipping-status/list`);
+    const data = response.data.data || [];
+
+    const mappedStatuses = data.map(status => ({
+      id: status._id,
+      name: status.status,
+    }));
+
+    setShippingStatuses(mappedStatuses);
+  } catch (error) {
+    console.error("Failed to fetch shipping statuses:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu === 'Shipping Status') {
+    fetchShippingStatuses();
+  }
+}, [selectedMenu]);
+
+
+const fetchServiceProviders = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/order/service-provider/list`);
+    const data = response.data.data || [];
+
+    const mappedProviders = data.map(provider => ({
+      id: provider._id,
+      name: provider.name,
+    }));
+
+    setServiceProviders(mappedProviders);
+  } catch (error) {
+    console.error("Failed to fetch service providers:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Service Provider') {
+    fetchServiceProviders();
+  }
+}, [selectedMenu]);
+
+const fetchPayments = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/payments/payment-status/list`);
+    const data = response.data.data || [];
+
+    const mappedPayments = data.map((payment, index) => ({
+      id: index + 1,
+      user: payment?.user || 'N/A',
+      paymentId: payment?.payment_id || 'N/A',
+      amount: payment?.amount || 0,
+      product: payment?.products || 'N/A',
+      createdAt: payment?.createdAt ? new Date(payment.createdAt).toLocaleString() : 'N/A',
+    }));
+
+    setPayments(mappedPayments);
+  } catch (error) {
+    console.error("Failed to fetch payments:", error);
+  }
+};
+
+useEffect(() => {
+  console.log("Selected Menu:", selectedMenu);  // ✅ Add this
+  if (selectedMenu.toLowerCase().includes('payment')) {
+
+    fetchPayments();
+  }
+}, [selectedMenu]);
+
+
+
+const fetchCustomers = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/list`);
+    const data = response.data.data || [];
+
+    const mappedCustomers = data.map((customer, index) => ({
+      id: customer._id,
+      name: customer.full_Name || 'N/A',
+      mobile: customer.mobile || 'N/A',
+      email: customer.email || 'N/A',
+      gender: customer.gender || 'N/A',
+      dob: customer.dob || 'N/A',
+      address: customer.address || '',
+      shippingAddress: customer.shippingAddress || '',
+      status: customer.status ? 'ON' : 'OFF',
+      createdAt: customer.createdAt
+        ? new Date(customer.createdAt).toLocaleDateString()
+        : 'N/A',
+    }));
+
+    setCustomers(mappedCustomers);
+  } catch (error) {
+    console.error("Failed to fetch customers:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu.toLowerCase().includes('customer')) {
+  fetchCustomers();
+}
+
+}, [selectedMenu]);
+
+
+const fetchBanners = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/home/banner/list`);
+    const data = response.data.data || [];
+
+    const mappedBanners = data.map((banner, index) => ({
+      id: banner._id,
+      image: banner.images?.[0]?.img || '',
+      title: banner.title || '',
+      description: banner.description || '',
+    }));
+
+    setBannerList(mappedBanners);
+  } catch (error) {
+    console.error("Failed to fetch banners:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu === 'Banner') {
+    fetchBanners();
+  }
+}, [selectedMenu]);
+
+const fetchCommunities = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/home/community/list`);
+    const data = response.data.data || [];
+
+    const mappedCommunities = data.map((item) => ({
+      id: item._id,
+      image: item.images?.[0]?.img || '',
+name: item.products?.[0]?.title || item.products?.[0]?._id || 'No Product Linked',
+    }));
+
+    setCommunityList(mappedCommunities);
+  } catch (error) {
+    console.error("Failed to fetch community data:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Community') {
+    fetchCommunities();
+  }
+}, [selectedMenu]);
+
+const fetchStores = async () => {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store/list`);
+    const data = res.data.data || [];
+
+   const mappedStores = data.map((store, index) => ({
+  id: store._id,
+  name: store.name_of_store || 'N/A',
+  mapUrl: store.geo_map_url || '',
+  address: store.address || '',
+  storeLocator: store.store_locater || '',
+}));
+
+
+    setStoreList(mappedStores);
+  } catch (error) {
+    console.error("Failed to fetch stores:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu === 'Store') {
+    fetchStores();
+  }
+}, [selectedMenu]);
+
+const fetchFaqs = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/faq/faqs`);
+    const data = response.data.FAQs || [];
+
+    const mappedFaqs = data.map(faq => ({
+      id: faq._id,
+      question: faq.question,
+      answer: faq.answer,
+    }));
+
+    setFaqData(mappedFaqs);
+  } catch (error) {
+    console.error("Failed to fetch FAQs:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu.toLowerCase() === 'faq') {
+    fetchFaqs();
+  }
+}, [selectedMenu]);
+
+const fetchGrievanceCategories = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/grievance_category/list`);
+    const data = response.data.data || [];
+
+    const mappedData = data.map((item) => ({
+      id: item._id,
+      name: item.name || 'N/A',
+      status: item.status ? 'Active' : 'Inactive',
+    }));
+
+    setGrievanceData(mappedData);
+  } catch (error) {
+    console.error("Failed to fetch grievance categories:", error);
+  }
+};
+
+useEffect(() => {
+  const key = selectedMenu.toLowerCase();
+
+  if (key === 'grievancecategory') {
+    fetchGrievanceCategories();
+  } else if (key === 'grievanceuserdata') {
+    fetchGrievanceUserData();
+  }
+}, [selectedMenu]);
+
+
+const fetchGrievanceUserData = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/grievance_category/user/list`);
+    const data = response.data.data || [];
+
+    const mappedData = data.map((item) => ({
+      id: item._id,
+      firstName: item.first_name_grievance,
+      lastName: item.last_name_grievance,
+      email: item.email_grievance,
+      grievance: item.grievance_grievance,
+      message: item.message_grievance,
+    }));
+
+    setGrievanceUserData(mappedData);
+  } catch (error) {
+    console.error("Failed to fetch Grievance User Data:", error);
+  }
+};
+
+const fetchVolunteers = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/volunteer/list?type=volunteer`);
+    const data = response.data.data || [];
+
+    const mappedVolunteers = data.map((item, index) => ({
+      id: item._id || index + 1,
+      firstName: item.first_name,
+      lastName: item.last_name,
+      email: item.email,
+      mobile: item.mobile,
+      createdAt: item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A',
+    }));
+
+    setVolunteerRequests(mappedVolunteers);
+  } catch (error) {
+    console.error("Failed to fetch volunteer data:", error);
+  }
+};
+
+
+
+useEffect(() => {
+  if (selectedMenu?.toLowerCase() === 'volunteer') {
+    fetchVolunteers();
+  }
+}, [selectedMenu]);
+
+
+const fetchForestLovers = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/volunteer/list?type=forestlover`);
+    const data = response.data.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: item._id || index + 1,
+      firstName: item.first_name,
+      lastName: item.last_name,
+      email: item.email,
+      mobile: item.mobile,
+      createdAt: item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A',
+    }));
+
+    setForestLoverRequests(mapped);
+  } catch (error) {
+    console.error("Failed to fetch forest lover data:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu?.toLowerCase().includes('forest')) {
+    fetchForestLovers();
+  }
+}, [selectedMenu]);
+
+
+const fetchCoupons = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/payments/promo-code/list`);
+    const data = response.data.data || [];
+
+    const mapped = data.map((coupon) => ({
+  _id: coupon._id, // ✅ include real _id
+  code: coupon.code,
+  amount: coupon.amount ?? 0,
+  percent: coupon.percentage ?? '',
+  description: coupon.description ?? '',
+  status: coupon.status ? 'On' : 'Off',
+  createdAt: coupon.createdAt ? new Date(coupon.createdAt).toLocaleDateString() : 'N/A',
+}));
+
+
+    setCouponList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch coupons:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu?.toLowerCase().includes('coupon')) {
+    fetchCoupons();
+  }
+}, [selectedMenu]);
+
+
+  const [couponList, setCouponList] = useState([]);
+
+const handleDeleteCoupon = async (id) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payments/promo-code/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      message.success('Coupon deleted successfully');
+      fetchCoupons();  // Refresh from backend
+    } else {
+      const data = await res.json();
+      throw new Error(data.message || 'Delete failed');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Error deleting coupon');
+  }
+};
+
+
+const [volunteerRequests, setVolunteerRequests] = useState([ ]);
+  const [faqData, setFaqData] = useState([ ]);
+  const [grievanceData, setGrievanceData] = useState([ ]);
   const [grievanceUserData, setGrievanceUserData] = useState([
     
   ]);
+
+
+const fetchDistricts = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/district/list`);
+    const data = response.data.data || [];
+
+    const mappedDistricts = data.map(district => ({
+      id: district._id,
+      name: district.district || 'N/A',
+    }));
+
+    setDistrictList(mappedDistricts);
+  } catch (error) {
+    console.error("Failed to fetch districts:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu === 'District') {
+    fetchDistricts();
+  }
+}, [selectedMenu]);
+
+
+  const fetchDashboardCounts = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/count`);
+    const data = response.data;
+    setDashboardCounts({
+      total_orders: data.total_orders || 0,
+      total_products: data.total_products || 0,
+      total_customers: data.total_customers || 0,
+      total_blogs: data.total_blogs || 0,
+    });
+  } catch (error) {
+    console.error("Failed to fetch dashboard counts:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'dashboard') {
+    fetchDashboardCounts();
+  }
+}, [selectedMenu]);
+
  
-  const [remedies, setRemedies] = useState([
-    { id: 1, name: 'Diabetes', status: 'Active' },
-    { id: 2, name: 'Acidity', status: 'Active' },
-    { id: 3, name: 'Hair Problems', status: 'Active' },
-    { id: 4, name: 'Digestives', status: 'Active' },
-    { id: 5, name: 'Joint Pain', status: 'Active' },
-    { id: 6, name: 'Body & Skin Care', status: 'Active' },
-    { id: 7, name: 'Health Tonic for Males', status: 'Active' },
-    { id: 8, name: 'Laxatives', status: 'Active' },
-    { id: 9, name: 'Memory Booster', status: 'Active' },
-    { id: 10, name: 'Immunity Booster', status: 'Active' },
-    { id: 11, name: 'Hepato-protective', status: 'Active' },
-    { id: 12, name: 'Heart Diseases', status: 'Inactive' },
-  ]);
+const fetchDashboardOrders = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/order`);
+    const data = response.data.data || [];
+
+    const mappedOrders = data.map(order => ({
+      orderId: order.order_id,
+      customer: order.user_id?.full_Name || 'N/A',
+      total: order.total_amount || 0,
+      createdAt: order.createdAt,
+    }));
+
+    setDashboardOrders(mappedOrders);
+  } catch (error) {
+    console.error("Failed to fetch dashboard orders:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'dashboard') {
+    fetchDashboardCounts();
+    fetchDashboardOrders();
+  }
+}, [selectedMenu]);
+
+const fetchDashboardCustomers = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/customer`);
+    const data = response.data.data || [];
+
+    const mappedCustomers = data.map(c => ({
+      name: c.full_Name || 'N/A',
+      email: c.email || 'N/A',
+      mobile: c.mobile || 'N/A',
+      createdAt: c.createdAt,
+    }));
+
+    setDashboardCustomers(mappedCustomers);
+  } catch (error) {
+    console.error("Failed to fetch dashboard customers:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'dashboard') {
+    fetchDashboardCounts();
+    fetchDashboardOrders();
+    fetchDashboardCustomers();
+  }
+}, [selectedMenu]);
+
+
+const fetchAdminUsers = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/admin/list`);
+    const data = response.data.data || [];
+
+    const mappedAdmins = data.map((admin, index) => {
+  console.log('ADMIN RAW:', admin);  // 👈 Check if full_Name exists
+
+  return {
+    id: admin._id,
+    name: admin.full_Name || admin.name || 'N/A',
+    email: admin.email || 'N/A',
+    role: admin.role || 'Admin',
+    block: admin.block || 'N/A',
+    status: admin.status ? 'Active' : 'Inactive',
+  };
+});
+
+
+    setAdminUsers(mappedAdmins); // this connects to mockAdminList in <Users />
+  } catch (error) {
+    console.error("Failed to fetch admin users:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu.toLowerCase().includes('user')) {
+    fetchAdminUsers();
+  }
+}, [selectedMenu]);
+
+const fetchAdminRoles = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/admin-role/list`);
+    const data = response.data.data || [];
+
+    const mappedRoles = data.map((role, index) => ({
+      id: role._id,
+      name: role.admin_role_title || 'N/A',
+    }));
+
+    setAdminRoles(mappedRoles);
+  } catch (error) {
+    console.error("Failed to fetch admin roles:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu.toLowerCase().includes('role')) {
+    fetchAdminRoles();
+  }
+}, [selectedMenu]);
+
+const fetchFeaturedProducts = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/featured/list`);
+    const data = response.data.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: index + 1,
+      name: item.products_id?.title || 'N/A',
+      image: item.products_id?.images?.[0]?.img || '',
+      category: item.products_id?.category?.category_name || '',
+      subCategory: item.products_id?.sub_category?.category_name || '',
+    }));
+
+    setFeaturedProductList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch featured products:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Featured Product') {
+    fetchFeaturedProducts();
+  }
+}, [selectedMenu]);
+
+const fetchEmpowrdList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/about/empowerd/list`);
+    
+    const data = response.data?.data || response.data;  // support both .data and root-level array
+
+    const mapped = data.map((item, index) => ({
+      id: item._id,
+      title: item.title || 'N/A',
+      description: item.description || '',
+      image: item.images?.[0]?.img || '',
+    }));
+
+    setEmpowrdList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch Empowerd list:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Empowerd') {
+    fetchEmpowrdList();
+  }
+}, [selectedMenu]);
+
+
+const fetchAboutList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/about/list`);
+    const data = response.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: item._id,
+      title: item.title || 'N/A',
+      description: item.description || '',
+      image: item.images?.[0]?.img || '',
+    }));
+
+    setAboutList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch about list:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'About') {
+    fetchAboutList();
+  }
+}, [selectedMenu]);
+
+const fetchCorporateList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/corporate/enquiry/list`);
+    const data = response.data?.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: item._id || index + 1,
+      name: item.name || 'N/A',
+      email: item.email || 'N/A',
+      phone: item.phone || 'N/A',
+      organization: item.organization || 'N/A',
+      message: item.message || 'N/A',
+    }));
+
+    setCorporateList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch corporate list:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Corporate') {
+    fetchCorporateList();
+  }
+}, [selectedMenu]);
+
+const fetchContactList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/contact/list`);
+    const data = response.data?.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: item._id || index + 1,
+      firstName: item.first_name || 'N/A',
+      lastName: item.last_name || 'N/A',
+      email: item.email || 'N/A',
+      subject: item.subject || 'N/A',
+      message: item.message || 'N/A',
+    }));
+
+    setContactList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch contact list:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Contact') {
+    fetchContactList();
+  }
+}, [selectedMenu]);
+
+
+  const [editingRole, setEditingRole] = useState(null);
+const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [remedies, setRemedies] = useState([ ]);
   const [ingredients, setIngredients] = useState([]);
-  const [weightUnits, setWeightUnits] = useState([
-    { id: 1, title: '100 gm', shippingAmount: 120 },
-    { id: 2, title: '15 ml', shippingAmount: 120 },
-    { id: 3, title: '250 gm', shippingAmount: 120 },
-    { id: 4, title: '120 gm', shippingAmount: 120 },
-    { id: 5, title: '50 gm', shippingAmount: 120 },
-    { id: 6, title: '110 gm', shippingAmount: 120 },
-    { id: 7, title: '30 gm', shippingAmount: 120 },
-    { id: 8, title: '200 gm', shippingAmount: 120 },
-    { id: 9, title: '500 gm', shippingAmount: 120 },
-    { id: 10, title: '1 Liter', shippingAmount: 120 },
-    { id: 11, title: '400 gm', shippingAmount: 120 },
-    { id: 12, title: '500 ml', shippingAmount: 120 },
-  ]);
+  const [weightUnits, setWeightUnits] = useState([ ]);
   const [selectedWeightUnit, setSelectedWeightUnit] = useState(null);
   const [blogs, setBlogs] = useState([]);
-  const [taxes, setTaxes] = useState([
-    { id: 1, name: 'IGST', value: 10, status: 'Active' },
-    { id: 2, name: 'GST', value: 18, status: 'Active' },
-  ]);
+  const [taxes, setTaxes] = useState([ ]);
   const [selectedTax, setSelectedTax] = useState(null);
   const [taxForm] = Form.useForm();
-  const [hsncodes, setHsncodes] = useState([
-    { id: 1, hsncode: '3004 9011', gstValue: 12 },
-    { id: 2, hsncode: '0813 4090', gstValue: 12 },
-    { id: 3, hsncode: '0904 2211', gstValue: 12 },
-    { id: 4, hsncode: '1905 3100', gstValue: 12 },
-    { id: 5, hsncode: '2103 9090', gstValue: 12 },
-    { id: 6, hsncode: '1704 0000', gstValue: 12 },
-    { id: 7, hsncode: '3808 9400', gstValue: 18 },
-    { id: 8, hsncode: '3401 1110', gstValue: 18 },
-    { id: 9, hsncode: '0920 2090', gstValue: 5 },
-    { id: 10, hsncode: '3204 0000', gstValue: 5 },
-    { id: 11, hsncode: '3307 4100', gstValue: 5 },
-    { id: 12, hsncode: '7117 1910', gstValue: 5 },
-  ]);
+  const [hsncodes, setHsncodes] = useState([ ]);
   const [selectedHsncode, setSelectedHsncode] = useState(null);
   const [hsncodeForm] = Form.useForm();
-  const [orders, setOrders] = useState([
-    { id: '0105020502', email: 'capricorncorporation@gmail.com', paymentStatus: 'failure!!!', orderMode: 'online-order', qty: 2, price: 240, orderStatus: 'Order Failed', shippingStatus: 'Not shipped', createdAt: '01-05-2025 11:50:00' },
-    { id: '0105020501', email: 'ind2soul@gmail.com', paymentStatus: 'COD', orderMode: 'online-order', qty: 1, price: 575, orderStatus: 'Placed', shippingStatus: 'Not shipped', createdAt: '01-05-2025 10:23:13' },
-    { id: '3004202506', email: 'narendrasankhla64@gmail.com', paymentStatus: 'COD', orderMode: 'online-order', qty: 2, price: 1250, orderStatus: 'Placed', shippingStatus: 'Not shipped', createdAt: '30-04-2025 03:39:15' },
-    { id: '3004202505', email: 'narendrasankhla64@gmail.com', paymentStatus: 'failure!!!', orderMode: 'online-order', qty: 2, price: 1200, orderStatus: 'Order Failed', shippingStatus: 'Not shipped', createdAt: '30-04-2025 03:38:35' },
-    { id: '3004202504', email: 'narendrasankhla64@gmail.com', paymentStatus: 'COD', orderMode: 'online-order', qty: 2, price: 1250, orderStatus: 'Placed', shippingStatus: 'Not shipped', createdAt: '30-04-2025 03:36:34' },
-    { id: '3004202503', email: 'sanjoy.ddj@gmail.com', paymentStatus: 'success', orderMode: 'online-order', qty: 5, price: 645, orderStatus: 'Placed', shippingStatus: 'Not shipped', createdAt: '30-04-2025 08:44:40' },
-    { id: '3004202502', email: 'sanjoy.ddj@gmail.com', paymentStatus: 'failure!!!', orderMode: 'online-order', qty: 5, price: 645, orderStatus: 'Order Failed', shippingStatus: 'Not shipped', createdAt: '30-04-2025 08:44:10' },
-    { id: '3004202501', email: 'vigneswar chowdary@gmail.com', paymentStatus: 'COD', orderMode: 'online-order', qty: 2, price: 1250, orderStatus: 'Placed', shippingStatus: 'Not shipped', createdAt: '30-04-2025 06:37:12' },
-    { id: '2904202503', email: 'akashkhanna315@gmail.com', paymentStatus: 'success', orderMode: 'online-order', qty: 6, price: 700, orderStatus: 'Placed', shippingStatus: 'Not shipped', createdAt: '29-04-2025 11:37:44' },
-    { id: '2904202502', email: 'chanchalverma6614@gmail.com', paymentStatus: 'failure!!!', orderMode: 'online-order', qty: 1, price: 405, orderStatus: 'Order Failed', shippingStatus: 'Not shipped', createdAt: '29-04-2025 05:40:35' },
-  ]);
-  const [orderStatuses, setOrderStatuses] = useState([
-    { id: 1, name: 'Delivered' },
-    { id: 2, name: 'Placed' },
-    { id: 3, name: 'Shipped' },
-    { id: 4, name: 'Processing' },
-    { id: 5, name: 'Cancelled' },
-    { id: 6, name: 'Return' },
-  ]);
-  const [shippingStatuses, setShippingStatuses] = useState([
-    { id: 1, name: 'Despatched' },
-    { id: 2, name: 'Delivered' },
-    { id: 3, name: 'In-transit' },
-  ]);
-  const [serviceProviders, setServiceProviders] = useState([
-    { id: 1, name: 'Ajay Dewangan' },
-    { id: 2, name: 'Speed Post' },
-    { id: 3, name: 'shiprocket' },
-  ]);
-  const [customers, setCustomers] = useState([
-    { id: 1, name: 'Ashok Jain', mobile: '9136892721', email: 'ashokjain72@gmail.com', gender: 'Male', dob: '02/18/1992', status: 'ON', createdAt: '18.02.2022' },
-    { id: 2, name: 'Saurabh Agrawal', mobile: '8310810162', email: 'agrawalsaurabh4439@gmail.com', gender: 'Male', dob: '08/10/1987', status: 'ON', createdAt: '19.02.2022' },
-    { id: 3, name: 'ARNAB BHATTACHARYA', mobile: '7978141413', email: 'arnab_bhatta431@gmail.com', gender: 'Male', dob: '08/31/1986', status: 'ON', createdAt: '18.02.2022' },
-    { id: 4, name: 'Rajni khunte', mobile: '8319766085', email: 'rajnikhunte125@gmail.com', gender: 'Female', dob: '02/22/2022', status: 'ON', createdAt: '13.04.2022' },
-    { id: 5, name: 'Ramesh', mobile: '9981680881', email: 'admin@travelbastar.com', gender: '', dob: '', status: 'ON', createdAt: '22.04.2022' },
-    { id: 6, name: 'cg herbal', mobile: '', email: 'cgherbalstore@gmail.com', gender: '', dob: '', status: 'ON', createdAt: '03.06.2022' },
-    { id: 7, name: 'Vikas', mobile: '7000684647', email: 'vikasrajsahu28@gmail.com', gender: '', dob: '', status: 'ON', createdAt: '14.06.2022' },
-    { id: 8, name: 'Vikas shu', mobile: '9770445586', email: 'otcvikasrajsahu@gmail.com', gender: '', dob: '', status: 'ON', createdAt: '14.06.2022' },
-    { id: 9, name: 'abcd', mobile: '9876543210', email: 'abcd@gmail.com', gender: 'Male', dob: '01/01/2022', status: 'ON', createdAt: '11.07.2022' },
-    { id: 10, name: 'test', mobile: '8249864532', email: 'test@test.com', gender: '', dob: '', status: 'ON', createdAt: '12.07.2022' },
-  ]);
+  const [orders, setOrders] = useState([ ]);
+  const [orderStatuses, setOrderStatuses] = useState([ ]);
+  const [shippingStatuses, setShippingStatuses] = useState([  ]);
+  const [serviceProviders, setServiceProviders] = useState([  ]);
+  const [customers, setCustomers] = useState([ ]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedServiceProvider, setSelectedServiceProvider] = useState(null);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
@@ -267,123 +979,257 @@ const [volunteerRequests, setVolunteerRequests] = useState([
   const [shippingStatusForm] = Form.useForm();
   const [serviceProviderForm] = Form.useForm();
   const [customerForm] = Form.useForm();
+  const [dashboardCustomers, setDashboardCustomers] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderForm] = Form.useForm();
   const [pageSize, setPageSize] = useState(10);
   const [showProductTable, setShowProductTable] = useState(false);
+  const [dashboardOrders, setDashboardOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [orderSearch, setOrderSearch] = useState('');
   const [userSearch, setUserSearch] = useState('');
-  const [selectedMenu, setSelectedMenu] = useState('dashboard' , );
+  const [dashboardCounts, setDashboardCounts] = useState({
+  total_orders: 0,
+  total_products: 0,
+  total_customers: 0,
+  total_blogs: 0,
+});
+const selectedFAQId = selectedMenu.startsWith('editFAQ/') ? selectedMenu.split('/')[1] : null;
+const selectedFAQ = faqData.find(faq => faq.id === selectedFAQId);
 
-  
+
+const empowrdListColumns = [
+  { title: '#ID', dataIndex: 'id', key: 'id' },
+  { title: 'Title', dataIndex: 'title', key: 'title' },
+  { title: 'Description', dataIndex: 'description', key: 'description' },
+  {
+    title: 'Image',
+    dataIndex: 'image',
+    key: 'image',
+    render: (img) => (
+      <img src={img} alt="Empowerd" style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
+    ),
+  },
+];
+
+const fetchNewsList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/newsroom/list`);
+    const data = response.data.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: item._id,
+      image: item.images?.[0]?.img || '',
+      title: item.title || 'N/A',
+      content: item.content || '',
+      description: item.description || '',
+      date: item.date ? new Date(item.date).toLocaleDateString() : '',
+    }));
+
+    setNewsList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch news list:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'News') {
+    fetchNewsList();
+  }
+}, [selectedMenu]);
+
+const fetchBlogList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/about/blog/list`);
+    const rawData = Array.isArray(response.data) ? response.data : response.data.data;
+
+    const mapped = rawData.map((item) => ({
+      id: item._id, // for rowKey
+      title: item.title || 'N/A',
+      content: item.content || '',
+      description: item.description || '',
+      date: item.date ? new Date(item.date).toLocaleDateString() : '',
+      image: item.images?.[0]?.img || '', // map the first image
+    }));
+
+    setBlogList(mapped); // used in <Table dataSource={blogList} />
+  } catch (error) {
+    console.error("❌ Failed to fetch blog list:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (selectedMenu?.toLowerCase().includes('blog')) {
+    fetchBlogList();
+  }
+}, [selectedMenu]);
+
+const fetchTaxList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/units/tax/list`);
+    const data = response.data.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: item._id || index + 1,
+      name: item.name || 'N/A',
+      value: item.value || '0',  // Fix: correct key from backend
+      status: item.status ? 'Active' : 'Inactive',  // Fix: convert boolean to text
+    }));
+
+    setTaxes(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch tax list:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Tax Manager') {
+    fetchTaxList();
+  }
+}, [selectedMenu]);
+
+const handleDeleteTax = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/units/tax/${id}`);
+    setTaxes(prev => prev.filter(t => t.id !== id));
+    message.success('Tax deleted successfully');
+  } catch (error) {
+    console.error("❌ Failed to delete tax entry:", error);
+    message.error('Failed to delete');
+  }
+};
+
+
+const taxListColumns = [
+  { title: '#ID', dataIndex: 'id', key: 'id' },
+  { title: 'Tax Name', dataIndex: 'name', key: 'name' },
+  { title: 'Percentage (%)', dataIndex: 'percentage', key: 'percentage' },
+  { title: 'Description', dataIndex: 'description', key: 'description' },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (_, record) => (
+      <div className="flex gap-2">
+        <Button
+          icon={<EditOutlined />}
+          onClick={() => {
+            setSelectedTax(record);
+            setSelectedMenu('editTax');
+          }}
+          className="text-yellow-500 border-yellow-500"
+        />
+        <Popconfirm
+          title="Are you sure to delete this tax entry?"
+          onConfirm={() => handleDeleteTax(record.id)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button icon={<DeleteOutlined />} className="text-red-500 border-red-500" />
+        </Popconfirm>
+      </div>
+    ),
+  },
+];
+
+const requestSort = (key) => {
+  let direction = 'asc';
+  if (sortConfig.key === key && sortConfig.direction === 'asc') {
+    direction = 'desc';
+  }
+  setSortConfig({ key, direction });
+};
+const fetchSamitiList = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store/samiti/list`);
+    const data = response.data.data || [];
+
+    const mapped = data.map((item, index) => ({
+      id: item._id || index + 1,
+      name: item.name || 'N/A',
+      address: item.address || 'N/A',
+      district: item.district || 'N/A',
+      mapUrl: item.map_url || '',
+    }));
+
+    setSamitiList(mapped);
+  } catch (error) {
+    console.error("❌ Failed to fetch samiti list:", error);
+  }
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Samiti') {
+    fetchSamitiList();
+  }
+}, [selectedMenu]);
+
+const handleDeleteFAQ = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`);
+    setFaqData(prev => prev.filter(faq => faq.id !== id));
+    message.success('FAQ deleted successfully');
+  } catch (error) {
+    console.error("Failed to delete FAQ:", error);
+    message.error('Failed to delete FAQ');
+  }
+};
+
+
+const samitiListColumns = [
+  { title: '#ID', dataIndex: 'id', key: 'id' },
+  { title: 'Name', dataIndex: 'name', key: 'name' },
+  { title: 'Address', dataIndex: 'address', key: 'address' },
+  { title: 'District', dataIndex: 'district', key: 'district' },
+  { 
+    title: 'Map URL', 
+    dataIndex: 'mapUrl', 
+    key: 'mapUrl', 
+    render: (url) => (
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        View Map
+      </a>
+    ),
+  },
+];
+
+
+
   const [profileData, setProfileData] = useState({
     name: 'Superadmin',
     newPassword: '',
     confirmPassword: '',
   });
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [selectedRole, setSelectedRole] = useState(null);
   const [form] = Form.useForm();
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [collapsed, setCollapsed] = useState(false);
- 
-  const [empowrdList, setEmpowrdList] = useState([
-    {
-      id: 1,
-      blogImage: 'https://res.cloudinary.com/chhattisgarhherbals-org/image/upload/v1626216174/chhattisgarhherbals-org/category/p9hixh5s3cynecdumchv.jpg',
-      blogTitle: 'Empowering Tribal Communities',
-      blogContent: 'Empowering Tribal Women',
-      blogDescription: 'From the heart of Chhattisgarh',
-      blogDate: '2022-02-09',
-      seoTitle: 'Empowering Tribal Communities SEO',
-      seoDescription: 'SEO description for empowering tribal communities',
-      seoKeywords: 'tribal, empowerment, chhattisgarh',
-      seoSchema: '{"@type":"Article"}',
-    },
-    {
-      id: 2,
-      blogImage: 'https://via.placeholder.com/50',
-      blogTitle: 'Sustainable Living',
-      blogContent: 'Promoting Eco-Friendly Practices',
-      blogDescription: 'A journey towards sustainability',
-      blogDate: '2023-05-15',
-      seoTitle: 'Sustainable Living SEO',
-      seoDescription: 'SEO description for sustainable living',
-      seoKeywords: 'sustainability, eco-friendly',
-      seoSchema: '{"@type":"Article"}',
-    },
-  ]);
-  const [communityList, setCommunityList] = useState([
-    { image: 'https://res.cloudinary.com/chhattisgarhherbals-org/image/upload/v1626216174/chhattisgarhherbals-org/category/p9hixh5s3cynecdumchv.jpg',  description: 'Empowering tribal people', status: 'Active' },
-    { image: 'https://via.placeholder.com/50',  description: 'Sustainable living group', status: 'Inactive' },
-  ]);
+ const [selectedProductId, setSelectedProductId] = useState(null);
+
+  const [empowrdList, setEmpowrdList] = useState([ ]);
+  const [communityList, setCommunityList] = useState([ ]);
   
   const [selectedEmpowrd, setSelectedEmpowrd] = useState(null);
   const [selectedCommunity, setSelectedCommunity] = useState(null);
-  const [districtList, setDistrictList] = useState([
-    { id: 1, name: 'Bilaspur' },
-    { id: 2, name: 'Raipur' },
-    { id: 3, name: 'Korba' },
-    { id: 4, name: 'Ambikapur' },
-    { id: 5, name: 'Janjgir-Champa' },
-    { id: 6, name: 'Bhilai' },
-  ]);
+  const [districtList, setDistrictList] = useState([ ]);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedAbout, setSelectedAbout] = useState(null);
   const [selectedNews, setSelectedNews] = useState(null);
   const [selectedBlog, setSelectedBlog] = useState(null);
-  const [storeList, setStoreList] = useState([
-    { id: 1, name: 'EVD TECHNOLOGY LLP', mapUrl: 'azdsf', address: '', storeLocator: '' },
-    { id: 2, name: '1', mapUrl: '4', address: '', storeLocator: '' },
-    { id: 3, name: 'Sanju', mapUrl: 'dfgsdf', address: '', storeLocator: '' },
-    { id: 4, name: 'EVD TECHNOLOGY LLP', mapUrl: '', address: 'RAIPUR ABHANPUR', storeLocator: '' },
-    { id: 5, name: 'EVD TECHNOLOGY LLP', mapUrl: 'azdsf', address: '', storeLocator: '' },
-    { id: 6, name: 'test', mapUrl: 'nil', address: '', storeLocator: '' },
-  ]);
-  const [aboutList, setAboutList] = useState([
-    { id: 1, image: 'path/to/image1.jpg', title: 'Who We Are', description: 'CHHATTISGARH HERBALS is a brand dedicated to the cause of tribal prosperity and dignity, women empowerment, forest conservation and biodiversity conservation. The products are made using the MFP species from local forests. Chhattisgarh Minor Forest Produce (T&DO) Cooperative Federation Ltd is a state Government mandated, three tiered cooperative body with more than 13.5 Lakh forest dwellers as primary members. CGMFP Federation is the custodian of the brand CHHATTISGARH HERBALS and works on behalf of its members. Every rupee generated from sales of these products translates towards providing financial and social benefits to the cooperative members.' },
-    { id: 2, image: 'path/to/image2.jpg', title: 'What We Do', description: 'CGMFP Cooperative members collect MFP which is procured by Women SHG at haat bazaars, brought to Van Dhan Kendras for primary processing by Women SHG members and Storage. 52 Micro processing units owned and Operated by Women SHG members and supported by technical staff from CGMFP produce more than 120 products under the brand name of CHHATTISGARH HERBALS. CGMFP Federation provides the marketing and promotion support for sales of products at brick and mortar and Digital channels.' },
-    { id: 3, image: 'path/to/image3.jpg', title: 'Impact Numbers', description: 'Impact Numbers.' },
-    { id: 4, image: 'path/to/image4.jpg', title: 'Test', description: 'Test123' },
-    { id: 5, image: 'path/to/image5.jpg', title: 'Test', description: 'Test' },
-  ]);
-  const [newsList, setNewsList] = useState([
-    { id: 1, image: 'path/to/news1.jpg', title: 'बस्तर की महिलाओं का सिंगापुर में सम्मान', content: '20 जुलाई को चार आदिवासी महिलाएं स्वयं-सहायता समूह (SHGs) से बस्तर से सिंगापुर गईं और ESG Grit Awards समारोह में भाग लिया।', description: 'यह पुरस्कार छत्तीसगढ़ की महिलाओं को उनके सतत विकास, गरीबी उन्मूलन और महिला सशक्तिकरण में योगदान के लिए दिया जाना चाहिए। यह पुरस्कार जगदलपुर और कोरबा से दो स्वयं-सहायता समूहों की महिलाओं को दिया जाएगा, जो पहली बार विदेश में हैं।', date: '2022-06-22' },
-    { id: 2, title: 'छत्तीसगढ़ हर्बल्स का अंतरराष्ट्रीय स्तर', content: 'पिछले 9 महीनों में वित्तीय वर्ष 2022-23 में छत्तीसगढ़ हर्बल्स ने विभिन्न अंतरराष्ट्रीय, राष्ट्रीय और अंतर-राज्यीय प्रदर्शनियों में भाग लिया।', description: 'जड़ी-बूटियों के उत्पाद धनवंतरी जेनेरिक मेडिकल स्टोर्स और 30 सनजीवनी केंद्रों में उपलब्ध हैं। राज्य माइनर फॉरेस्ट प्रोड्यूस कोऑपरेटिव फेडरेशन 150 से अधिक मूल्यवर्धित उत्पादों का उत्पादन कर रहा है।', date: '2022-01-17' },
-  ]);
+  const [storeList, setStoreList] = useState([ ]);
+  const [aboutList, setAboutList] = useState([ ]);
+  const [newsList, setNewsList] = useState([]);
 
-  const [blogList, setBlogList] = useState([
-    { id: 1, image: 'path/to/blog1.jpg', title: '10 Tips for natural skincare that will boost your summer skin regime', content: 'Etiam at varius diam, id blandit erat. Suspendisse eget volutpat risus, id venenatis justo. Fusce elementum ligula elit. Duis ultricies ultricies nibh, a tincidunt risus pretium eleifend.', date: '2022-02-11', status: 'Active' },
-    { id: 2, image: 'path/to/blog2.jpg', title: 'Herbal ingredients you can add to your daily cup of tea', content: 'Etiam at varius diam, id blandit erat. Suspendisse eget volutpat risus, id venenatis justo. Fusce elementum ligula elit. Duis ultricies ultricies nibh, a tincidunt risus pretium eleifend.', date: '2022-02-11', status: 'Active' },
-    { id: 3, image: 'path/to/blog3.jpg', title: 'How honey is sourced across the world', content: 'Etiam at varius diam, id blandit erat. Suspendisse eget volutpat risus, id venenatis justo. Fusce elementum ligula elit. Duis ultricies ultricies nibh, a tincidunt risus pretium eleifend.', date: '2022-02-11', status: 'Active' },
-    { id: 4, image: 'path/to/blog4.jpg', title: 'Ayurveda in everyday life', content: 'Etiam at varius diam, id blandit erat. Suspendisse eget volutpat risus, id venenatis justo. Fusce elementum ligula elit. Duis ultricies ultricies nibh, a tincidunt risus pretium eleifend.', date: '2022-04-14', status: 'Active' },
-  ]);
 
-  const [corporateList, setCorporateList] = useState([
-    { id: 1, name: 'Ashutosh Sinha', email: 'as0984108@gmail.com', phone: '7354760926', organization: 'Individual', message: 'I want to become Jamun & Mahua supplier for Chhattisgarh Herbals.' },
-    { id: 2, name: 'Reeta Sinha', email: 'as0984109@gmail.com', phone: '7354760926', organization: 'AKTA SELF HELP GROUP', message: 'I want to collaborate with Chhattisgarh Herbals.' },
-    { id: 3, name: 'Mustak Khan Khatri mara', email: '', phone: '6207464237', organization: '1500', message: 'Flipkart Mai doping' },
-    { id: 4, name: 'Mustak Khan Khatri mara', email: '', phone: '6207464237', organization: '1500', message: 'Flipkart Mai doping' },
-    { id: 5, name: 'Shyam Shankar Pandey', email: 'pshymshankar6@gmail.com', phone: '09452056741', organization: 'MVW GROW INDIA', message: 'Please solution' },
-    { id: 6, name: 'Ranjan Nath', email: 'nathranjan@gmail.com', phone: '9826680467', organization: 'Reliance Retail Ltd', message: 'I have interested for distribution ship in Raipur' },
-    { id: 7, name: 'Amrita Singh', email: 'singhamrita1@gmail.com', phone: '+919617223333', organization: 'Rural Support LLP', message: 'Au urgent requirement of nearly 40 Processed herbs quality of export quality. Want to get a contact person’s number. Thank you' },
-  ]);
+ const [blogList, setBlogList] = useState([]);
+
+const [samitiList, setSamitiList] = useState([]);
+  const [corporateList, setCorporateList] = useState([ ]);
   const [exhibitionList, setExhibitionList] = useState([]);
-  const [contactList, setContactList] = useState([
-  { id: 1, firstName: 'Ajay', lastName: 'Dewangan', email: 'ajaydewangan215@gmail.com', subject: 'Subject', message: 'This is Testing' },
-  { id: 2, firstName: 'test', lastName: 'test', email: 'test@gmail.com', subject: 'test', message: 'test' },
-  { id: 3, firstName: 'abcd', lastName: 'abcd', email: 'abcd@gmail.com', subject: 'abcdddd', message: 'test' },
-  { id: 4, firstName: 'Vinod', lastName: 'Dewangan', email: 'vinod.dewangan@gmail.com', subject: 'Supply my order no. 2508202201.', message: 'Please quick supply my order no. 2508202201.' },
-  { id: 5, firstName: 'Debosmita', lastName: 'Saha', email: 'debosmita.sh4@gmail.com', subject: 'I didn\'t get my product yet after payment', message: 'HI, When I will get my product I had already paid for mahua jam, mahua squash mahua chikki etc. Through paytm but 1week has passed till I didn\'t receive my products yet.' },
-  { id: 6, firstName: 'Abhishek', lastName: 'Verma', email: 'abhishek_verma_all@yahoo.in', subject: 'Cricket Association', message: 'Please let us know of whom to connect for marketing tie ups for cricket products.' },
-  { id: 7, firstName: 'Carl', lastName: 'E.', email: 'c.e@aneesho.com', subject: 'DESIGN WORK', message: 'Do you need help with graphic design – brochures, banners, flyers, advertisements, social media posts, logos etc? We charge a low fixed monthly fee. Let me know if you’re interested and I would like to see your portfolio.' },
-  { id: 8, firstName: 'Janardan L', lastName: 'Kulkarani', email: 'kulkarnijanardan@gmail.com', subject: 'Please give me your contact number', message: 'I have same purchase' },
-  { id: 9, firstName: 'Luna', lastName: 'Luna Wilson', email: 'luna@theheritage-seo.com', subject: 'Website Design with 6 Months Free Maintenance', message: 'Hi, We have a team of 55+ highly qualified and award-winning design teams that creates Innovative, effective websites that capture your brand, improve your conversion rates, and maximize your revenue to help grow your business and achieve your goals. With our web design services, you can resolve your design.' },
-]);
+  const [contactList, setContactList] = useState([]);
 const [selectedProduct, setSelectedProduct] = useState(null);
 const [weightList, setWeightList] = useState([]);
 const [isAddCategoryModalVisible, setIsAddCategoryModalVisible] = useState(false);
@@ -391,62 +1237,83 @@ const [isEditCategoryModalVisible, setIsEditCategoryModalVisible] = useState(fal
 const [selectedCategory, setSelectedCategory] = useState(null);
 const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 const [selectedRemedy, setSelectedRemedy] = useState(null);
-const handleDeleteCategory = (categoryId) => {
-    setCategoryList(categoryList.filter(category => category.id !== categoryId));
-    message.success('Category deleted successfully');
-  };
+const handleDeleteCategory = async (categoryId) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/category/${categoryId}`);
+    setCategories(prev => prev.filter(cat => cat.id !== categoryId));
+    message.success("Category deleted successfully");
+  } catch (err) {
+    console.error("Delete category failed:", err);
+    message.error("Failed to delete category");
+  }
+};
+
 const [categoryForm] = Form.useForm();
 const [weightUnitForm] = Form.useForm();
-const [productList, setProductList] = useState([
-  { id: 1, image: '/images/product1.jpg', name: 'Organic Wild Forest Honey', category: 'Premium Products', subCategory: 'Other', weights: [{ wt: '600 gm', price: 525, count: 10 }, { wt: '800 gm', price: 760, count: 0 }, { wt: '1200 gm', price: 1080, count: 0 }, { wt: '200 gm', price: 195, count: 11 }, { wt: '300 gm', price: 315, count: 0 }] },
-  { id: 2, image: '/images/product2.jpg', name: 'Jeera Millet Cookies', category: 'Gourmet Products', subCategory: 'Gourmet', weights: [{ wt: '200 gm', price: 120, count: 100 }] },
-  { id: 3, image: '/images/product3.jpg', name: 'Triphala Churna', category: 'Ayush Products', subCategory: 'Churna', weights: [{ wt: '100 gm', price: 55, count: 0 }, { wt: '200 gm', price: 90, count: 6 }, { wt: '500 gm', price: 190, count: 0 }] },
-  { id: 4, image: '/images/product4.jpg', name: 'Pure Honey', category: 'Premium Products', subCategory: 'Gourmet', weights: [{ wt: '800 gm', price: 760, count: 0 }, { wt: '1200 gm', price: 1080, count: 0 }, { wt: '600 gm', price: 525, count: 22 }, { wt: '300 gm', price: 315, count: 0 }] },
-  { id: 5, image: '/images/product5.jpg', name: 'Wild Forest Honey', category: 'Other Products', subCategory: 'Gourmet', weights: [{ wt: '600 gm', price: 600, count: 15 }, { wt: '800 gm', price: 760, count: 0 }, { wt: '1200 gm', price: 1080, count: 0 }, { wt: '200 gm', price: 195, count: 14 }, { wt: '300 gm', price: 315, count: 0 }] },
-  { id: 6, image: '/images/product6.jpg', name: 'Jackfruit & Mango Mix Pickle', category: 'Gourmet Products', subCategory: 'Gourmet', weights: [{ wt: '425 gm', price: 285, count: 0 }, { wt: '200 gm', price: 145, count: 0 }] },
-  { id: 7, image: '/images/product7.jpg', name: 'Bastard Cashew (Salted)', category: 'Gourmet Products', subCategory: 'Gourmet', weights: [{ wt: '30 gm', price: 50, count: 0 }, { wt: '80 gm', price: 149, count: 0 }] },
-]);
+const [productList, setProductList] = useState([]);
 
-const handleDeleteProduct = (productId) => {
-    setSelectedMenu(`deleteProduct/${productId}`); 
+const fetchProducts = async () => {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/listAll`);
+    const mappedProducts = (res.data.data || []).map(product => ({
+      id: product._id,  // Frontend expects 'id'
+      image: product.images?.[0]?.img || '',  // first image
+      name: product.title,  // title -> name
+      category: product.category?.category_name || '',
+      subCategory: product.sub_category?.category_name || '',
+      weights: (product.weight || []).map(w => ({
+        wt: w.weight_type?.weight_gram || '',
+        price: w.price || 0,
+        count: w.count || 0
+      }))
+    }));
+
+    setProductList(mappedProducts);
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
   }
+};
+
+
+
+
+const handleDeleteProduct = async (productId) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`);
+    message.success('Product deleted successfully');
+    setProductList(productList.filter(product => product._id !== productId)); // or adjust according to _id or id
+  } catch (error) {
+    console.error("Failed to delete product:", error);
+    message.error('Failed to delete product');
+  }
+};
+
+const handleDeleteGrievanceCategory = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/grievance_category/${id}`);
+    setGrievanceData(prev => prev.filter(item => item.id !== id));
+    message.success('Grievance category deleted successfully');
+  } catch (error) {
+    console.error("Failed to delete grievance category:", error);
+    message.error('Failed to delete grievance category');
+  }
+};
+
 
 const [addBenefits, setAddBenefits] = useState([]);
 
 const router = useRouter();
 
   // Mock banner list data
-  const [bannerList, setBannerList] = useState([
-    {
-      id: 1,
-      image: 'https://res.cloudinary.com/chhattisgarhherbals-org/image/upload/v1626216174/chhattisgarhherbals-org/category/p9hixh5s3cynecdumchv.jpg',
-      title: 'Purity that is priceless',
-      description: 'Each product is handcrafted with care and love by the empowered woman of these forest areas, endowing each product with the purity that is truly priceless',
-    },
-  ]);
+  const [bannerList, setBannerList] = useState([ ]);
   
 
   // Mock featured product list data
-  const [featuredProductList, setFeaturedProductList] = useState([
-    { id: 1, image: 'https://via.placeholder.com/50', name: 'Diwali Gift Hamper', category: 'Premium Products', subCategory: '', price: '₹500' },
-    { id: 2, image: 'https://via.placeholder.com/50', name: 'Lemon Soap', category: 'Personal Care', subCategory: '', price: '₹150' },
-    { id: 3, image: 'https://via.placeholder.com/50', name: 'Activated Charcoal Soap', category: 'Personal Care', subCategory: '', price: '₹200' },
-    { id: 4, image: 'https://via.placeholder.com/50', name: 'Multani Soap', category: 'Personal Care', subCategory: '', price: '₹180' },
-    { id: 5, image: 'https://via.placeholder.com/50', name: 'Honey Soap', category: 'Personal Care', subCategory: '', price: '₹160' },
-    { id: 6, image: 'https://via.placeholder.com/50', name: 'Camel Milk Soap', category: 'Personal Care', subCategory: '', price: '₹220' },
-    { id: 7, image: 'https://via.placeholder.com/50', name: 'Amla Murabba', category: 'Gourmet Foods', subCategory: '', price: '₹300' },
-    { id: 8, image: 'https://via.placeholder.com/50', name: 'Tikhur Powder', category: 'Gourmet Foods', subCategory: '', price: '₹250' },
-  ]);
+  const [featuredProductList, setFeaturedProductList] = useState([]);
 
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [selectedFeaturedProduct, setSelectedFeaturedProduct] = useState(null);
-  const [weights, setWeights] = useState(selectedProduct?.weights || [
-    { wt: '600 gm', count: 10, price: 525, hsncode: '', gstAmount: 28.57, taxableAmount: 571.43, discount: 0, discountType: 'rupee' },
-    { wt: '800 gm', count: 0, price: 760, hsncode: '', gstAmount: 36.19, taxableAmount: 723.81, discount: 10, discountType: 'percent' },
-    { wt: '1200 gm', count: 0, price: 1080, hsncode: '', gstAmount: 51.43, taxableAmount: 1028.57, discount: 10, discountType: 'percent' },
-    { wt: '200 gm', count: 11, price: 195, hsncode: '', gstAmount: 10.48, taxableAmount: 209.52, discount: 0, discountType: 'rupee' },
-    { wt: '300 gm', count: 0, price: 315, hsncode: '', gstAmount: 33.75, taxableAmount: 281.25, discount: 40, discountType: 'rupee' },
-  ]);
+  const [weights, setWeights] = useState(selectedProduct?.weights || [ ]);
   const [benefits, setBenefits] = useState(selectedProduct?.benefits || ['']);
   const handleAddBenefit = () => {
     setBenefits([...benefits, '']); // Add a new empty benefit string
@@ -500,6 +1367,12 @@ const router = useRouter();
     );
   };
 
+    useEffect(() => {
+  if (selectedMenu === 'Product') {
+    fetchProducts();
+  }
+}, [selectedMenu]);
+
   const addProduct = () => {
     const newProduct = {
       id: Date.now(),
@@ -512,26 +1385,10 @@ const router = useRouter();
     setProducts([...products, newProduct]);
   };
   // Mock admin list data
-  const [mockAdminList, setMockAdminList] = useState([
-    { id: 1, name: 'Ajay Dewangan', email: 'superadmin@gmail.com', role: 'admin', district: 'Bilaspur', block: 'Raipur', village: 'Raipur', status: 'Active' },
-    { id: 2, name: 'CG HERBAL', email: 'cgherbalsamiti@gmail.com', role: 'samiti-admin', district: 'Korba', block: 'Korba', village: 'Korba', status: 'Active' },
-    { id: 3, name: 'Superadmin', email: 'admin@cgherbal.com', role: 'super-admin', district: 'Raipur', block: 'Raipur', village: 'Raipur', status: 'Active' },
-    { id: 4, name: 'Ravi Sharma', email: 'ravi@cgherbal.com', role: 'volunteer', district: 'Raipur', block: 'Dhamtari', village: 'Dhamtari', status: 'Inactive' },
-    { id: 5, name: 'Priya Patel', email: 'priya@cgherbal.com', role: 'warehouse-admin', district: 'Korba', block: 'Katghora', village: 'Katghora', status: 'Active' },
-    { id: 6, name: 'Suresh Kumar', email: 'suresh@cgherbal.com', role: 'data-entry', district: 'Bilaspur', block: 'Takhatpur', village: 'Takhatpur', status: 'Active' },
-    { id: 7, name: 'Anita Gupta', email: 'anita@cgherbal.com', role: 'forest-lover', district: 'Raipur', block: 'Abhanpur', village: 'Abhanpur', status: 'Inactive' },
-    { id: 8, name: 'Vikram Singh', email: 'vikram@cgherbal.com', role: 'customer-manager', district: 'Korba', block: 'Pali', village: "Pali", status: 'Active' },
-  ]);
+  const [adminUsers, setAdminUsers] = useState([]);
 
   // Mock role list data
-  const [mockRoleList, setMockRoleList] = useState([
-    { id: 1, name: 'forest-lover', permissions: ['Dashboard', 'Profile'] },
-    { id: 2, name: 'admin', permissions: ['Users', 'Roles'] },
-    { id: 3, name: 'samiti-admin', permissions: ['Home Component', 'Pages'] },
-    { id: 4, name: 'warehouse-admin', permissions: ['Product Manager', 'Order Manager'] },
-    { id: 5, name: 'volunteer', permissions: ['Customer Manager', 'Connect'] },
-    { id: 6, name: 'Data Entry', permissions: ['FAQ', 'Grievance Category'] },
-  ]);
+ const [adminRoles, setAdminRoles] = useState([]);
  
   
   // Reset form when navigating to addFeaturedProduct or editFeaturedProduct
@@ -550,7 +1407,7 @@ const router = useRouter();
   const debouncedUserSearch = debounce((value) => setUserSearch(value), 300);
 
   const filteredOrders = orders.filter(order =>
-    (order.orderId?.toLowerCase() || '').includes(orderSearch.toLowerCase())
+    (order._id?.toLowerCase() || '').includes(orderSearch.toLowerCase())
   );
 
   const filteredUsers = users.filter(user =>
@@ -558,10 +1415,18 @@ const router = useRouter();
     (user.email?.toLowerCase() || '').includes(userSearch.toLowerCase())
   );
 
-  const handleMenuSelect = ({ key }) => {
-    console.log('Menu selected:', key); // Debug log to confirm key
-    setSelectedMenu(key);
-  };
+ const handleMenuSelect = ({ key }) => {
+  console.log('Menu selected:', key); 
+  setSelectedMenu(key);
+
+};
+
+useEffect(() => {
+  if (selectedMenu === 'Category') {
+    fetchCategories();
+  }
+}, [selectedMenu]);
+
  
   const calculateTotalRevenue = () => {
     return orders.reduce((total, order) => total + parseFloat(order.total || 0), 0).toFixed(2);
@@ -629,101 +1494,27 @@ const router = useRouter();
     },
   ];
 
+
+
   const featuredProductListColumns = [
-    { title: '#ID', dataIndex: 'id', key: 'id' },
-    {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
-      render: (image) => (
-        <img src={image} alt="product" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
-      ),
-    },
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Category', dataIndex: 'category', key: 'category' },
-    { title: 'Sub Category', dataIndex: 'subCategory', key: 'subCategory' },
-    { title: 'Price', dataIndex: 'price', key: 'price' },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <div className="flex gap-2">
-          <Button
-            icon={<EditOutlined />}
-            onClick={() => {
-              setSelectedFeaturedProduct(record);
-              setSelectedMenu('editFeaturedProduct');
-            }}
-            className="text-yellow-500 border-yellow-500"
-          />
-          <Popconfirm
-            title="Are you sure to delete this featured product?"
-            onConfirm={() => handleDeleteFeaturedProduct(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button
-              icon={<DeleteOutlined />}
-              className="text-red-500 border-red-500"
-            />
-          </Popconfirm>
-        </div>
-      ),
-    },
-  ];
+  { title: '#ID', dataIndex: 'id', key: 'id' },
+  {
+    title: 'Image',
+    dataIndex: 'image',
+    key: 'image',
+    render: (img) => (
+      <img src={img} alt="product" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
+    ),
+  },
+  { title: 'Name', dataIndex: 'name', key: 'name' },
+  { title: 'Category', dataIndex: 'category', key: 'category' },
+  { title: 'Sub Category', dataIndex: 'subCategory', key: 'subCategory' },
+];
 
-  const empowrdListColumns = [
-    {
-      title: 'Image',
-      dataIndex: 'blogImage',
-      key: 'blogImage',
-      render: (blogImage) => (
-        <img
-          src={blogImage}
-          alt="empowrd"
-          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-        />
-      ),
-    },
-    { title: ' Title', dataIndex: 'blogTitle', key: 'blogTitle' },
-    { title: ' Content', dataIndex: 'blogContent', key: 'blogContent' },
-    { title: 'Description', dataIndex: 'blogDescription', key: 'blogDescription' },
-    { title: ' Date', dataIndex: 'blogDate', key: 'blogDate' },
-    { title: 'SEO Title', dataIndex: 'seoTitle', key: 'seoTitle' },
-    { title: 'SEO Keywords', dataIndex: 'seoKeywords', key: 'seoKeywords' },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <div className="flex gap-2">
-          <Button
-            icon={<EditOutlined />}
-            onClick={() => {
-              setSelectedEmpowrd(record);
-              setSelectedMenu('editEmpowrd');
-            }}
-            className="text-yellow-500 border-yellow-500"
-          />
-          <Popconfirm
-            title="Are you sure to delete this empowrd?"
-            onConfirm={() => handleDeleteEmpowrd(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button
-              icon={<DeleteOutlined />}
-              className="text-red-500 border-red-500"
-            />
-          </Popconfirm>
-        </div>
-      ),
-    },
-  ];
-  const requestSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
 
-  const sortedRoleList = [...mockRoleList].sort((a, b) => {
+
+const sortedRoleList = [...adminRoles].sort((a, b) => {
+
     if (!sortConfig.key) return 0;
     let aValue = a[sortConfig.key];
     let bValue = b[sortConfig.key];
@@ -774,51 +1565,37 @@ const router = useRouter();
     },
   ];
 
-  const roleListColumns = [
-    { title: '#ID', dataIndex: 'id', key: 'id', sorter: (a, b) => a.id - b.id },
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { 
-      title: 'Permissions', 
-      key: 'permissions', 
-      render: (_, record) => (
+const roleListColumns = [
+  { title: '#ID', dataIndex: 'id', key: 'id', sorter: (a, b) => a.id - b.id },
+  { title: 'Role Name', dataIndex: 'name', key: 'name' },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (_, record) => (
+      <div className="flex gap-2">
         <Button
-          icon={<SettingOutlined />}
-          className="bg-cyan-500 text-white flex items-center justify-center w-10 h-10 rounded"
+          icon={<EditOutlined />}
           onClick={() => {
             setSelectedRole(record);
-            setSelectedMenu('permissions');
+            setIsEditModalVisible(true);
           }}
+          className="text-yellow-500 border-yellow-500"
         />
-      ),
-    },
-    { 
-      title: 'Action', 
-      key: 'action', 
-      render: (_, record) => (
-        <div className="flex gap-2">
-          <Button 
-            icon={<EditOutlined />} 
-            onClick={() => {
-              setSelectedRole(record);
-              setIsEditModalVisible(true);
-            }} 
-            className="text-yellow-500 border-yellow-500"
+        <Popconfirm
+          title="Are you sure to delete this role?"
+          onConfirm={() => handleDeleteRole(record.id)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button
+            icon={<DeleteOutlined />}
+            className="text-red-500 border-red-500"
           />
-          <Popconfirm
-            title="Are you sure to delete this role?"
-            onConfirm={() => handleDeleteRole(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button 
-              icon={<DeleteOutlined />} 
-              className="text-red-500 border-red-500"
-            />
-          </Popconfirm>
-        </div>
-      ),
-    },
-  ];
+        </Popconfirm>
+      </div>
+    ),
+  },
+];
 
   const districtListColumns = [
     { title: '#ID', dataIndex: 'id', key: 'id' },
@@ -887,49 +1664,32 @@ const router = useRouter();
   ];
 
  const aboutListColumns = [
-  { title: 'Image', dataIndex: 'image', key: 'image', render: (text) => <img src={text} alt="About" style={{ width: '50px' }} /> },
+  { title: '#ID', dataIndex: 'id', key: 'id' },
   { title: 'Title', dataIndex: 'title', key: 'title' },
-  { 
-    title: 'Description', 
-    dataIndex: 'description', 
-    key: 'description',
-  },
+  { title: 'Description', dataIndex: 'description', key: 'description' },
   {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <div className="flex gap-2">
-        <Button
-          icon={<EditOutlined />}
-          onClick={() => {
-            setSelectedAbout(record);
-            setSelectedMenu('editAbout');
-          }}
-          className="text-yellow-500 border-yellow-500"
-        />
-        <Popconfirm
-          title="Are you sure to delete this about?"
-          onConfirm={() => handleDeleteAbout(record.id)}
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button
-            icon={<DeleteOutlined />}
-            className="text-red-500 border-red-500"
-          />
-        </Popconfirm>
-      </div>
+    title: 'Image',
+    dataIndex: 'image',
+    key: 'image',
+    render: (img) => (
+      <img src={img} alt="about" style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
     ),
   },
 ];
 
+
 const newsListColumns = [
-  { title: 'Image', dataIndex: 'image', key: 'image', render: (text) => <img src={text} alt="News" style={{ width: '50px' }} /> },
+  {
+    title: 'Image',
+    dataIndex: 'image',
+    key: 'image',
+    render: (text) => <img src={text} alt="News" style={{ width: '50px' }} />,
+  },
   { title: 'Title', dataIndex: 'title', key: 'title' },
   { title: 'Content', dataIndex: 'content', key: 'content' },
-  { 
-    title: 'Description', 
-    dataIndex: 'description', 
+  {
+    title: 'Description',
+    dataIndex: 'description',
     key: 'description',
     render: (text) => (
       <div style={{ whiteSpace: 'pre-wrap', maxHeight: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -968,47 +1728,20 @@ const newsListColumns = [
 ];
 
 const blogListColumns = [
-  { title: 'IMG', dataIndex: 'image', key: 'image', render: (text) => <img src={text} alt="Blog" style={{ width: '50px' }} /> },
-  { title: 'TITLE', dataIndex: 'title', key: 'title' },
-  { 
-    title: 'CONTENT', 
-    dataIndex: 'content', 
-    key: 'content',
-    render: (text) => (
-      <div style={{ whiteSpace: 'pre-wrap', maxHeight: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        {text}
-      </div>
-    ),
-  },
-  { title: 'DATE', dataIndex: 'date', key: 'date' },
   {
-    title: 'ACTION',
-    key: 'action',
-    render: (_, record) => (
-      <div className="flex gap-2">
-        <Button
-          icon={<EditOutlined />}
-          onClick={() => {
-            setSelectedBlog(record);
-            setSelectedMenu('editBlog');
-          }}
-          className="text-yellow-500 border-yellow-500"
-        />
-        <Popconfirm
-          title="Are you sure you want to delete this blog?"
-          onConfirm={() => handleDeleteBlog(record.id)}
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button
-            icon={<DeleteOutlined />}
-            className="text-red-500 border-red-500"
-          />
-        </Popconfirm>
-      </div>
+    title: 'Image',
+    dataIndex: 'image',
+    key: 'image',
+    render: (img) => (
+      <img src={img} alt="blog" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
     ),
   },
+  { title: 'Title', dataIndex: 'title', key: 'title' },
+  { title: 'Content', dataIndex: 'content', key: 'content' },
+  { title: 'Description', dataIndex: 'description', key: 'description' },
+  { title: 'Date', dataIndex: 'date', key: 'date' },
 ];
+
 
 const corporateListColumns = [
   { title: 'Sr.', dataIndex: 'id', key: 'id' },
@@ -1095,7 +1828,8 @@ const contactListColumns = [
       </div>
     ),
   },
-  { title: 'Delete',
+  {
+    title: 'Delete',
     key: 'action',
     render: (_, record) => (
       <Popconfirm
@@ -1104,10 +1838,7 @@ const contactListColumns = [
         okText="Yes"
         cancelText="No"
       >
-        <Button
-          icon={<DeleteOutlined />}
-          className="text-red-500 border-red-500"
-        />
+        <Button icon={<DeleteOutlined />} className="text-red-500 border-red-500" />
       </Popconfirm>
     ),
   },
@@ -1144,19 +1875,14 @@ const categoryListColumns = [
           className="text-yellow-500 border-yellow-500"
         />
         <Popconfirm
-          title="Are you sure you want to delete this category?"
-          onConfirm={() => {
-            setCategories(prevCategories => prevCategories.filter(category => category.id !== record.id));
-            message.success('Category deleted successfully');
-          }}
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button
-            icon={<DeleteOutlined />}
-            className="text-red-500 border-red-500"
-          />
-        </Popconfirm>
+  title="Are you sure you want to delete this category?"
+  onConfirm={() => handleDeleteCategory(record.id)}
+  okText="Yes"
+  cancelText="No"
+>
+  <Button icon={<DeleteOutlined />} className="text-red-500 border-red-500" />
+</Popconfirm>
+
       </div>
     ),
   },
@@ -1176,16 +1902,24 @@ const categoryListColumns = [
     setIsAddModalVisible(true);
   };
 
-  const handleAddAdmin = (values) => {
-    const newAdmin = {
-      id: mockAdminList.length + 1,
-      ...values,
-      status: values.status ? 'Active' : 'Inactive',
-    };
-    setMockAdminList([...mockAdminList, newAdmin]);
-    setIsAddModalVisible(false);
-    message.success('Admin added successfully');
-  };
+  const handleAddAdmin = async (values) => {
+  try {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/admin/signup`, {
+      full_name: values.full_name,
+      email: values.email,
+      mobile: values.mobile,
+      password: values.password,
+      role: values.role, // optional if backend uses default
+    });
+    message.success("Admin created successfully");
+    fetchAdmins();
+    setShowAddModal(false);
+  } catch (error) {
+    console.error("Create admin failed", error.response?.data || error.message);
+    message.error("Failed to create admin");
+  }
+};
+
 
   const handleAddRole = (values) => {
     const newRole = {
@@ -1208,55 +1942,88 @@ const categoryListColumns = [
   };
 
   const handleEditRole = (role) => {
-    setSelectedRole(role);
-    form.setFieldsValue({
-      name: role.name,
-      permissions: role.permissions,
+  setEditingRole(role);
+  setIsEditModalVisible(true);
+};
+
+const handleUpdateRole = async (updatedData) => {
+  try {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/admin-role/update/${editingRole.id}`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
     });
-    setIsEditModalVisible(true);
-  };
-
-  const handleUpdateAdmin = (values) => {
-    const updatedList = mockAdminList.map((admin) =>
-      admin.id === selectedAdmin.id
-        ? { ...admin, ...values, status: values.status ? 'Active' : 'Inactive' }
-        : admin
-    );
-    setMockAdminList(updatedList);
+    message.success("Role updated successfully");
+    fetchRoles();
     setIsEditModalVisible(false);
-    setSelectedAdmin(null);
-    message.success('Admin updated successfully');
-  };
+  } catch (error) {
+    console.error("Failed to update role", error);
+    message.error("Failed to update role");
+  }
+};
 
-  const handleUpdateRole = (values) => {
-    const updatedList = mockRoleList.map((role) =>
-      role.id === selectedRole.id
-        ? { ...role, name: values.name, permissions: values.permissions }
-        : role
-    );
-    setMockRoleList(updatedList);
-    setIsEditModalVisible(false);
-    setSelectedRole(null);
-    message.success('Role updated successfully');
-  };
+  const handleUpdateAdmin = async (id, values) => {
+  try {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/admin/update/${id}`, {
+      full_name: values.full_name,
+      email: values.email,
+      mobile: values.mobile,
+      password: values.password, // optional
+    });
+    message.success("Admin updated successfully");
+    fetchAdmins();
+    setShowEditModal(false);
+  } catch (error) {
+    console.error("Update admin failed", error);
+    message.error("Failed to update admin");
+  }
+};
 
-  const handleDeleteAdmin = (id) => {
-    const updatedList = mockAdminList.filter((admin) => admin.id !== id);
-    setMockAdminList(updatedList);
-    message.success('Admin deleted successfully');
-  };
 
-  const handleDeleteRole = (id) => {
-    const updatedList = mockRoleList.filter((role) => role.id !== id);
-    setMockRoleList(updatedList);
-    message.success('Role deleted successfully');
-  };
 
-  const handleDeleteBanner = (id) => {
-    const updatedList = bannerList.filter((banner) => banner.id !== id);
-    setBannerList(updatedList);
-    message.success('Banner deleted successfully');
-  };
+  const handleDeleteAdmin = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/admin/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // replace with your auth method
+      },
+    });
+    message.success("Admin deleted successfully");
+    fetchAdmins();
+  } catch (error) {
+    console.error("Delete admin failed", error);
+    message.error("Failed to delete admin");
+  }
+};
+
+
+  const handleDeleteRole = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/admin-role/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    });
+    message.success("Role deleted successfully");
+    fetchRoles(); // Refresh list
+  } catch (error) {
+    console.error("Failed to delete role", error);
+    message.error("Failed to delete role");
+  }
+};
+
+
+  const handleDeleteBanner = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/home/banner/${id}`);
+    setBannerList(prev => prev.filter(b => b.id !== id));
+    message.success("Banner deleted successfully");
+  } catch (error) {
+    console.error("Failed to delete banner:", error);
+    message.error("Failed to delete banner");
+  }
+};
+
 
   const handleDeleteFeaturedProduct = (id) => {
     const updatedList = featuredProductList.filter((product) => product.id !== id);
@@ -1264,62 +2031,87 @@ const categoryListColumns = [
     message.success('Featured Product deleted successfully');
   };
 
-  const handleAddBanner = (values) => {
-    const newBanner = {
-      id: bannerList.length + 1,
-      image: values.image ? URL.createObjectURL(values.image) : '',
-      title: values.title,
-      description: values.description,
-    };
-    setBannerList([...bannerList, newBanner]);
-    setSelectedMenu('Banner');
-    message.success('Banner added successfully');
-  };
+  const handleAddBanner = async (values) => {
+  const formData = new FormData();
+  formData.append("title", values.title);
+  formData.append("description", values.description);
+  formData.append("images", values.image);  // MUST match backend field name
 
-  const handleAddCommunity = (values) => {
-    const newCommunity = {
-      id: communityList.length + 1, 
-      image: values.image ? URL.createObjectURL(values.image) : '',
-      name: values.name,
-      description: values.description,
-      status: values.status,
-    };
-    setCommunityList([...communityList, newCommunity]);
-    setSelectedMenu('Community');
-    message.success('Community added successfully');
-  };
+  try {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/home/banner/create`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    message.success("Banner created successfully");
+    fetchBanners();  // optional: refresh list
+    setSelectedMenu("Banner");  // navigate back
+  } catch (error) {
+    console.error("Failed to create banner:", error);
+    message.error("Failed to create banner");
+  }
+};
 
-  const handleUpdateBanner = (values) => {
-    const updatedList = bannerList.map((banner) =>
-      banner.id === selectedBanner.id
-        ? { ...banner, ...values, image: values.image ? URL.createObjectURL(values.image) : banner.image }
-        : banner
+
+ const handleAddCommunity = async (values) => {
+  const formData = new FormData();
+  formData.append("products", values.name); // product title
+  formData.append("images", values.image); // required key for backend
+
+  try {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/home/community/create`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    message.success("Community created successfully");
+    fetchCommunities(); // refresh list
+    setSelectedMenu("Community");
+  } catch (error) {
+    console.error("Failed to add community:", error);
+    message.error("Failed to create community");
+  }
+};
+
+
+ const handleUpdateBanner = async (values) => {
+  if (!selectedBanner) return;
+
+  const formData = new FormData();
+  formData.append("title", values.title);
+  formData.append("description", values.description);
+
+  if (values.image instanceof File) {
+    formData.append("images", values.image);
+  }
+
+  try {
+    await axios.put(
+      `${process.env.NEXT_PUBLIC_API_URL}/home/banner/update/${selectedBanner.id}`,
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
     );
-    setBannerList(updatedList);
-    setSelectedMenu('Banner');
-    setSelectedBanner(null);
-    message.success('Banner updated successfully');
-  };
+
+    message.success("Banner updated successfully");
+    fetchBanners(); // Refresh the list
+    setSelectedMenu("Banner");
+  } catch (error) {
+    console.error("Failed to update banner:", error);
+    message.error("Failed to update banner");
+  }
+};
 
 
-  const handleAddFeaturedProduct = (values) => {
-    const selectedProduct = productOptions.find(product => product.id === values.productId);
-    if (!selectedProduct) {
-      message.error('Please select a valid product');
-      return;
-    }
-    const newFeaturedProduct = {
-      id: featuredProductList.length + 1,
-      image: selectedProduct.image,
-      name: selectedProduct.name,
-      category: featuredProductList.find(p => p.name === selectedProduct.name)?.category || 'Unknown',
-      subCategory: '',
-      price: featuredProductList.find(p => p.name === selectedProduct.name)?.price || '₹0',
+  const handleAddFeaturedProduct = async (values) => {
+  try {
+    const payload = {
+      products_id: values.productId,
     };
-    setFeaturedProductList([...featuredProductList, newFeaturedProduct]);
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/product/featured/create`, payload);
+    message.success("Featured product added successfully");
+    fetchFeaturedProducts(); // make sure this fetches updated list
     setSelectedMenu('Featured Product');
-    message.success('Featured Product added successfully');
-  };
+  } catch (error) {
+    console.error(error);
+    message.error("Failed to create featured product");
+  }
+};
 
   const handleUpdateFeaturedProduct = (values) => {
     const selectedProduct = productOptions.find(product => product.id === values.productId);
@@ -1343,24 +2135,38 @@ const categoryListColumns = [
     setSelectedFeaturedProduct(null);
     message.success('Featured Product updated successfully');
   };
-  const handleAddEmpowrd = (values) => {
-    const newEmpowrd = {
-      id: empowrdList.length + 1,
-      blogImage: values.blogImage ? URL.createObjectURL(values.blogImage) : '',
-      blogTitle: values.blogTitle,
-      blogContent: values.blogContent,
-      blogDescription: values.blogDescription,
-      blogDate: values.blogDate,
-      seoTitle: values.seoTitle,
-      seoDescription: values.seoDescription,
-      seoKeywords: values.seoKeywords,
-      seoSchema: values.seoSchema,
-    };
-    setEmpowrdList([...empowrdList, newEmpowrd]);
-    setSelectedMenu('Empowerd');
-    message.success('Empowrd added successfully');
-  };
   
+const handleAddEmpowrd = async (values) => {
+  const formData = new FormData();
+  formData.append("seo_title", values.seoTitle);
+  formData.append("seo_description", values.seoDescription);
+  formData.append("seo_keywords", values.seoKeywords);
+  formData.append("seo_schema", values.seoSchema || "");
+  formData.append("title", values.title);
+  formData.append("sub_title", values.subTitle);
+  formData.append("keyword", values.keyword);
+  formData.append("url_customize", values.urlCustomize);
+  formData.append("content", values.content);
+  formData.append("description", values.description);
+  formData.append("date", values.date);
+  formData.append("status", values.status === "Active");
+  formData.append("images", values.image); // file object
+
+  try {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/about/empowerd/create`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    message.success("Empowerd added successfully");
+    setSelectedMenu("Empowerd");
+  } catch (error) {
+    console.error("API error:", error);
+    message.error("Failed to add Empowerd");
+  }
+};
+
+
   const handleUpdateEmpowrd = (values) => {
     const updatedList = empowrdList.map((empowrd) =>
       empowrd.id === selectedEmpowrd.id
@@ -1381,93 +2187,177 @@ const categoryListColumns = [
     setEmpowrdList(updatedList);
     message.success('Empowrd deleted successfully');
   };
-  const handleUpdateCommunity = (values) => {
-    const updatedList = communityList.map((community) =>
-      community.id === selectedCommunity.id
-        ? {
-            ...community,
-            image: values.image instanceof File ? URL.createObjectURL(values.image) : community.image, // Preserve existing image if no new one is uploaded
-            name: values.name,
-            status: 'Active', // Default to Active
-          }
-        : community
-    );
-    setCommunityList(updatedList);
-    setSelectedMenu('Community');
-    setSelectedCommunity(null);
-    message.success('Community updated successfully');
-  };
-  const handleDeleteCommunity = (id) => {
-    const updatedList = communityList.filter((community) => community.id !== id);
-    setCommunityList(updatedList);
-    message.success('Community deleted successfully');
-  };
-  const handleAddDistrict = (values) => {
-    const newDistrict = {
-      id: districtList.length + 1,
-      name: values.name,
+  const handleUpdateCommunity = async (values) => {
+  const formData = new FormData();
+  formData.append("name", values.name);
+
+  if (values.image instanceof File) {
+    formData.append("images", values.image);
+  }
+
+  try {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/home/community/update/${selectedCommunity.id}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    message.success("Community updated successfully");
+    fetchCommunities();
+    setSelectedMenu("Community");
+  } catch (error) {
+    console.error("Failed to update community:", error);
+    message.error("Failed to update community");
+  }
+};
+
+
+  const handleDeleteCommunity = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/home/community/${id}`);
+    message.success("Community deleted successfully");
+    setCommunityList(prev => prev.filter(item => item.id !== id));
+  } catch (error) {
+    console.error("Failed to delete community:", error);
+    message.error("Failed to delete community");
+  }
+};
+
+  const handleAddDistrict = async (values) => {
+  try {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/district/create`, {
+      district: values.name  // ✅ convert 'name' to 'district'
+    });
+    message.success("District added successfully");
+    setSelectedMenu("District");
+  } catch (err) {
+    console.error("Failed to add district", err);
+    message.error("Error adding district");
+  }
+};
+
+  const handleUpdateDistrict = async (values) => {
+  try {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/district/update/${selectedDistrict.id}`, {
+      district: values.name  // ✅ convert form name -> backend field district
+    });
+    message.success("District updated successfully");
+    setSelectedMenu("District");
+  } catch (err) {
+    console.error("Update failed", err);
+    message.error("Failed to update district");
+  }
+};
+
+  const handleDeleteDistrict = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/district/${id}`);
+    message.success("District deleted successfully");
+    fetchDistricts(); // ✅ Refresh the list
+  } catch (error) {
+    console.error("Failed to delete district:", error);
+    message.error("Failed to delete district");
+  }
+};
+
+
+  const handleAddStore = async (values) => {
+  try {
+    const payload = {
+      name_of_store: values.name,
+      address: values.address,
+      geo_map_url: values.mapUrl,
+      store_locater: values.storeLocator,
     };
-    setDistrictList([...districtList, newDistrict]);
-    setSelectedMenu('District');
-    message.success('District added successfully');
-  };
 
-  const handleUpdateDistrict = (values) => {
-    const updatedList = districtList.map((district) =>
-      district.id === selectedDistrict.id ? { ...district, ...values } : district
-    );
-    setDistrictList(updatedList);
-    setSelectedMenu('District');
-    setSelectedDistrict(null);
-    message.success('District updated successfully');
-  };
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/store/create`, payload);
 
-  const handleDeleteDistrict = (id) => {
-    const updatedList = districtList.filter((district) => district.id !== id);
-    setDistrictList(updatedList);
-    message.success('District deleted successfully');
-  };
+    const newStore = response.data.data;
+    setStoreList(prev => [...prev, {
+      id: newStore._id,
+      name: newStore.name_of_store,
+      address: newStore.address,
+      mapUrl: newStore.geo_map_url,
+      storeLocator: newStore.store_locater
+    }]);
 
-  const handleAddStore = (values) => {
-    const newStore = {
-      id: storeList.length + 1,
-      name: values.name,
-      address: values.address || '',
-      mapUrl: values.mapUrl || '',
-      storeLocator: values.storeLocator || '',
-    };
-    setStoreList([...storeList, newStore]);
+    form.resetFields();
+    message.success("Store created successfully");
     setSelectedMenu('Store');
-    message.success('Store added successfully');
-  };
+  } catch (error) {
+    console.error(error);
+    message.error("Failed to create store");
+  }
+};
 
-  const handleUpdateStore = (values) => {
+
+  const handleUpdateStore = async (values) => {
+  try {
+    const payload = {
+      name_of_store: values.name,
+      address: values.address,
+      geo_map_url: values.mapUrl,
+      store_locater: values.storeLocator,
+    };
+
+    const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/store/update/${selectedStore.id}`, payload);
+
+    const updatedStore = response.data.data;
     const updatedList = storeList.map((store) =>
-      store.id === selectedStore.id ? { ...store, ...values } : store
+      store.id === selectedStore.id
+        ? {
+            id: updatedStore._id,
+            name: updatedStore.name_of_store,
+            address: updatedStore.address,
+            mapUrl: updatedStore.geo_map_url,
+            storeLocator: updatedStore.store_locater
+          }
+        : store
     );
-    setStoreList(updatedList);
-    setSelectedMenu('Store');
-    setSelectedStore(null);
-    message.success('Store updated successfully');
-  };
 
-  const handleDeleteStore = (id) => {
-    const updatedList = storeList.filter((store) => store.id !== id);
     setStoreList(updatedList);
-    message.success('Store deleted successfully');
-  };
+    message.success("Store updated successfully");
+    setSelectedMenu("Store");
+  } catch (error) {
+    console.error(error);
+    message.error("Failed to update store");
+  }
+};
 
-  const handleAddAbout = (values) => {
-    const newAbout = {
-      id: aboutList.length + 1,
-      image: values.image ? values.image.file.name : '',
-      title: values.title,
-      description: values.description,
-    };
-    setAboutList([...aboutList, newAbout]);
-    setSelectedMenu('About');
-    message.success('About added successfully');
-  };
+
+
+const handleDeleteStore = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/store/${id}`);
+    setStoreList(prev => prev.filter(store => store.id !== id));
+    message.success("Store deleted successfully");
+  } catch (error) {
+    console.error(error);
+    message.error("Failed to delete store");
+  }
+};
+
+
+ const handleAddAbout = async (values) => {
+  try {
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("description", values.description);
+    if (values.image && values.image.file) {
+      formData.append("images", values.image.file);  // single image upload
+    }
+
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/about/create`, formData);
+    
+    if (res.status === 200 || res.status === 201) {
+      message.success("About created successfully");
+      fetchAboutList(); // refresh list
+      setSelectedMenu("About");
+    } else {
+      message.error("Failed to create About entry");
+    }
+  } catch (error) {
+    console.error("Error creating About:", error);
+    message.error("An error occurred while adding About");
+  }
+};
 
   const handleUpdateAbout = (values) => {
     const updatedList = aboutList.map((about) =>
@@ -1485,22 +2375,44 @@ const categoryListColumns = [
     message.success('About deleted successfully');
   };
 
-  const handleUpdateNews = (values) => {
-    const updatedList = newsList.map((news) =>
-      news.id === selectedNews.id
-        ? {
-            ...news,
-            ...values,
-            date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : news.date,
-            image: values.image ? values.image.file.name : news.image,
-          }
-        : news
-    );
-    setNewsList(updatedList);
-    setSelectedMenu('News');
-    setSelectedNews(null);
-    message.success('समाचार सफलतापूर्वक अपडेट किया गया');
-  };
+  const handleUpdateNews = async (values) => {
+  try {
+    const formData = new FormData();
+    
+    formData.append('seo_title', values.seoTitle);
+    formData.append('seo_description', values.seoDescription);
+    formData.append('seo_keywords', values.seoKeywords);
+    formData.append('seo_schema', values.seoSchema);
+    formData.append('title', values.title);
+    formData.append('content', values.content);
+    formData.append('description', values.description);
+    formData.append('date', values.date.format('YYYY-MM-DD'));
+    formData.append('month', values.date.format('MMMM-YYYY'));
+    formData.append('year', values.date.format('YYYY'));
+
+    if (values.image && values.image.file) {
+      formData.append('images', values.image.file); // 'images' matches backend multer field
+    }
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/newsroom/update/${selectedNews.id}`, {
+      method: 'PUT',
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      message.success('News updated successfully');
+      fetchNewsList();  // refresh list
+      setSelectedMenu('News');
+    } else {
+      throw new Error(data.message || 'Failed to update');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Error updating news');
+  }
+};
+
 
   const handleDeleteNews = (id) => {
     const updatedList = newsList.filter((news) => news.id !== id);
@@ -1546,25 +2458,62 @@ const categoryListColumns = [
     message.success('Blog deleted successfully');
   };
 
-  const handleAddBlog = (values) => {
-    const newBlog = {
-      id: blogList.length + 1,
-      image: values.image ? values.image.file.name : '',
-      title: values.title,
-      content: values.content,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
-      status: values.status ? 'Active' : 'Inactive',
-    };
-    setBlogList([...blogList, newBlog]);
-    setSelectedMenu('Blogs');
-    message.success('Blog added successfully');
-  };
+const handleAddBlog = async (values) => {
+  try {
+    const formData = new FormData();
+    formData.append('seoTitle', values.seoTitle || '');
+    formData.append('seoDescription', values.seoDescription || '');
+    formData.append('seoKeywords', values.seoKeywords || '');
+    formData.append('seoSchema', values.seoSchema || '');
+    formData.append('title', values.title || '');
+    formData.append('urlCustomize', values.urlCustomize || '');
+    formData.append('keyword', values.keyword || '');
+    formData.append('content', values.content || '');
+    formData.append('date', values.date.format('YYYY-MM-DD'));
+    formData.append('status', values.status ? 'true' : 'false');
 
-  const handleDeleteCorporate = (id) => {
-    const updatedList = corporateList.filter((corporate) => corporate.id !== id);
-    setCorporateList(updatedList);
-    message.success('Corporate entry deleted successfully');
-  };
+   if (values.images && Array.isArray(values.images)) {
+  const fileList = values.images;
+  const file = fileList[0];
+
+  if (file && file.originFileObj) {
+    formData.append('images', file.originFileObj); // ✅ must be 'images' to match backend
+  } else {
+    console.warn("⚠️ Image file missing or improperly parsed:", file);
+  }
+} else {
+  console.warn("⚠️ No image field found in form values.");
+}
+
+
+    // ✅ Wait for the backend call to finish
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/about/blog/create`, formData);
+
+    if (!res?.data?.success) throw new Error('API call failed');
+
+    // ✅ Only switch UI after successful response
+    message.success('Blog added successfully');
+    setSelectedMenu('Blogs');
+    fetchBlogList(); // refresh blog list
+  } catch (error) {
+    console.error('Add blog failed:', error);
+    message.error('Failed to add blog');
+  }
+};
+
+
+
+  const handleDeleteCorporate = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/corporate/enquiry/${id}`);
+    message.success('Corporate enquiry deleted successfully');
+    setCorporateList(prev => prev.filter(item => item.id !== id));
+  } catch (error) {
+    console.error("❌ Failed to delete corporate enquiry:", error);
+    message.error('Failed to delete entry');
+  }
+};
+
 
   const handleDeleteExhibition = (id) => {
     const updatedList = exhibitionList.filter((exhibition) => exhibition.id !== id);
@@ -1572,11 +2521,15 @@ const categoryListColumns = [
     message.success('Exhibition deleted successfully');
   };
 
-  const handleDeleteContact = (id) => {
-  console.log("Deleting contact with ID:", id);
-  const updatedList = contactList.filter((contact) => contact.id !== id);
-  setContactList(updatedList);
-  message.success('Contact deleted successfully');
+  const handleDeleteContact = async (id) => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`);
+    setContactList(prev => prev.filter(c => c.id !== id));
+    message.success('Contact deleted successfully');
+  } catch (error) {
+    console.error("❌ Failed to delete contact:", error);
+    message.error('Failed to delete');
+  }
 };
 
   
@@ -1618,10 +2571,56 @@ const categoryListColumns = [
   }
 };
 
-  const handleAddProduct = (values) => {
-    console.log('Added Product:', values);
-    setSelectedMenu('Product');
-  };
+  const handleAddProduct = async (values) => {
+  const formData = new FormData();
+
+  formData.append("title", values.title || "");
+  formData.append("slug", values.title?.toLowerCase().replace(/\s+/g, "-"));
+  formData.append("sub_title", values.subTitle || "");
+  formData.append("description", values.description || "");
+  formData.append("hindiDescription", values.hindiDescription || "");
+  formData.append("SKU_Number", values.skuNumber || "");
+  formData.append("gst", values.gst || "");
+  formData.append("category", values.category || "");
+  formData.append("sub_category", values.subCategory || "");
+  formData.append("meta_title", values.metaTitle || "");
+  formData.append("meta_description", values.metaDescription || "");
+  formData.append("product_schema", values.productSchema || "");
+  formData.append("breadcrum_schema", values.breadcrumbSchema || "");
+  formData.append("organisation_schema", values.organizationSchema || "");
+
+  // append JSON data
+  formData.append("weight", JSON.stringify(weights));
+  formData.append("questions", JSON.stringify(faqs));
+  formData.append("remedy", JSON.stringify([]));
+  formData.append("ingridients", JSON.stringify([]));
+  formData.append("benefits", JSON.stringify(benefits));
+  formData.append("detail_icons", JSON.stringify([]));
+  formData.append("createdBy", "admin");
+
+  // append uploaded files
+  if (values.images) {
+    values.images.forEach((file) => {
+      formData.append("images", file.originFileObj);
+    });
+  }
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/create`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error("Product creation failed");
+
+    message.success("Product created successfully");
+    setSelectedMenu("Product");
+  } catch (err) {
+    console.error("Create Product Error", err);
+    message.error("Failed to create product");
+  }
+};
+
 
   const handleLogout = () => {
     message.success('Logged out successfully');
@@ -1734,16 +2733,16 @@ const categoryListColumns = [
         <div className="p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card className="bg-teal-500 text-white shadow-md border-none" title={<span className="font-semibold">TOTAL ORDER</span>}>
-              <p className="text-2xl font-bold">{orders.length} <span className="text-sm">More +</span></p>
+              <p className="text-2xl font-bold">{dashboardCounts.total_orders} <span className="text-sm">More +</span></p>
             </Card>
             <Card className="bg-red-500 text-white shadow-md border-none" title={<span className="font-semibold">TOTAL PRODUCT</span>}>
-              <p className="text-2xl font-bold">{products.length} <span className="text-sm">More +</span></p>
+              <p className="text-2xl font-bold">{dashboardCounts.total_products} <span className="text-sm">More +</span></p>
             </Card>
             <Card className="bg-green-500 text-white shadow-md border-none" title={<span className="font-semibold">TOTAL CUSTOMER</span>}>
-              <p className="text-2xl font-bold">{users.length} <span className="text-sm">More +</span></p>
+              <p className="text-2xl font-bold">{dashboardCounts.total_customers} <span className="text-sm">More +</span></p>
             </Card>
             <Card className="bg-yellow-500 text-white shadow-md border-none" title={<span className="font-semibold">TOTAL BLOG</span>}>
-              <p className="text-2xl font-bold">{blogs.length} <span className="text-sm">More +</span></p>
+              <p className="text-2xl font-bold">{dashboardCounts.total_blogs} <span className="text-sm">More +</span></p>
             </Card>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1756,13 +2755,18 @@ const categoryListColumns = [
                 className="mb-4 w-full"
               />
               <Table
-                columns={lastOrderColumns}
-                dataSource={filteredOrders.length > 0 ? latestOrder : []}
-                rowKey="orderId"
-                pagination={false}
-                className="bg-white"
-                scroll={{ x: 'max-content' }}
-              />
+  title={() => 'Latest Orders'}
+  dataSource={dashboardOrders}
+  columns={[
+    { title: 'Order ID', dataIndex: 'orderId', key: 'orderId' },
+    { title: 'Customer', dataIndex: 'customer', key: 'customer' },
+    { title: 'Amount', dataIndex: 'total', key: 'total', render: (amt) => `₹${amt}` },
+    { title: 'Created At', dataIndex: 'createdAt', key: 'createdAt', render: date => moment(date).format('YYYY-MM-DD HH:mm') },
+  ]}
+  pagination={{ pageSize: 5 }}
+  rowKey="orderId"
+/>
+
               <div className="mt-4 flex justify-between">
                 <Button type="primary" onClick={() => setSelectedMenu('addOrder')}>  
                   Place New Order
@@ -1780,14 +2784,19 @@ const categoryListColumns = [
                 value={userSearch}
                 className="mb-4 w-full"
               />
-              <Table
-                columns={recentCustomerColumns}
-                dataSource={filteredUsers.length > 0 ? latestCustomer : []}
-                rowKey="email"
-                pagination={false}
-                className="bg-white"
-                scroll={{ x: 'max-content' }}
-              />
+             <Table
+  title={() => 'Latest Customers'}
+  dataSource={dashboardCustomers}
+  columns={[
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Mobile', dataIndex: 'mobile', key: 'mobile' },
+    { title: 'Created At', dataIndex: 'createdAt', key: 'createdAt', render: date => moment(date).format('YYYY-MM-DD HH:mm') },
+  ]}
+  pagination={{ pageSize: 5 }}
+  rowKey="email"
+/>
+
               <div className="mt-4 flex justify-end">
                 <Button type="link" onClick={() => setSelectedMenu('customerManager')}>
                   View All Customers
@@ -1812,10 +2821,10 @@ const categoryListColumns = [
   if (selectedMenu === 'users') {
       return (
         <Users
-          mockAdminList={mockAdminList}
-          adminListColumns={adminListColumns}
-          showAddModal={showAddModal}
-          requestSort={requestSort}
+           mockAdminList={adminUsers}
+    adminListColumns={adminListColumns}
+    showAddModal={() => setIsAddModalVisible(true)}
+    requestSort={requestSort}
         />
       );
     }
@@ -1823,9 +2832,10 @@ const categoryListColumns = [
       return (
         <Roles
           sortedRoleList={sortedRoleList}
-          roleListColumns={roleListColumns}
-          showAddRoleModal={showAddRoleModal}
-          requestSort={requestSort}
+          mockRoleList={adminRoles}
+    roleListColumns={roleListColumns}
+    showAddModal={() => setIsAddModalVisible(true)}
+    requestSort={requestSort}
         />
       );
     }
@@ -1861,7 +2871,7 @@ const categoryListColumns = [
     if (selectedMenu === 'Featured Product') {
       return (
         <FeaturedProduct
-          productList={productList}
+          productList={featuredProductList}
           featuredProductListColumns={featuredProductListColumns}
           setSelectedMenu={setSelectedMenu}
         />
@@ -1869,12 +2879,12 @@ const categoryListColumns = [
     }
     if (selectedMenu === 'addFeaturedProduct') {
       return (
-        <AddFeaturedProduct
-          form={form}
-          productOptions={productOptions}
-          handleAddFeaturedProduct={handleAddFeaturedProduct}
-          setSelectedMenu={setSelectedMenu}
-        />
+         <AddFeaturedProduct
+    form={form}
+    productOptions={productList} // this should be fetched products
+    handleAddFeaturedProduct={handleAddFeaturedProduct}
+    setSelectedMenu={setSelectedMenu}
+  />
       );
     }
     if (selectedMenu === 'editFeaturedProduct' && selectedFeaturedProduct) {
@@ -1900,11 +2910,11 @@ const categoryListColumns = [
     }
     if (selectedMenu === 'Empowerd') {
       return (
-        <Empowerd
-          empowrdList={empowrdList}
-          empowrdListColumns={empowrdListColumns}
-          setSelectedMenu={setSelectedMenu}
-        />
+         <Empowerd
+    empowrdList={empowrdList}
+    empowrdListColumns={empowrdListColumns}
+    setSelectedMenu={setSelectedMenu}
+  />
       );
     }
     if (selectedMenu === 'addEmpowrd') {
@@ -2049,11 +3059,10 @@ const categoryListColumns = [
     if (selectedMenu === 'News') {
     return (
       <NewsList
-        newsList={newsList}
-        newsListColumns={newsListColumns}
-        setSelectedMenu={setSelectedMenu}
-        handleDeleteNews={handleDeleteNews}
-      />
+    newsList={newsList}
+    newsListColumns={newsListColumns}
+    setSelectedMenu={setSelectedMenu}
+  />
     );
   }
   if (selectedMenu === 'addExhibition') {
@@ -2078,20 +3087,19 @@ const categoryListColumns = [
     if (selectedMenu === 'Blogs') {
     return (
       <BlogList
-        blogList={blogList}
-        blogListColumns={blogListColumns}
-        setSelectedMenu={setSelectedMenu}
-        handleDeleteBlog={handleDeleteBlog}
-      />
+    blogList={blogList}
+    blogListColumns={blogListColumns}
+    setSelectedMenu={setSelectedMenu}
+  />
     );
   }
   if (selectedMenu === 'addBlog') {
     return (
-      <AddBlog
-        form={form}
-        handleAddBlog={handleAddBlog}
-        setSelectedMenu={setSelectedMenu}
-      />
+       <AddBlog
+    form={form}
+    handleAddBlog={handleAddBlog}
+    setSelectedMenu={setSelectedMenu}
+  />
     );
   }
   if (selectedMenu === 'editBlog' && selectedBlog) {
@@ -2108,11 +3116,10 @@ const categoryListColumns = [
 if (selectedMenu === 'Corporate') {
   return (
     <Corporate
-      corporateList={corporateList}
-      corporateListColumns={corporateListColumns}
-      setSelectedMenu={setSelectedMenu}
-      handleDeleteCorporate={handleDeleteCorporate}
-    />
+    corporateList={corporateList}
+    setSelectedMenu={setSelectedMenu}
+    handleDeleteCorporate={handleDeleteCorporate}
+  />
   );
 }
     if (selectedMenu === 'Stories') {
@@ -2133,14 +3140,19 @@ if (selectedMenu === 'Contact') {
     contactList,
     contactListColumns,
     handleDeleteContact,
+    
   });
+  
   return (
-    <Contact
-      contactList={contactList}
-      contactListColumns={contactListColumns}
-      handleDeleteContact={handleDeleteContact}
-    />
+     <Contact
+    contactList={contactList}
+    contactListColumns={contactListColumns}
+    handleDeleteContact={handleDeleteContact}
+    setSelectedMenu={setSelectedMenu}
+  />
+  
   );
+  
 }
 
     if (selectedMenu === 'Product') {
@@ -2206,12 +3218,12 @@ if (selectedMenu === 'Contact') {
   }
   if (selectedMenu === 'addCategory') {
     return (
-      <AddCategory
-        categoryForm={categoryForm}
-        categories={categories}
-        setCategories={setCategories}
-        setSelectedMenu={setSelectedMenu}
-      />
+       <AddCategory
+    categoryForm={categoryForm}
+    categories={categories}
+    setCategories={setCategories}
+    setSelectedMenu={setSelectedMenu}
+  />
     );
   }
   if (selectedMenu === 'editCategory' && selectedCategory) {
@@ -2301,12 +3313,15 @@ if (selectedMenu === 'Contact') {
 
 if (selectedMenu === 'Weight Unit') {
     return (
-      <WeightUnitList
-        weightUnits={weightUnits}
-        setWeightUnits={setWeightUnits}
-        setSelectedWeightUnit={setSelectedWeightUnit}
-        setSelectedMenu={setSelectedMenu}
-      />
+     <WeightUnitList
+  weightUnits={weightUnits}
+  setWeightUnits={setWeightUnits}
+  setSelectedWeightUnit={setSelectedWeightUnit}
+  setSelectedMenu={setSelectedMenu}
+  selectedProductId={selectedProductId}
+/>
+
+
     );
   }
   if (selectedMenu === 'addWeightUnit') {
@@ -2322,22 +3337,24 @@ if (selectedMenu === 'Weight Unit') {
   if (selectedMenu === 'editWeightUnit' && selectedWeightUnit) {
     return (
       <EditWeightUnit
-        weightUnitForm={weightUnitForm}
-        selectedWeightUnit={selectedWeightUnit}
-        weightUnits={weightUnits}
-        setWeightUnits={setWeightUnits}
-        setSelectedMenu={setSelectedMenu}
-      />
+   weightUnitForm={form}
+    selectedWeightUnit={selectedWeightUnit}  // ✅ add this
+    weightUnits={weightUnits}
+    setWeightUnits={setWeightUnits}
+    setSelectedMenu={setSelectedMenu}
+/>
+
+
     );
   }
      if (selectedMenu === 'Tax Manager') {
     return (
-      <TaxList
-        taxes={taxes}
-        setTaxes={setTaxes}
-        setSelectedTax={setSelectedTax}
-        setSelectedMenu={setSelectedMenu}
-      />
+       <TaxList
+    taxes={taxes}
+    taxListColumns={taxListColumns}
+    setSelectedMenu={setSelectedMenu}
+    setSelectedTax={setSelectedTax}
+  />
     );
   }
   if (selectedMenu === 'addTax') {
@@ -2573,7 +3590,7 @@ if (selectedMenu === 'Weight Unit') {
     );
   }
     if (selectedMenu === 'payment') {
-    return <PaymentList />;
+    return <PaymentList payments={payments} />;
   }
     if (selectedMenu === 'inventory') {
     return <InventoryList />;
@@ -2630,9 +3647,9 @@ if (selectedMenu.startsWith('editCoupon/')) {
   if (selectedMenu === 'Forest Lover') {
   return (
     <ForestLover
-      forestLoverRequests={volunteerRequests}
-      setForestLoverRequests={setVolunteerRequests}
-      pageSize={pageSize}
+       forestLoverRequests={forestLoverRequests}
+       setForestLoverRequests={setForestLoverRequests}
+       pageSize={pageSize}
     />
   );
 }
@@ -2640,10 +3657,11 @@ if (selectedMenu.startsWith('editCoupon/')) {
  if (selectedMenu === 'faq') {
     return (
       <FAQ
-        faqData={faqData}
-        setFaqData={setFaqData}
-        setSelectedMenu={setSelectedMenu}
-        pageSize={pageSize}
+         faqData={faqData}
+  setFaqData={setFaqData}
+  setSelectedMenu={setSelectedMenu}
+  pageSize={pageSize}
+  handleDeleteFAQ={handleDeleteFAQ}
       />
     );
   }
@@ -2664,10 +3682,10 @@ if (selectedMenu.startsWith('editCoupon/')) {
     }
     return (
       <EditFAQ
-        faq={faq}
-        faqData={faqData}
-        setFaqData={setFaqData}
-        setSelectedMenu={setSelectedMenu}
+        faq={selectedFAQ}
+    faqData={faqData}
+    setFaqData={setFaqData}
+    setSelectedMenu={setSelectedMenu}
       />
     );
   }
@@ -2678,6 +3696,7 @@ if (selectedMenu.startsWith('editCoupon/')) {
         setGrievanceData={setGrievanceData}
         setSelectedMenu={setSelectedMenu}
         pageSize={pageSize}
+        handleDeleteGrievanceCategory={handleDeleteGrievanceCategory}
       />
     );
   }
@@ -2713,6 +3732,13 @@ if (selectedMenu.startsWith('editCoupon/')) {
       />
     );
   }
+
+{selectedMenu === 'Ingridient' && (
+  <IngridientsList ingredients={ingredients} setIngredients={setIngredients} />
+)}
+
+
+
     return <div>Select a section from the menu</div>;
   };
   return (

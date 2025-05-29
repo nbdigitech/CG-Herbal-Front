@@ -31,25 +31,42 @@ const AddOrder = ({
         <Form
           form={orderForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newOrder = {
-              id: `300420250${orders.length + 1}`,
-              email: values.email,
-              paymentStatus: values.paymentStatus,
-              orderMode: values.orderMode,
-              qty: products.reduce((sum, p) => sum + p.qty, 0),
-              price: products.reduce((sum, p) => sum + p.price * p.qty, 0),
-              orderStatus: values.orderStatus,
-              shippingStatus: values.shippingStatus,
-              createdAt: new Date().toLocaleString(),
-              products: products,
-            };
-            setOrders(prevOrders => [...prevOrders, newOrder]);
-            setSelectedMenu('Order Manager');
-            orderForm.resetFields();
-            setProducts([]);
-            message.success('Order added successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const payload = {
+      email: values.email,
+      name: values.name,
+      phone: values.phone,
+      paymentStatus: values.paymentStatus,
+      orderStatus: values.orderStatus,
+      shippingStatus: values.shippingStatus,
+      serviceProvider: values.serviceProvider,
+      orderMode: values.orderMode,
+      address: values.address,
+      products: products,
+    };
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      message.success('Order added successfully');
+      setSelectedMenu('Order Manager');
+      orderForm.resetFields();
+      setProducts([]);
+    } else {
+      throw new Error(data.message || 'Order creation failed');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to create order');
+  }
+}}
+
         >
           <Form.Item
             label="Customer"

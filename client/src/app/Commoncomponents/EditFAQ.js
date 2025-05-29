@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
+import axios from 'axios';
 
 const EditFAQ = ({ faq, faqData, setFaqData, setSelectedMenu }) => {
   return (
@@ -13,19 +14,25 @@ const EditFAQ = ({ faq, faqData, setFaqData, setSelectedMenu }) => {
       </div>
       <div className="bg-white p-4 shadow-md rounded-lg">
         <Form
-          layout="vertical"
-          initialValues={{
-            question: faq?.question,
-            answer: faq?.answer,
-          }}
-          onFinish={(values) => {
-            setFaqData(faqData.map(item =>
-              item.id === faq.id ? { ...item, question: values.question, answer: values.answer } : item
-            ));
-            message.success('FAQ updated successfully');
-            setSelectedMenu('faq');
-          }}
-        >
+  layout="vertical"
+  initialValues={{
+    question: faq?.question,
+    answer: faq?.answer,
+  }}
+  onFinish={async (values) => {
+    try {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/faq/${faq.id}`, {
+        question: values.question,
+        answer: values.answer,
+      });
+      message.success('FAQ updated successfully');
+      setSelectedMenu('faq'); // Navigate back
+    } catch (error) {
+      console.error("Failed to update FAQ", error);
+      message.error('Failed to update FAQ');
+    }
+  }}
+>
           <Form.Item
             label="QUESTION"
             name="question"

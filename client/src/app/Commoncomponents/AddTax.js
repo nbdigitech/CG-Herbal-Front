@@ -14,18 +14,27 @@ const AddTax = ({ taxForm, taxes, setTaxes, setSelectedMenu }) => {
         <Form
           form={taxForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newTax = {
-              id: taxes.length + 1,
-              name: values.name,
-              value: values.value,
-              status: values.status,
-            };
-            setTaxes(prevTaxes => [...prevTaxes, newTax]);
-            setSelectedMenu('Tax Manager');
-            taxForm.resetFields();
-            message.success('Tax added successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/units/tax/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      message.success('Tax added successfully');
+      setSelectedMenu('Tax Manager');
+      taxForm.resetFields();
+    } else {
+      throw new Error(data.message || 'Failed to add tax');
+    }
+  } catch (error) {
+    console.error(error);
+    message.error('Error adding tax');
+  }
+}}
+
         >
           <Form.Item
             label="Name"

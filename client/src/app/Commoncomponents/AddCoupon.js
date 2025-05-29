@@ -3,12 +3,7 @@ import { Button, Form, Input, Select, Checkbox, message } from 'antd';
 export default function EditCoupon({ coupon, handleUpdateCoupon, setSelectedMenu }) {
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    handleUpdateCoupon(coupon.id, values);
-    form.resetFields();
-    message.success('Coupon updated successfully');
-    setSelectedMenu('Coupons');
-  };
+  
 
   return (
     <div className="p-6">
@@ -29,7 +24,37 @@ export default function EditCoupon({ coupon, handleUpdateCoupon, setSelectedMenu
             description: "New Offer",
             status: coupon?.status === "On",
           }}
-          onFinish={onFinish}
+          onFinish={async (values) => {
+ const payload = {
+  code: values.code,
+  amount: values.offerType === 'amount' ? Number(values.value) : null,
+  percentage: values.offerType === 'percent' ? Number(values.value) : null,
+  description: values.description || '',
+  status: values.status === true // send boolean
+};
+
+
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payments/promo-code/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      message.success('Coupon created successfully');
+      setSelectedMenu('Coupons');
+    } else {
+      throw new Error(data.message || 'Failed to create');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Error creating coupon');
+  }
+}}
+
         >
           <Form.Item
             label="COUPON CODE"

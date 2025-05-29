@@ -15,16 +15,35 @@ const EditServiceProvider = ({ serviceProviderForm, selectedServiceProvider, ser
           form={serviceProviderForm}
           layout="vertical"
           initialValues={{ name: selectedServiceProvider.name }}
-          onFinish={(values) => {
-            setServiceProviders(prevProviders =>
-              prevProviders.map(provider =>
-                provider.id === selectedServiceProvider.id ? { ...provider, name: values.name } : provider
-              )
-            );
-            setSelectedMenu('Service Provider');
-            serviceProviderForm.resetFields();
-            message.success('Service provider updated successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order/service-provider/update/${selectedServiceProvider.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: values.name }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      setServiceProviders(prev =>
+        prev.map(provider =>
+          provider.id === selectedServiceProvider.id
+            ? { ...provider, name: values.name }
+            : provider
+        )
+      );
+      message.success('Service provider updated successfully');
+      setSelectedMenu('Service Provider');
+      serviceProviderForm.resetFields();
+    } else {
+      throw new Error(data.message || 'Failed to update');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Error updating service provider');
+  }
+}}
+
         >
           <Form.Item
             label="Name"

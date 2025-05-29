@@ -18,7 +18,7 @@ const DistrictList = ({ districtList, districtListColumns, setSelectedMenu }) =>
         <Table
           columns={districtListColumns}
           dataSource={districtList}
-          rowKey="id"
+          rowKey="_id"
           pagination={false}
           className="bg-white"
           scroll={{ x: 'max-content' }}

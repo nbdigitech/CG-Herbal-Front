@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Button, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const RemedyList = ({ remedies, setRemedies, setSelectedRemedy, setSelectedMenu }) => {
   const remedyListColumns = [
@@ -31,10 +32,16 @@ const RemedyList = ({ remedies, setRemedies, setSelectedRemedy, setSelectedMenu 
           />
           <Popconfirm
             title="Are you sure you want to delete this remedy?"
-            onConfirm={() => {
-              setRemedies(prevRemedies => prevRemedies.filter(remedy => remedy.id !== record.id));
-              message.success('Remedy deleted successfully');
-            }}
+            onConfirm={async () => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/remedy/${record.id}`);
+    setRemedies(prev => prev.filter(remedy => remedy.id !== record.id));
+    message.success('Remedy deleted successfully');
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to delete remedy');
+  }
+}}
             okText="Yes"
             cancelText="No"
             icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}

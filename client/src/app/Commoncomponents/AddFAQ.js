@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
+import axios from 'axios';
 
 const AddFAQ = ({ faqData, setFaqData, setSelectedMenu }) => {
   return (
@@ -12,19 +13,30 @@ const AddFAQ = ({ faqData, setFaqData, setSelectedMenu }) => {
         </Button>
       </div>
       <div className="bg-white p-4 shadow-md rounded-lg">
-        <Form
-          layout="vertical"
-          onFinish={(values) => {
-            const newFAQ = {
-              id: faqData.length + 1, // नया ID
-              question: values.question,
-              answer: values.answer,
-            };
-            setFaqData([...faqData, newFAQ]); // FAQ लिस्ट में नया FAQ जोड़ें
-            message.success('FAQ added successfully');
-            setSelectedMenu('faq');
-          }}
-        >
+       <Form
+  layout="vertical"
+ onFinish={async (values) => {
+  try {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/faq/create`, {
+      question: values.question,
+      answer: values.answer,
+    });
+
+    if (res.status === 200 || res.status === 201) {
+      message.success('FAQ added successfully');
+
+
+      setTimeout(() => {
+        setSelectedMenu('faq');
+      }, 300); // delay for smooth completion
+    }
+  } catch (error) {
+    console.error("Failed to add FAQ", error);
+    message.error('Failed to add FAQ');
+  }
+}}
+
+>
           <Form.Item
             label="QUESTION"
             name="question"

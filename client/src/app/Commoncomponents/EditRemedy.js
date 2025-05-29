@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
+import axios from 'axios';
 
 const EditRemedy = ({ categoryForm, selectedRemedy, remedies, setRemedies, setSelectedMenu }) => {
   return (
@@ -18,20 +19,29 @@ const EditRemedy = ({ categoryForm, selectedRemedy, remedies, setRemedies, setSe
             name: selectedRemedy.name,
             status: selectedRemedy.status === 'Active',
           }}
-          onFinish={(values) => {
-            const updatedRemedies = remedies.map(remedy =>
-              remedy.id === selectedRemedy.id
-                ? {
-                    ...remedy,
-                    name: values.name,
-                    status: values.status ? 'Active' : 'Inactive',
-                  }
-                : remedy
-            );
-            setRemedies(updatedRemedies);
-            setSelectedMenu('Remedy');
-            message.success('Remedy updated successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const payload = {
+      remedy_name: values.name,
+      status: values.status,
+    };
+
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/remedy/update/${selectedRemedy.id}`, payload);
+
+    const updated = remedies.map(remedy =>
+      remedy.id === selectedRemedy.id
+        ? { ...remedy, name: values.name, status: values.status ? 'Active' : 'Inactive' }
+        : remedy
+    );
+
+    setRemedies(updated);
+    setSelectedMenu('Remedy');
+    message.success('Remedy updated successfully');
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to update remedy');
+  }
+}}
         >
           <Form.Item
             label="Remedy Name"

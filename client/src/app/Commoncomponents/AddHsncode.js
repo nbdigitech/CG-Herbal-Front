@@ -14,17 +14,37 @@ const AddHsncode = ({ hsncodeForm, hsncodes, setHsncodes, setSelectedMenu }) => 
         <Form
           form={hsncodeForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newHsncode = {
-              id: hsncodes.length + 1,
-              hsncode: values.hsncode,
-              gstValue: values.gstValue,
-            };
-            setHsncodes(prevHsncodes => [...prevHsncodes, newHsncode]);
-            setSelectedMenu('HSNCODE Master');
-            hsncodeForm.resetFields();
-            message.success('HSN code added successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hsncode/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hsncode: values.hsncode,
+        gst_value: values.gstValue,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Failed to add HSN code');
+
+    const data = await response.json();
+    setHsncodes(prev => [...prev, {
+      id: data.data._id,
+      hsncode: data.data.hsncode,
+      gstValue: data.data.gst_value,
+    }]);
+
+    message.success('HSN code added successfully');
+    hsncodeForm.resetFields();
+    setSelectedMenu('HSNCODE Master');
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to add HSN code');
+  }
+}}
+
         >
           <Form.Item
             label="Hsncode"

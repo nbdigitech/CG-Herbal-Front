@@ -18,20 +18,42 @@ const EditHsncode = ({ hsncodeForm, selectedHsncode, hsncodes, setHsncodes, setS
             hsncode: selectedHsncode.hsncode,
             gstValue: selectedHsncode.gstValue,
           }}
-          onFinish={(values) => {
-            const updatedHsncodes = hsncodes.map(hsncode =>
-              hsncode.id === selectedHsncode.id
-                ? {
-                    ...hsncode,
-                    hsncode: values.hsncode,
-                    gstValue: values.gstValue,
-                  }
-                : hsncode
-            );
-            setHsncodes(updatedHsncodes);
-            setSelectedMenu('HSNCODE Master');
-            message.success('HSN code updated successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hsncode/update/${selectedHsncode.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hsncode: values.hsncode,
+        gst_value: values.gstValue,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Failed to update HSN code');
+    
+    const updatedData = await response.json();
+
+    const updatedHsncodes = hsncodes.map(item =>
+      item.id === selectedHsncode.id
+        ? {
+            id: updatedData.data._id,
+            hsncode: updatedData.data.hsncode,
+            gstValue: updatedData.data.gst_value,
+          }
+        : item
+    );
+
+    setHsncodes(updatedHsncodes);
+    message.success('HSN code updated successfully');
+    setSelectedMenu('HSNCODE Master');
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to update HSN code');
+  }
+}}
+
         >
           <Form.Item
             label="Hsncode"

@@ -2,12 +2,7 @@ import { useState } from 'react';
 import { Table, Input, Button, Popconfirm, message } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const ForestLover = ({ pageSize }) => {
-  const [forestLoverRequests, setForestLoverRequests] = useState([
-    { id: 1, firstName: "Ajay", lastName: "Dewangan", email: "ajaydewangan215@gmail.com", mobile: "7999672902", createdAt: "25.04.2022" },
-    { id: 2, firstName: "Aayush", lastName: "Nandeshwar", email: "aayushnandeshwar9@gmail.com", mobile: "747110458", createdAt: "05.06.2023" },
-  ]);
-
+const ForestLover = ({ pageSize, forestLoverRequests, setForestLoverRequests }) => {
   const [forestLoverSearch, setForestLoverSearch] = useState('');
 
   const handleDeleteForestLover = (id) => {

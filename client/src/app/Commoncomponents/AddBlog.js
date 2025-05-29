@@ -32,7 +32,7 @@ const AddBlog = ({ form, handleAddBlog, setSelectedMenu }) => {
             <Input.TextArea />
           </Form.Item>
           <h3 className="text-lg font-semibold mb-2 mt-4">Blog Details</h3>
-          <Form.Item label="Image" name="image" rules={[{ required: true, message: 'Please upload an image' }]}>
+          <Form.Item label="Image" name="images"  rules={[{ required: true, message: 'Please upload an image' }]}>
             <Upload beforeUpload={() => false} maxCount={1}>
               <Button icon={<UploadOutlined />}>Choose File</Button>
             </Upload>
@@ -66,7 +66,7 @@ const AddBlog = ({ form, handleAddBlog, setSelectedMenu }) => {
             <Checkbox>Active</Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" >
               Submit
             </Button>
           </Form.Item>

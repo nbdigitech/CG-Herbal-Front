@@ -20,23 +20,35 @@ const EditCoupon = ({ selectedCoupon, coupons, setCoupons, setSelectedMenu }) =>
             description: 'New Offer',
             status: selectedCoupon?.status === 'On',
           }}
-          onFinish={(values) => {
-            setCoupons(prevCoupons =>
-              prevCoupons.map(coupon =>
-                coupon.id === selectedCoupon.id
-                  ? {
-                      ...coupon,
-                      code: values.code,
-                      amount: values.offerType === 'amount' ? values.value : '',
-                      percent: values.offerType === 'percent' ? values.value : '',
-                      status: values.status ? 'On' : 'Off',
-                    }
-                  : coupon
-              )
-            );
-            message.success('Coupon updated successfully');
-            setSelectedMenu('Coupons');
-          }}
+          onFinish={async (values) => {
+  const payload = {
+    code: values.code,
+    amount: values.offerType === 'amount' ? values.value : '',
+    percent: values.offerType === 'percent' ? values.value : '',
+    description: values.description || '',
+    status: values.status ? 'On' : 'Off',
+  };
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payments/promo-code/update/${selectedCoupon.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      message.success('Coupon updated successfully');
+      setSelectedMenu('Coupons');
+    } else {
+      throw new Error(data.message || 'Update failed');
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('Error updating coupon');
+  }
+}}
+
         >
           <Form.Item
             label="COUPON CODE"

@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { Table, Input, Button, Popconfirm, message } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const Volunteer = ({ pageSize }) => {
-  const [volunteerRequests, setVolunteerRequests] = useState([
-    { id: 1, firstName: "Ajay", lastName: "Dewangan", email: "ajaydewangan215@gmail.com", mobile: "7999672902", createdAt: "25.04.2022" },
-    { id: 2, firstName: "Aayush", lastName: "Nandeshwar", email: "aayushnandeshwar9@gmail.com", mobile: "747110458", createdAt: "05.06.2023" },
-  ]);
+const Volunteer = ({ volunteerRequests, setVolunteerRequests, pageSize }) => {
+
 
   const [volunteerSearch, setVolunteerSearch] = useState('');
 
@@ -49,10 +46,11 @@ const Volunteer = ({ pageSize }) => {
   ];
 
   const filteredVolunteerRequests = volunteerRequests.filter(request =>
-    request.firstName.toLowerCase().includes(volunteerSearch.toLowerCase()) ||
-    request.lastName.toLowerCase().includes(volunteerSearch.toLowerCase()) ||
-    request.email.toLowerCase().includes(volunteerSearch.toLowerCase())
-  );
+  request.firstName?.toLowerCase().includes(volunteerSearch.toLowerCase()) ||
+  request.lastName?.toLowerCase().includes(volunteerSearch.toLowerCase()) ||
+  request.email?.toLowerCase().includes(volunteerSearch.toLowerCase())
+);
+
 
   return (
     <div className="p-6">

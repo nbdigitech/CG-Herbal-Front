@@ -44,17 +44,18 @@ export default function AddCommunity({ form, productOptions, handleAddCommunity,
               <p className="text-gray-500 text-sm mt-2">Image size must be less than 1.5 MB</p>
             </div>
           </Form.Item>
-          <Form.Item
-            label="Select Product *"
-            name="name"
-            rules={[{ required: true, message: 'Please select a product' }]}
-          >
-            <Select placeholder="--Select Product--">
-              {productOptions.map((product) => (
-                <Option key={product.id} value={product.name}>{product.name}</Option>
-              ))}
-            </Select>
-          </Form.Item>
+         <Form.Item
+  label="Select Product *"
+  name="product"
+  rules={[{ required: true, message: 'Please select a product' }]}
+>
+  <Select placeholder="--Select Product--">
+    {productOptions.map((product) => (
+      <Option key={product.id} value={product.id}>{product.name}</Option>
+    ))}
+  </Select>
+</Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit

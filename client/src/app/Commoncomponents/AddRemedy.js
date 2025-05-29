@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
+import axios from 'axios';
 
 const AddRemedy = ({ categoryForm, remedies, setRemedies, setSelectedMenu }) => {
   return (
@@ -14,17 +15,27 @@ const AddRemedy = ({ categoryForm, remedies, setRemedies, setSelectedMenu }) => 
         <Form
           form={categoryForm}
           layout="vertical"
-          onFinish={(values) => {
-            const newRemedy = {
-              id: remedies.length + 1,
-              name: values.name,
-              status: values.status ? 'Active' : 'Inactive',
-            };
-            setRemedies(prevRemedies => [...prevRemedies, newRemedy]);
-            setSelectedMenu('Remedy');
-            categoryForm.resetFields();
-            message.success('Remedy added successfully');
-          }}
+          onFinish={async (values) => {
+  try {
+    const payload = {
+      remedy_name: values.name,
+      status: values.status,
+    };
+
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/remedy/create`, payload);
+    setRemedies(prev => [...prev, {
+      id: response.data.data._id,
+      name: response.data.data.remedy_name,
+      status: response.data.data.status ? 'Active' : 'Inactive'
+    }]);
+    setSelectedMenu('Remedy');
+    categoryForm.resetFields();
+    message.success('Remedy added successfully');
+  } catch (err) {
+    console.error(err);
+    message.error('Failed to add remedy');
+  }
+}}
         >
           <Form.Item
             label="Remedy Name"

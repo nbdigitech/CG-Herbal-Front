@@ -2,6 +2,8 @@ import React from 'react';
 import { Table, Button, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import Image from 'next/image';
+import axios from 'axios';
+
 
 const SubCategoryList = ({ subCategories, setSubCategories, setSelectedSubCategory, setSelectedMenu }) => {
   const subCategoryListColumns = [
@@ -38,10 +40,17 @@ const SubCategoryList = ({ subCategories, setSubCategories, setSelectedSubCatego
           />
           <Popconfirm
             title="Are you sure you want to delete this category?"
-            onConfirm={() => {
-              setSubCategories(prevSubCategories => prevSubCategories.filter(subCategory => subCategory.id !== record.id));
-              message.success('Sub Category deleted successfully');
-            }}
+            onConfirm={async () => {
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/category/sub-category/${record.id}`);
+    setSubCategories(prev => prev.filter(sub => sub.id !== record.id));
+    message.success("Sub Category deleted successfully");
+  } catch (error) {
+    console.error("Delete Sub Category failed:", error);
+    message.error("Failed to delete sub category");
+  }
+}}
+
             okText="Yes"
             cancelText="No"
             icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}

@@ -9,9 +9,13 @@ export default function FeaturedProduct({ productList, featuredProductListColumn
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Featured Product List</h3>
           <div className="flex gap-2">
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => setSelectedMenu('addFeaturedProduct')}>
-              Add
-            </Button>
+            <Button
+  type="primary"
+  icon={<PlusOutlined />}
+  onClick={() => setSelectedMenu('addFeaturedProduct')}
+>
+  Add
+</Button>
           </div>
         </div>
         <Table

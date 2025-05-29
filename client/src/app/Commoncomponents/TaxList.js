@@ -32,10 +32,23 @@ const TaxList = ({ taxes, setTaxes, setSelectedTax, setSelectedMenu }) => {
           />
           <Popconfirm
             title="Are you sure you want to delete this tax?"
-            onConfirm={() => {
-              setTaxes(prevTaxes => prevTaxes.filter(tax => tax.id !== record.id));
-              message.success('Tax deleted successfully');
-            }}
+            onConfirm={async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/units/tax/${record.id}`, {
+      method: 'DELETE',
+    });
+    if (res.ok) {
+      setTaxes(prevTaxes => prevTaxes.filter(tax => tax.id !== record.id));
+      message.success('Tax deleted successfully');
+    } else {
+      message.error('Failed to delete tax');
+    }
+  } catch (error) {
+    console.error("Delete failed", error);
+    message.error('Server error');
+  }
+}}
+
             okText="Yes"
             cancelText="No"
             icon={<ExclamationCircleOutlined style={{ color: '#faad14' }} />}
