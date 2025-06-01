@@ -62,7 +62,7 @@ const EditOrder = ({
       },
     };
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/update/${selectedOrder.id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order/update/${selectedOrder.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),

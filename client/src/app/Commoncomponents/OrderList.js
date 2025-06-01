@@ -38,7 +38,7 @@ const OrderList = ({ orders, setOrders, setSelectedOrder, setSelectedMenu, pageS
             title="Are you sure you want to delete this order?"
             onConfirm={async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${record.id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order/${record.id}`, {
       method: 'DELETE',
     });
 

@@ -46,7 +46,7 @@ const AddOrder = ({
       products: products,
     };
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/create`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),

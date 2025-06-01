@@ -10,12 +10,39 @@ export default function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/admin/signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Login failed');
+    }
+
+    const data = await response.json();
     
-    //  Redirect directly to dashboard without backend
+    // Save token
+    localStorage.setItem('token', data.token);
+    
+    // Optional: Save user info if needed
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    // Redirect to dashboard
     router.push('/dashboard');
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    alert('Login failed: ' + error.message);
+  }
+};
+
   
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white-50">
@@ -36,7 +63,7 @@ export default function Login() {
             name="email"
             placeholder="Email"
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-xl"
+            className="w-full p-2 text-black border border-gray-300 rounded-xl"
             required
           />
           <input
@@ -44,7 +71,7 @@ export default function Login() {
             name="password"
             placeholder="Password"
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-xl"
+            className="w-full p-2 text-black border border-gray-300 rounded-xl"
             required
           />
           <button

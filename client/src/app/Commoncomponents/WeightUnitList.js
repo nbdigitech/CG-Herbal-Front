@@ -25,14 +25,15 @@ const WeightUnitList = ({ weightUnits, setWeightUnits, setSelectedWeightUnit, se
             onConfirm={async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/weight/${record._id}`,
-      { method: 'DELETE' }
-    );
+  `${process.env.NEXT_PUBLIC_API_URL}/units/weight/${record.id}`,
+  { method: 'DELETE' }
+);
+
 
     if (!response.ok) throw new Error('Delete failed');
 
     message.success('Weight deleted successfully');
-    setWeightUnits(prev => prev.filter(w => w._id !== record._id));
+    setWeightUnits(prev => prev.filter(w => w.id !== record.id));
   } catch (err) {
     console.error(err);
     message.error('Failed to delete weight');

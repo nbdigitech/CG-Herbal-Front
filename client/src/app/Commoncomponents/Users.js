@@ -1,6 +1,6 @@
 import { Button, Select, Table } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-
+import AddUserModal from './AddUserModal';
 const { Option } = Select;
 
 export default function Users({ mockAdminList, adminListColumns, showAddModal, requestSort }) {
@@ -12,8 +12,9 @@ export default function Users({ mockAdminList, adminListColumns, showAddModal, r
           <h3 className="text-lg font-semibold">Admin List</h3>
           <div className="flex gap-2">
             <Button type="primary" icon={<PlusOutlined />} onClick={showAddModal}>
-              Add
-            </Button>
+  Add Admin
+</Button>
+
           </div>
         </div>
         <div className="mb-4">
@@ -33,13 +34,14 @@ export default function Users({ mockAdminList, adminListColumns, showAddModal, r
           </Select>
         </div>
         <Table
-          columns={adminListColumns}
-          dataSource={mockAdminList}
-          rowKey="id"
-          pagination={false}
-          className="bg-white"
-          scroll={{ x: 'max-content' }}
-        />
+  columns={adminListColumns}
+  dataSource={mockAdminList}
+  rowKey="id"
+  pagination={false}
+  className="bg-white"
+  scroll={{ x: 'max-content' }}
+/>
+
       </div>
       <footer className="mt-8 text-center text-gray-600">
         Copyright © {new Date().getFullYear()} CG HERBALS Admin All rights reserved.

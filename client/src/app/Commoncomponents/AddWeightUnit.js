@@ -12,20 +12,37 @@ const AddWeightUnit = ({ weightUnitForm, weightUnits, setWeightUnits, setSelecte
       </div>
       <div className="bg-white p-4 shadow-md rounded-lg">
         <Form
-          form={weightUnitForm}
-          layout="vertical"
-          onFinish={(values) => {
-            const newWeightUnit = {
-              id: weightUnits.length + 1,
-              title: values.title,
-              shippingAmount: values.shippingAmount,
-            };
-            setWeightUnits(prevWeightUnits => [...prevWeightUnits, newWeightUnit]);
-            setSelectedMenu('Weight Unit');
-            weightUnitForm.resetFields();
-            message.success('Weight unit added successfully');
-          }}
-        >
+  form={weightUnitForm}
+  layout="vertical"
+  onFinish={async (values) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/units/weight/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          weight_gram: values.title,
+          shipping_amount: values.shippingAmount,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        message.success('Weight unit added successfully');
+        setSelectedMenu('Weight Unit');  // Go back to list
+        weightUnitForm.resetFields();
+      } else {
+        message.error(data.message || 'Failed to add weight unit');
+      }
+    } catch (error) {
+      console.error('Error creating weight unit:', error);
+      message.error('Error adding weight unit');
+    }
+  }}
+>
+
           <Form.Item
             label="Weight"
             name="title"

@@ -94,7 +94,9 @@ import AddGrievance from '../Commoncomponents/AddGrievance';
 import EditGrievance from '../Commoncomponents/EditGrievance';
 import GrievanceUserData from '../Commoncomponents/GrievanceUserData';
 import axios from 'axios';
-
+import AddRoleModal from '../Commoncomponents/AddRoleModal';
+import AddUserModal from '../Commoncomponents/AddUserModal';
+import decode from "jwt-decode";
 
 const { Header, Sider, Content } = Layout;
 const { Option } = Select;
@@ -115,8 +117,17 @@ export default function AdminDashboard() {
   const [subCategories, setSubCategories] = useState([]);
   const [payments, setPayments] = useState([]);
   const [forestLoverRequests, setForestLoverRequests] = useState([]);
+  
+  useEffect(() => {
+    const token = localStorage.getItem('token');
 
+    if (!token) {
+      // If no token, redirect to login
+      router.push('/login');
+    }
+  }, []);
 
+ 
 
   const fetchCategories = async () => {
   try {
@@ -187,13 +198,21 @@ useEffect(() => {
 
 const fetchIngredients = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ingridient/list`);
-    const data = await response.json();
-    setIngredients(data.data || []); // set in state
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/ingridient/list`);
+    const data = response.data.data || [];
+
+    const mappedIngredients = data.map(ingredient => ({
+      id: ingredient._id,        // Assuming MongoDB `_id`
+      name: ingredient.name,     // Ingredient name
+      createdAt: ingredient.createdAt ? new Date(ingredient.createdAt).toLocaleString() : 'N/A',
+    }));
+
+    setIngredients(mappedIngredients);
   } catch (error) {
     console.error('Error fetching ingredients:', error);
   }
 };
+
 
 useEffect(() => {
   if (selectedMenu === 'Weight Unit') {
@@ -348,15 +367,15 @@ useEffect(() => {
 
 const fetchPayments = async () => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/payments/payment-status/list`);
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/transactions/list`);
     const data = response.data.data || [];
 
     const mappedPayments = data.map((payment, index) => ({
       id: index + 1,
-      user: payment?.user || 'N/A',
-      paymentId: payment?.payment_id || 'N/A',
-      amount: payment?.amount || 0,
-      product: payment?.products || 'N/A',
+      user: payment?.user_id?.full_Name || 'N/A',
+      paymentId: payment?.payment_id || 'N/A',  // If `payment_id` exists
+      amount: payment?.total_amount || 0,
+      product: payment?.products_id?.map(p => p?.title).join(", ") || 'N/A',  // Combine product titles
       createdAt: payment?.createdAt ? new Date(payment.createdAt).toLocaleString() : 'N/A',
     }));
 
@@ -784,7 +803,7 @@ const fetchAdminUsers = async () => {
     email: admin.email || 'N/A',
     role: admin.role || 'Admin',
     block: admin.block || 'N/A',
-    status: admin.status ? 'Active' : 'Inactive',
+    status: admin.disable ? 'Active' : 'Inactive',
   };
 });
 
@@ -804,13 +823,26 @@ useEffect(() => {
 
 const fetchAdminRoles = async () => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/admin-role/list`);
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/permission/list`);
     const data = response.data.data || [];
 
-    const mappedRoles = data.map((role, index) => ({
-      id: role._id,
-      name: role.admin_role_title || 'N/A',
-    }));
+    const mappedRoles = data.map((role) => {
+  const menus = (role.menu_details || []).map(menu => {
+    if (menu.menu_id && menu.menu_id.menu_name) {
+      return menu.menu_id.menu_name;
+    } else {
+      return (menu.sub_menu_ids || []).map(sub => sub.sub_menu_name).join(", ");
+    }
+  }).join(", ");
+
+  return {
+    id: role._id,
+    name: role.role_name || 'N/A',
+    menus: menus,
+    role_name: role.role_name,
+    menu_details: role.menu_details,  // <-- ADD THIS
+  };
+});
 
     setAdminRoles(mappedRoles);
   } catch (error) {
@@ -951,6 +983,7 @@ useEffect(() => {
     fetchContactList();
   }
 }, [selectedMenu]);
+
 
 
   const [editingRole, setEditingRole] = useState(null);
@@ -1099,6 +1132,17 @@ const handleDeleteTax = async (id) => {
     message.error('Failed to delete');
   }
 };
+
+useEffect(() => {
+  if (selectedMenu === 'addProduct') {
+    fetchCategories();
+    fetchSubCategories();
+    fetchRemedies();
+    fetchIngredients();
+    fetchWeightUnits(); 
+    fetchHsncodes();
+  }
+}, [selectedMenu]);
 
 
 const taxListColumns = [
@@ -1281,12 +1325,13 @@ const handleDeleteProduct = async (productId) => {
   try {
     await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`);
     message.success('Product deleted successfully');
-    setProductList(productList.filter(product => product._id !== productId)); // or adjust according to _id or id
+    fetchProducts(); // ✅ Refresh product list
   } catch (error) {
     console.error("Failed to delete product:", error);
     message.error('Failed to delete product');
   }
 };
+
 
 const handleDeleteGrievanceCategory = async (id) => {
   try {
@@ -1545,7 +1590,7 @@ const sortedRoleList = [...adminRoles].sort((a, b) => {
             icon={<EditOutlined />} 
             onClick={() => {
               setSelectedAdmin(record);
-              setIsEditModalVisible(true);
+              setIsAddModalVisible(true);
             }} 
             className="text-yellow-500 border-yellow-500"
           />
@@ -1568,6 +1613,7 @@ const sortedRoleList = [...adminRoles].sort((a, b) => {
 const roleListColumns = [
   { title: '#ID', dataIndex: 'id', key: 'id', sorter: (a, b) => a.id - b.id },
   { title: 'Role Name', dataIndex: 'name', key: 'name' },
+  { title: 'Menus', dataIndex: 'menus', key: 'menus' }, 
   {
     title: 'Action',
     key: 'action',
@@ -1581,6 +1627,12 @@ const roleListColumns = [
           }}
           className="text-yellow-500 border-yellow-500"
         />
+        <AddRoleModal
+  visible={isEditModalVisible}
+  onClose={() => setIsEditModalVisible(false)}
+  refreshRoles={fetchAdminRoles}
+  initialValues={selectedRole}   // <-- Pass this
+/>
         <Popconfirm
           title="Are you sure to delete this role?"
           onConfirm={() => handleDeleteRole(record.id)}
@@ -1889,8 +1941,8 @@ const categoryListColumns = [
 ];
 
   // Mock roles and districts for dropdowns
-  const roles = ['admin', 'super-admin', 'samiti-admin', 'warehouse-admin', 'forest-lover', 'Data Entry'];
-  const districts = ['Bilaspur', 'Raipur', 'Korba', 'Geetanjali Nagar'];
+  const roles = [];
+  const districts = [];
 
   const showAddModal = () => {
     form.resetFields();
@@ -1981,36 +2033,34 @@ const handleUpdateRole = async (updatedData) => {
 
 
 
-  const handleDeleteAdmin = async (id) => {
+const handleDeleteAdmin = async (id) => {
   try {
     await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/admin/${id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // replace with your auth method
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
-    message.success("Admin deleted successfully");
-    fetchAdmins();
+    message.success('Admin deleted successfully');
+    fetchAdminUsers(); // Refresh admin list
   } catch (error) {
-    console.error("Delete admin failed", error);
-    message.error("Failed to delete admin");
+    console.error("Failed to delete admin:", error.response?.data || error.message);
+    message.error('Failed to delete admin');
   }
 };
 
 
-  const handleDeleteRole = async (id) => {
+
+ const handleDeleteRole = async (roleId) => {
   try {
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/admin-role/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`
-      }
-    });
-    message.success("Role deleted successfully");
-    fetchRoles(); // Refresh list
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/permission/${roleId}`);
+    message.success('Role deleted successfully');
+    fetchAdminRoles(); // refresh roles after delete
   } catch (error) {
-    console.error("Failed to delete role", error);
-    message.error("Failed to delete role");
+    console.error('Failed to delete role:', error);
+    message.error('Failed to delete role');
   }
 };
+
 
 
   const handleDeleteBanner = async (id) => {
@@ -2574,58 +2624,74 @@ const handleAddBlog = async (values) => {
   const handleAddProduct = async (values) => {
   const formData = new FormData();
 
-  formData.append("title", values.title || "");
-  formData.append("slug", values.title?.toLowerCase().replace(/\s+/g, "-"));
-  formData.append("sub_title", values.subTitle || "");
-  formData.append("description", values.description || "");
-  formData.append("hindiDescription", values.hindiDescription || "");
-  formData.append("SKU_Number", values.skuNumber || "");
-  formData.append("gst", values.gst || "");
-  formData.append("category", values.category || "");
-  formData.append("sub_category", values.subCategory || "");
-  formData.append("meta_title", values.metaTitle || "");
-  formData.append("meta_description", values.metaDescription || "");
-  formData.append("product_schema", values.productSchema || "");
-  formData.append("breadcrum_schema", values.breadcrumbSchema || "");
-  formData.append("organisation_schema", values.organizationSchema || "");
+  formData.append('title', values.title);
+  formData.append('slug', values.title.toLowerCase().replace(/ /g, '-'));
+  formData.append('sub_title', values.subTitle || '');
+  formData.append('meta_title', values.metaTitle || '');
+  formData.append('meta_description', values.metaDescription || '');
+  formData.append('product_schema', values.productSchema || '');
+  formData.append('breadcrum_schema', values.breadcrumbSchema || '');
+  formData.append('organisation_schema', values.organizationSchema || '');
+  formData.append('description', values.description || '');
+  formData.append('hindi_description', values.hindiDescription || '');
+  formData.append('SKU_Number', values.skuNumber || '');
+  formData.append('gst', values.gst || 0);
 
-  // append JSON data
-  formData.append("weight", JSON.stringify(weights));
-  formData.append("questions", JSON.stringify(faqs));
-  formData.append("remedy", JSON.stringify([]));
-  formData.append("ingridients", JSON.stringify([]));
-  formData.append("benefits", JSON.stringify(benefits));
-  formData.append("detail_icons", JSON.stringify([]));
-  formData.append("createdBy", "admin");
+  formData.append('category', values.category);
+  formData.append('sub_category', values.subCategory);
 
-  // append uploaded files
-  if (values.images) {
-    values.images.forEach((file) => {
-      formData.append("images", file.originFileObj);
+  formData.append('remedy', JSON.stringify(values.remedy ? values.remedy.map((id) => ({ remedy_id: id })) : []));
+  formData.append('ingridients', JSON.stringify(values.ingredients ? values.ingredients.map((id) => ({ ingridients_id: id })) : []));
+  formData.append('benefits', JSON.stringify(benefits || []));
+  formData.append('questions', JSON.stringify(faqs || []));
+  formData.append('weight', JSON.stringify(weights || []));
+  formData.append('detail_icons', JSON.stringify(values.detailIcons ? [values.detailIcons] : []));
+
+  if (values.images && values.images.length > 0) {
+    values.images.forEach((fileWrapper) => {
+      formData.append('images', fileWrapper.originFileObj); 
     });
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/create`, {
-      method: "POST",
-      body: formData,
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/product/create`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
 
-    if (!response.ok) throw new Error("Product creation failed");
+    if (res.status === 201) { // ✅ Only check HTTP Status 201
+      message.success({
+        content: 'Product created successfully!',
+        duration: 2,
+      });
 
-    message.success("Product created successfully");
-    setSelectedMenu("Product");
-  } catch (err) {
-    console.error("Create Product Error", err);
-    message.error("Failed to create product");
+      form.resetFields();         // ✅ Clear Form after success
+      fetchProducts();            // ✅ Refresh Product List
+      setSelectedMenu('Product'); // ✅ Go back to Product List
+    } else {
+      message.error({
+        content: res.data.message || '❌ Failed to create product.',
+        duration: 2,
+      });
+    }
+  } catch (error) {
+    console.error('Error creating product:', error);
+    message.error({
+      content: '❌ Failed to create product.',
+      duration: 2,
+    });
   }
 };
 
 
   const handleLogout = () => {
-    message.success('Logged out successfully');
-    router.push('/');
-  };
+  localStorage.removeItem('token');   // Clear token
+  localStorage.removeItem('user');    // Clear user (optional if you saved it)
+  message.success('Logged out successfully');
+  router.push('/login');              // Redirect to login page
+};
+
 
   const permissionCategories = {
     'Dashboard': ['Dashboard', 'Profile'],
@@ -2820,12 +2886,24 @@ const handleAddBlog = async (values) => {
   }
   if (selectedMenu === 'users') {
       return (
-        <Users
-           mockAdminList={adminUsers}
-    adminListColumns={adminListColumns}
-    showAddModal={() => setIsAddModalVisible(true)}
-    requestSort={requestSort}
-        />
+        <>
+      {/* Your Users table */}
+      <Users
+        mockAdminList={adminUsers}
+        adminListColumns={adminListColumns}
+        showAddModal={() => setIsAddModalVisible(true)}
+        requestSort={requestSort}
+      />
+
+     
+     <AddUserModal
+  visible={isAddModalVisible}
+  onClose={() => setIsAddModalVisible(false)}
+  refreshUsers={fetchAdminUsers}
+  initialValues={selectedAdmin}  // <-- this is important!
+/>
+
+    </>        
       );
     }
     if (selectedMenu === 'roles') {
@@ -2836,6 +2914,8 @@ const handleAddBlog = async (values) => {
     roleListColumns={roleListColumns}
     showAddModal={() => setIsAddModalVisible(true)}
     requestSort={requestSort}
+    fetchAdminRoles={fetchAdminRoles}
+    handleDeleteRole={handleDeleteRole} 
         />
       );
     }
@@ -3177,6 +3257,13 @@ if (selectedMenu === 'Contact') {
         setFaqs={setFaqs}
         handleAddProduct={handleAddProduct}
         setSelectedMenu={setSelectedMenu}
+        categories={categories} 
+        subCategories={subCategories} 
+        remedies={remedies}  
+        ingredients={ingredients}
+        fetchProducts={fetchProducts} 
+        weightUnits={weightUnits}
+        hsncodes={hsncodes}
       />
     );
   }
@@ -3802,87 +3889,8 @@ if (selectedMenu.startsWith('editCoupon/')) {
             </div>
           )}
           {renderContent()}
-          {/* Add New Admin Modal */}
-          <Modal
-            title="Add New Admin"
-            visible={isAddModalVisible && selectedMenu === 'users'}
-            onCancel={() => setIsAddModalVisible(false)}
-            footer={null}
-          >
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleAddAdmin}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please enter the name' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Email Address"
-                name="email"
-                rules={[{ required: true, message: 'Please enter the email' }, { type: 'email', message: 'Please enter a valid email' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please enter the password' }]}
-              >
-                <Input.Password />
-              </Form.Item>
-              <Form.Item
-                label="Role"
-                name="role"
-                rules={[{ required: true, message: 'Please select a role' }]}
-              >
-                <Select placeholder="---Select Admin Role---">
-                  {roles.map((role) => (
-                    <Option key={role} value={role}>{role}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="District"
-                name="district"
-                rules={[{ required: true, message: 'Please select a district' }]}
-              >
-                <Select placeholder="---Select District---">
-                  {districts.map((district) => (
-                    <Option key={district} value={district}>{district}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Block"
-                name="block"
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Village"
-                name="village"
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Status"
-                name="status"
-                valuePropName="checked"
-              >
-                <Checkbox>Active</Checkbox>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Add Admin
-                </Button>
-              </Form.Item>
-            </Form>
-          </Modal>
+         
+          
           {/* Add/Edit Role Modal */}
           <Modal
             title={selectedRole ? 'Edit Role' : 'Add New Role'}
