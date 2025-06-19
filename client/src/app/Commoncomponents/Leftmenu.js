@@ -24,9 +24,9 @@ const Leftmenu = ({handleMenuSelect}) => {
               { key: 'Category', label: 'Category' },
               { key: 'Sub Category', label: 'Sub Category' },
               { key: 'Remedy', label: 'Remedy' },
-              { key: 'Ingridients', label: 'Ingridients' },
+              // { key: 'Ingridients', label: 'Ingridients' },
               { key: 'Weight Unit', label: 'Weight Unit' },
-              { key: 'Length Unit', label: 'Length Unit' },
+              // { key: 'Length Unit', label: 'Length Unit' },
               { key: 'Tax Manager', label: 'Tax Manager' },
               { key: 'HSNCODE Master', label: 'HSNCODE Master' },
             ] },
@@ -38,7 +38,7 @@ const Leftmenu = ({handleMenuSelect}) => {
             ] },
             { key: 'payment', icon: <ShoppingOutlined />, label: 'Payment' },
             { key: 'customerManager', icon: <UserOutlined />, label: 'Customer Manager' },
-            { key: 'inventory', icon: <ShoppingOutlined />, label: 'Inventory' },
+            // { key: 'inventory', icon: <ShoppingOutlined />, label: 'Inventory' },
             { key: 'homeComponent', icon: <HomeOutlined />, label: 'Home Component', children: [
               { key: 'Banner', label: 'Banner' },
               { key: 'Featured Product', label: 'Featured Product' },
@@ -46,20 +46,20 @@ const Leftmenu = ({handleMenuSelect}) => {
               { key: 'Community', label: 'Community' },
               { key: 'District', label: 'District' },
               { key: 'Store', label: 'Store' },
-              { key: 'Warhouse', label: 'Warhouse' },
-              { key: 'Samiti', label: 'Samiti' },
+              // { key: 'Warhouse', label: 'Warhouse' },
+              // { key: 'Samiti', label: 'Samiti' },
             ] },
             { key: 'pages', icon: <FileTextOutlined />, label: 'Pages', children: [
               { key: 'About', label: 'About' },
               { key: 'News', label: 'News' },
               { key: 'Blogs', label: 'Blogs' },
               { key: 'Corporate', label: 'Corporate' },
-              { key: 'Stories', label: 'Stories' },
-              { key: 'Contact', label: 'Contact' },
+              // { key: 'Stories', label: 'Stories' },
+              // { key: 'Contact', label: 'Contact' },
             ] },
-            { key: 'customerManager', icon: <UserOutlined />, label: 'Customer Manager' },
+            // { key: 'customerManager', icon: <UserOutlined />, label: 'Customer Manager' },
            
-            { key: 'inventory', icon: <ShoppingOutlined />, label: 'Inventory' },
+            // { key: 'inventory', icon: <ShoppingOutlined />, label: 'Inventory' },
             { key: 'discount', icon: <ShoppingOutlined />, label: 'Discount', children: [
               { key: 'Coupons', label: 'Coupons' },
             ] },
@@ -69,7 +69,7 @@ const Leftmenu = ({handleMenuSelect}) => {
             ] },
             { key: 'faq', icon: <FileTextOutlined />, label: 'FAQ' },
             { key: 'grievanceCategory', icon: <UserOutlined />, label: 'Grievance Category' },
-            { key: 'grievanceUserData', icon: <UserOutlined />, label: 'Grievance User Data' },
+            // { key: 'grievanceUserData', icon: <UserOutlined />, label: 'Grievance User Data' },
           ]}
         /> 
     )
