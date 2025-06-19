@@ -6,7 +6,7 @@ const OrderList = ({ orders, setOrders, setSelectedOrder, setSelectedMenu, pageS
   const orderColumns = [
     { title: 'Order ID', dataIndex: 'id', key: 'id' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Payment Status', dataIndex: 'paymentStatus', key: 'paymentStatus', width: 100 },
+    // { title: 'Payment Status', dataIndex: 'paymentStatus', key: 'paymentStatus', width: 100 },
     { title: 'Order Mode', dataIndex: 'orderMode', key: 'orderMode' },
     { title: 'Qty', dataIndex: 'qty', key: 'qty', width: 100 },
     { title: 'Price', dataIndex: 'price', key: 'price', width: 100 },

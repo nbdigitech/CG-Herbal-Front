@@ -274,9 +274,18 @@ const fetchOrders = async () => {
       email: order.billingAddress?.email || '', // fallback to empty if not available
       paymentStatus: order.paymentStatus || 'Pending', // If your backend adds this
       orderMode: order.orderMode || 'Online', // If your backend adds this
-      qty: order.products_?.reduce((sum, product) => sum + (product.weight?.reduce((acc, wt) => acc + (wt.count || 0), 0) || 0), 0) || 0,
-      price: order.products_?.reduce((sum, product) => sum + (product.weight?.reduce((acc, wt) => acc + (wt.price || 0), 0) || 0), 0) || 0,
-      orderStatus: order.orderStatus || 'Placed', // Default fallback
+      qty: order.products_
+        ? order.products_.reduce((sum, p) => sum + (p.quantity || 0), 0)
+        : 0,
+
+price: order.products_
+        ? order.products_.reduce(
+            (sum, p) => sum + ((p.price || 0) * (p.quantity || 0)),
+            0
+          )
+        : 0,
+
+        orderStatus: order.orderStatus || 'Placed', // Default fallback
       shippingStatus: order.shippingStatus || 'Despatched', // Default fallback
       createdAt: order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '',
     }));
@@ -371,13 +380,13 @@ const fetchPayments = async () => {
     const data = response.data.data || [];
 
     const mappedPayments = data.map((payment, index) => ({
-      id: index + 1,
-      user: payment?.user_id?.full_Name || 'N/A',
-      paymentId: payment?.payment_id || 'N/A',  // If `payment_id` exists
-      amount: payment?.total_amount || 0,
-      product: payment?.products_id?.map(p => p?.title).join(", ") || 'N/A',  // Combine product titles
-      createdAt: payment?.createdAt ? new Date(payment.createdAt).toLocaleString() : 'N/A',
-    }));
+  id: payment._id,
+  user: payment.user_id?.full_Name || 'N/A',
+  paymentId: payment.payment_id || 'N/A',
+  amount: payment.amount || 0,  // ✅ Correct field
+  product: payment.products_id?.map(p => p.title).join(', ') || 'N/A',
+  createdAt: new Date(payment.createdAt).toLocaleString(),
+}));
 
     setPayments(mappedPayments);
   } catch (error) {
